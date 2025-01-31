@@ -1,8 +1,16 @@
 import { Component } from 'react';
-import Providers from './providers/providers';
+import { Providers } from './providers/providers';
+import { HomePage } from '@/pages';
+import { Layout } from './layout/layout';
 
-export default class App extends Component {
+export class App extends Component {
   render() {
-    return <Providers>App</Providers>;
+    return (
+      <Providers>
+        <Layout>
+          <HomePage />
+        </Layout>
+      </Providers>
+    );
   }
 }
