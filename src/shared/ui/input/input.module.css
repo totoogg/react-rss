@@ -1,0 +1,31 @@
+.input {
+  width: 100%;
+  font-size: 1.4rem;
+  padding: 10px;
+  outline: none;
+  background: var(--emerald-50);
+  color: var(--emerald-600);
+  border: 1px solid var(--emerald-600);
+  border-radius: 10px;
+}
+
+.input:focus {
+  color: var(--emerald-700);
+  border: 1px solid var(--emerald-700);
+  outline: none;
+}
+
+.input:active {
+  color: var(--emerald-800);
+  border: 1px solid var(--emerald-800);
+}
+
+.input:hover {
+  color: var(--emerald-700);
+  border: 1px solid var(--emerald-700);
+}
+
+.input:disabled {
+  border: 1px solid var(--emerald-300);
+  color: var(--emerald-300);
+}

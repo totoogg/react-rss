@@ -1,7 +1,17 @@
 import { Component } from 'react';
-
-export class Input extends Component {
+import styles from './input.module.css';
+import { IInputProps } from '@/shared/types/inputTypes';
+export class Input extends Component<IInputProps> {
   render() {
-    return <input>input</input>;
+    return (
+      <input
+        className={styles.input}
+        placeholder={this.props.placeholder}
+        type={this.props.type}
+        name={this.props.name}
+        value={this.props.value}
+        onChange={this.props.onChange}
+      />
+    );
   }
 }

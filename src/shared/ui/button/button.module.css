@@ -27,6 +27,7 @@
 }
 
 .flat:disabled {
+  cursor: default;
   background-color: var(--emerald-100);
   color: var(--emerald-400);
 }
