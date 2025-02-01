@@ -1,0 +1,14 @@
+.header {
+  display: flex;
+  width: 100%;
+  background-color: var(--emerald-100);
+  padding: 10px;
+}
+
+.wrapper {
+  max-width: var(--content);
+  margin: auto;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}

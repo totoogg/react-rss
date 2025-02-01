@@ -1,15 +1,14 @@
+import { Search } from '@/features';
 import { Component } from 'react';
+import styles from './header.module.css';
 
 export class Header extends Component {
-  handleLocal() {
-    localStorage.setItem('random', String(Math.random()));
-    window.dispatchEvent(new Event('storage'));
-  }
-
   render() {
     return (
-      <div>
-        Header<button onClick={this.handleLocal}>Click</button>
+      <div className={styles.header}>
+        <div className={styles.wrapper}>
+          <Search />
+        </div>
       </div>
     );
   }

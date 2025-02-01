@@ -12,19 +12,19 @@ export class Main extends Component {
   }
 
   componentDidMount() {
-    if (typeof window != 'undefined') {
-      console.log(localStorage.getItem('random'));
+    if (typeof window !== 'undefined') {
+      console.log(localStorage.getItem('search'));
       window.addEventListener('storage', this.changeLocalStorage);
     }
   }
 
   componentWillUnmount() {
-    if (typeof window != 'undefined') {
+    if (typeof window !== 'undefined') {
       window.removeEventListener('storage', this.changeLocalStorage);
     }
   }
 
   render() {
-    return <div>{localStorage.getItem('random')}</div>;
+    return <div>{localStorage.getItem('search')}</div>;
   }
 }

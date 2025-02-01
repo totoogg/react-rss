@@ -10,7 +10,8 @@ export class Button extends Component<IButtonProps> {
         onClick={this.props.onClick}
         className={[
           styles.button,
-          this.props.className === 'flat' ? styles.flat : styles.outline,
+          this.props.classNameButton === 'flat' ? styles.flat : styles.outline,
+          this.props.className?.join(' '),
         ].join(' ')}
       >
         {this.props.text}

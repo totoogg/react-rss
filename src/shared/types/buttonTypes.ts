@@ -2,5 +2,6 @@ export interface IButtonProps {
   text: string;
   onClick: () => void;
   disabled?: boolean;
-  className?: 'flat' | 'outline';
+  classNameButton?: 'flat' | 'outline';
+  className?: string[];
 }

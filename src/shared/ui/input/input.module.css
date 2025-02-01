@@ -6,7 +6,7 @@
   background: var(--emerald-50);
   color: var(--emerald-600);
   border: 1px solid var(--emerald-600);
-  border-radius: 10px;
+  border-radius: .5rem;
 }
 
 .input:focus {
