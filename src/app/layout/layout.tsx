@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import { ILayoutProps } from '../types/layoutTypes';
-import { Header } from '@/widgets';
+import { Footer, Header } from '@/widgets';
 
 export class Layout extends Component<ILayoutProps> {
   render() {
@@ -8,6 +8,7 @@ export class Layout extends Component<ILayoutProps> {
       <>
         <Header />
         <div>{this.props.children}</div>
+        <Footer />
       </>
     );
   }

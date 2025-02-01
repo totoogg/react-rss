@@ -2,5 +2,10 @@ import { Character } from '@/shared/types/apiTypes';
 
 export interface IMainState {
   results: Character[];
-  films: string[];
+  films: film[];
+}
+
+export interface film {
+  title: string;
+  url: string;
 }

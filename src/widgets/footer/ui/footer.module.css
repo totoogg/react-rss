@@ -1,0 +1,20 @@
+.footer {
+  display: flex;
+  width: 100%;
+  background-color: var(--emerald-100);
+  padding: 10px;
+  margin-top: auto;
+}
+
+.wrapper {
+  max-width: var(--content);
+  margin: auto;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.error {
+  font-size: 3rem;
+  background-color: red;
+}

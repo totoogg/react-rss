@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import { IApi } from '@/shared/types/apiTypes';
-import { IMainState } from '../model/mainType';
+import { film, IMainState } from '../model/mainType';
 import { Card } from '@/entities';
 import styles from './main.module.css';
 
@@ -34,7 +34,10 @@ export class Main extends Component<object, IMainState> {
       .then((response) => response.json())
       .then((data: IApi) =>
         this.setState({
-          films: data.results.map((item) => item.title) as string[],
+          films: data.results.map((item) => ({
+            title: item.title,
+            url: item.url,
+          })) as film[],
         })
       );
     this.forceUpdate();
@@ -61,7 +64,12 @@ export class Main extends Component<object, IMainState> {
               name={item.name || ''}
               url={item.url || ''}
               home={item.homeworld || ''}
-              films={item.films?.join(', ') || ''}
+              films={
+                this.state.films
+                  .filter((film) => item.films?.some((url) => url === film.url))
+                  .map((film) => film.title)
+                  .join(', ') || ''
+              }
               birthdayYear={item.birth_year || ''}
               key={item.url}
             />
