@@ -1,0 +1,16 @@
+.card {
+  width: 400px;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  background-color: var(--emerald-800);
+  color: #ffffff;
+  font-size: 1.4rem;
+}
+
+.description {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  justify-content: space-between;
+  padding: 10px;
+}

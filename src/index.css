@@ -28,3 +28,8 @@ html {
   font-family: 'Inter', sans-serif;
   background-color: var(--emerald-50);
 }
+
+img {
+  max-width: 100%;
+  display: block;
+}
