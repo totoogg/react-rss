@@ -66,7 +66,11 @@ export class Main extends Component<object, IMainState> {
             />
           ))
         ) : (
-          <div className={styles.notFound}>Not found</div>
+          <div className={styles.notFound}>
+            No characters with the name &quot;
+            {localStorage.getItem('search')}
+            &quot; found
+          </div>
         )}
       </div>
     );

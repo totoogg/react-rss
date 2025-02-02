@@ -4,3 +4,9 @@
   gap: 10px;
   justify-content: space-around;
 }
+
+.notFound {
+  text-align: center;
+  font-size: 2rem;
+  padding: 40px;
+}
