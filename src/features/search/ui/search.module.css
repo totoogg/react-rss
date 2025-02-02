@@ -1,0 +1,15 @@
+.search {
+  display: flex;
+  width: 80%;
+}
+
+.input {
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+
+.button {
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+  border-left: none;
+}
