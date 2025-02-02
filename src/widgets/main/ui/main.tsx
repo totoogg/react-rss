@@ -1,8 +1,8 @@
 import { Component } from 'react';
-import { IApi } from '@/shared/types/apiTypes';
-import { film, IMainState } from '../model/mainType';
+import { IMainState } from '../model/mainType';
 import { Card } from '@/entities';
 import styles from './main.module.css';
+import { getFilms, getSearchPeople, getStartPeople } from '@/shared';
 
 export class Main extends Component<object, IMainState> {
   constructor(props: object) {
@@ -13,33 +13,24 @@ export class Main extends Component<object, IMainState> {
 
   async changeLocalStorage() {
     const local = localStorage.getItem('search');
+
     if (local) {
-      await fetch(`https://swapi.dev/api/people/?search=${local}`)
-        .then((response) => response.json())
-        .then((data: IApi) =>
-          this.setState({
-            results: data.results,
-          })
-        );
+      const res = await getSearchPeople(local);
+      this.setState({
+        results: res,
+      });
     } else {
-      await fetch(`https://swapi.dev/api/people`)
-        .then((response) => response.json())
-        .then((data: IApi) =>
-          this.setState({
-            results: data.results,
-          })
-        );
+      const res = await getStartPeople();
+      this.setState({
+        results: res,
+      });
     }
-    await fetch(`https://swapi.dev/api/films`)
-      .then((response) => response.json())
-      .then((data: IApi) =>
-        this.setState({
-          films: data.results.map((item) => ({
-            title: item.title,
-            url: item.url,
-          })) as film[],
-        })
-      );
+
+    const res = await getFilms();
+    this.setState({
+      films: res,
+    });
+
     this.forceUpdate();
   }
 

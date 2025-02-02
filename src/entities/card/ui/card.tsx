@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import { ICardProps, ICardState } from '../model/cardTypes';
-import { Character } from '@/shared/types/apiTypes';
 import styles from './card.module.css';
+import { addCount, getHome, minusCount } from '@/shared';
 
 export class Card extends Component<ICardProps, ICardState> {
   constructor(props: ICardProps) {
@@ -11,20 +11,24 @@ export class Card extends Component<ICardProps, ICardState> {
     };
   }
 
+  handleImageLoaded() {
+    minusCount();
+    minusCount();
+  }
+
   async changeLocalStorage() {
-    await fetch(this.props.home)
-      .then((response) => response.json())
-      .then((data: Character) =>
-        this.setState({
-          homePlanet: data.name || '',
-        })
-      );
+    const res = await getHome(this.props.home);
+
+    this.setState({
+      homePlanet: res || '',
+    });
 
     this.forceUpdate();
   }
 
   componentDidMount() {
     this.changeLocalStorage();
+    addCount();
   }
 
   render() {
@@ -33,6 +37,7 @@ export class Card extends Component<ICardProps, ICardState> {
         <img
           src={`https://raw.githubusercontent.com/vieraboschkova/swapi-gallery/main/static/assets/img/people/${this.props.url.slice(29, -1)}.jpg`}
           alt={this.props.name}
+          onLoad={this.handleImageLoaded}
         />
         <div className={styles.description}>
           <span>

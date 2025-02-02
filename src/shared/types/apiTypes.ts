@@ -13,3 +13,8 @@ export interface Character {
   films?: string[];
   url?: string;
 }
+
+export interface film {
+  title: string;
+  url: string;
+}
