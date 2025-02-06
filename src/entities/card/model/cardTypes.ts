@@ -5,7 +5,3 @@ export interface ICardProps {
   films: string;
   birthdayYear: string;
 }
-
-export interface ICardState {
-  homePlanet: string;
-}

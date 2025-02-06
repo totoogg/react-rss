@@ -4,7 +4,7 @@ let count = 0;
 
 function checkLoader() {
   if (count <= 0) {
-    count = 0;
+    // count = 0;
     window.dispatchEvent(new Event('customLoaderOff'));
   } else {
     window.dispatchEvent(new Event('customLoaderOn'));

@@ -1,15 +1,15 @@
+import { FC, memo } from 'react';
 import { Search } from '@/features';
-import { Component } from 'react';
 import styles from './header.module.css';
 
-export class Header extends Component {
-  render() {
-    return (
-      <div className={styles.header}>
-        <div className={styles.wrapper}>
-          <Search />
-        </div>
+export const Header: FC = memo(() => {
+  return (
+    <div className={styles.header}>
+      <div className={styles.wrapper}>
+        <Search />
       </div>
-    );
-  }
-}
+    </div>
+  );
+});
+
+Header.displayName = 'Header';

@@ -1,19 +1,21 @@
-import { Component } from 'react';
-import styles from './input.module.css';
+import { FC, memo } from 'react';
 import { IInputProps } from '@/shared/types/inputTypes';
+import styles from './input.module.css';
 
-export class Input extends Component<IInputProps> {
-  render() {
+export const Input: FC<IInputProps> = memo(
+  ({ name, onChange, onEnter, placeholder, type, value, className }) => {
     return (
       <input
-        className={[styles.input, this.props.className?.join(' ')].join(' ')}
-        placeholder={this.props.placeholder}
-        type={this.props.type}
-        name={this.props.name}
-        value={this.props.value}
-        onChange={this.props.onChange}
-        onKeyDown={(e) => e.key === 'Enter' && this.props.onEnter()}
+        className={[styles.input, className?.join(' ')].join(' ')}
+        placeholder={placeholder}
+        type={type}
+        name={name}
+        value={value}
+        onChange={onChange}
+        onKeyDown={(e) => e.key === 'Enter' && onEnter()}
       />
     );
   }
-}
+);
+
+Input.displayName = 'Input';
