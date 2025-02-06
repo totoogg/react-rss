@@ -1,48 +1,26 @@
 import React, { memo } from 'react';
-import { Button, Input } from '@/shared';
-import { ISearchState } from '../model/searchType';
+import { Button, Input, useRestoreSearch } from '@/shared';
 import styles from './search.module.css';
 
 export const Search = memo(() => {
-  const [state, setState] = React.useState<ISearchState>({
-    search: '',
-    count: 0,
-  });
+  const [search, setSearch] = React.useState<string>('');
+  const localStart = useRestoreSearch();
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setState({ ...state, search: e.target.value });
+    setSearch(e.target.value);
   };
 
   const handleLocal = () => {
     const local = localStorage.getItem('search');
-    if (local === state.search) return;
-    localStorage.setItem('search', state.search);
+    if (local === search) return;
+    localStorage.setItem('search', search);
     window.dispatchEvent(new Event('storage'));
   };
 
   React.useEffect(() => {
-    const local = localStorage.getItem('search') || '';
-    setState({ count: 1, search: local });
-  }, []);
-
-  React.useEffect(() => {
-    if (state.count) {
-      window.dispatchEvent(new Event('storage'));
-    }
-  }, [state]);
-
-  React.useEffect(() => {
-    const handleStorage = () => {
-      const local = localStorage.getItem('search') || '';
-      setState({ search: local, count: 0 });
-    };
-
-    window.addEventListener('storage', handleStorage);
-
-    return () => {
-      window.removeEventListener('storage', handleStorage);
-    };
-  }, []);
+    setSearch(localStart || '');
+    window.dispatchEvent(new Event('storage'));
+  }, [localStart]);
 
   return (
     <div className={styles.search}>
@@ -51,7 +29,7 @@ export const Search = memo(() => {
         onChange={onChange}
         placeholder="Search"
         type="text"
-        value={state.search}
+        value={search}
         className={[styles.input]}
         onEnter={handleLocal}
       />
