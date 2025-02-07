@@ -5,6 +5,7 @@ export {
   addCount,
   minusCount,
   getHome,
+  getPersonById,
 } from './api/api';
 export { Loader } from './ui/loader/loader';
 export { Fallback } from './ui/fallback/fallback';
