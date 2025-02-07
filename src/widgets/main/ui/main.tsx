@@ -3,8 +3,10 @@ import { IMainState } from '../model/mainType';
 import { Card } from '@/entities';
 import { getFilms, getSearchPeople, getStartPeople } from '@/shared';
 import styles from './main.module.css';
+import { useNavigate } from 'react-router-dom';
 
 export const Main: FC = memo(() => {
+  const navigate = useNavigate();
   const [state, setState] = React.useState<IMainState>({
     results: [],
     films: [],
@@ -17,12 +19,20 @@ export const Main: FC = memo(() => {
       if (local) {
         const res = await getSearchPeople(local);
 
+        navigate({
+          search: `?search=${local}`,
+        });
+
         setState((state) => ({
           ...state,
           results: res,
         }));
       } else {
         const res = await getStartPeople();
+
+        navigate({
+          search: ``,
+        });
 
         setState((state) => ({
           ...state,
@@ -47,7 +57,7 @@ export const Main: FC = memo(() => {
         window.removeEventListener('storage', changeLocalStorage);
       }
     };
-  }, [state]);
+  }, [navigate, state]);
 
   return (
     <div className={styles.gallery}>

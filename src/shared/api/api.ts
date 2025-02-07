@@ -44,6 +44,25 @@ export async function getStartPeople() {
   }
 }
 
+export async function getPersonById(id: string) {
+  addCount();
+
+  try {
+    const res = await fetch(`https://swapi.dev/api/people/${id}`);
+    const data = await res.json();
+    minusCount();
+
+    return data;
+  } catch {
+    window.dispatchEvent(new Event('customLoaderOff'));
+    window.dispatchEvent(new Event('customErrorResponse'));
+
+    count = 0;
+
+    throw new Error('error');
+  }
+}
+
 export async function getSearchPeople(search: string) {
   addCount();
 
