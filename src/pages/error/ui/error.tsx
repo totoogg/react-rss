@@ -1,9 +1,9 @@
-import { FC } from 'react';
+import { FC, memo } from 'react';
 import { useLocation, useNavigate, useRouteError } from 'react-router-dom';
-import styles from './error.module.css';
 import { Button } from '@/shared';
+import styles from './error.module.css';
 
-export const Error: FC = () => {
+export const Error: FC = memo(() => {
   const error = useRouteError() as { statusText: string };
   const navigate = useNavigate();
   const location = useLocation();
@@ -18,9 +18,15 @@ export const Error: FC = () => {
       </p>
       <Button
         text="Home page"
-        onClick={() => navigate(`/${location.search}`)}
+        onClick={() =>
+          navigate(
+            `/${location.search.split('&').find((el) => el.includes('search'))}`
+          )
+        }
         className={[styles.button]}
       />
     </div>
   );
-};
+});
+
+Error.displayName = 'Error';

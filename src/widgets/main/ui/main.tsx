@@ -1,9 +1,10 @@
 import React, { FC, memo } from 'react';
 import { IMainState } from '../model/mainType';
 import { Card } from '@/entities';
-import { getFilms, getSearchPeople, getStartPeople } from '@/shared';
+import { getFilms, getSearchPeople } from '@/shared';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import styles from './main.module.css';
+import { Pagination } from '@/features';
 
 export const Main: FC = memo(() => {
   const navigate = useNavigate();
@@ -11,35 +12,28 @@ export const Main: FC = memo(() => {
   const [state, setState] = React.useState<IMainState>({
     results: [],
     films: [],
+    count: '',
   });
 
   React.useEffect(() => {
     const changeLocalStorage = async () => {
       const local = localStorage.getItem('search');
+      const page = location.search
+        .split('&')
+        .find((el) => el.includes('page'))
+        ?.split('=')[1];
 
-      if (local) {
-        const res = await getSearchPeople(local);
+      const people = await getSearchPeople(local || '', page || '1');
 
-        navigate({
-          search: `?search=${local}`,
-        });
+      navigate({
+        search: `?search=${local}&page=${page || '1'}`,
+      });
 
-        setState((state) => ({
-          ...state,
-          results: res,
-        }));
-      } else {
-        const res = await getStartPeople();
-
-        navigate({
-          search: ``,
-        });
-
-        setState((state) => ({
-          ...state,
-          results: res,
-        }));
-      }
+      setState((state) => ({
+        ...state,
+        results: people.results,
+        count: people.count,
+      }));
 
       const res = await getFilms();
 
@@ -58,37 +52,44 @@ export const Main: FC = memo(() => {
         window.removeEventListener('storage', changeLocalStorage);
       }
     };
-  }, [navigate, state]);
+  }, [location, location.search, navigate, state]);
 
   return (
-    <div className={styles.gallery}>
-      {state.results.length > 0 ? (
-        state.results.map((item) => (
-          <Link
-            key={item.url}
-            to={`people/${(item.url || '').slice(29, -1)}${location.search}`}
-          >
-            <Card
-              name={item.name || ''}
-              url={item.url || ''}
-              home={item.homeworld || ''}
-              films={
-                state.films
-                  .filter((film) => item.films?.some((url) => url === film.url))
-                  .map((film) => film.title)
-                  .join(', ') || ''
-              }
-              birthdayYear={item.birth_year || ''}
-            />
-          </Link>
-        ))
-      ) : (
-        <div className={styles.notFound}>
-          No characters with the name &quot;
-          {localStorage.getItem('search')}
-          &quot; found
-        </div>
-      )}
+    <div className={styles.main}>
+      {+state.count > 10 ? <Pagination count={state.count} /> : ''}
+      <div className={styles.gallery}>
+        {state.results.length > 0 ? (
+          state.results.map((item) => (
+            <Link
+              key={item.url}
+              to={`people/${(item.url || '').slice(29, -1)}${location.search}`}
+              className={styles['no-underline']}
+            >
+              <Card
+                name={item.name || ''}
+                url={item.url || ''}
+                home={item.homeworld || ''}
+                films={
+                  state.films
+                    .filter((film) =>
+                      item.films?.some((url) => url === film.url)
+                    )
+                    .map((film) => film.title)
+                    .join(', ') || ''
+                }
+                birthdayYear={item.birth_year || ''}
+              />
+            </Link>
+          ))
+        ) : (
+          <div className={styles.notFound}>
+            No characters with the name &quot;
+            {localStorage.getItem('search')}
+            &quot; found
+          </div>
+        )}
+      </div>
+      {+state.count > 10 ? <Pagination count={state.count} /> : ''}
     </div>
   );
 });

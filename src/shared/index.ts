@@ -1,7 +1,6 @@
 export {
   getFilms,
   getSearchPeople,
-  getStartPeople,
   addCount,
   minusCount,
   getHome,

@@ -23,27 +23,6 @@ export function minusCount() {
   checkLoader();
 }
 
-export async function getStartPeople() {
-  addCount();
-
-  try {
-    const res = await fetch(`https://swapi.dev/api/people`);
-    const data = await res.json();
-    const results = await data.results;
-
-    minusCount();
-
-    return results;
-  } catch {
-    window.dispatchEvent(new Event('customLoaderOff'));
-    window.dispatchEvent(new Event('customErrorResponse'));
-
-    count = 0;
-
-    throw new Error('error');
-  }
-}
-
 export async function getPersonById(id: string) {
   addCount();
 
@@ -63,13 +42,15 @@ export async function getPersonById(id: string) {
   }
 }
 
-export async function getSearchPeople(search: string) {
+export async function getSearchPeople(search: string, page: string) {
   addCount();
 
   try {
-    const res = await fetch(`https://swapi.dev/api/people/?search=${search}`);
+    const res = await fetch(
+      `https://swapi.dev/api/people/?search=${search}&page=${page}`
+    );
     const data = await res.json();
-    const results = await data.results;
+    const results = await data;
 
     minusCount();
 
