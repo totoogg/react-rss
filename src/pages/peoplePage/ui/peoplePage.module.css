@@ -14,10 +14,11 @@
 }
 
 .detail {
+  cursor: default;
   max-width: var(--table);
+  width: 400px;
   margin-left: auto;
   padding: 10px;
-  width: 50%;
   height: 100vh;
   background-color: var(--emerald-300);
 }

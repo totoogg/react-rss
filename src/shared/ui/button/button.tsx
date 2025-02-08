@@ -3,7 +3,7 @@ import { IButtonProps } from '@/shared/types/buttonTypes';
 import styles from './button.module.css';
 
 export const Button: FC<IButtonProps> = memo(
-  ({ onClick, text, className, classNameButton, disabled }) => {
+  ({ onClick, text, className, classNameButton, disabled, children }) => {
     return (
       <button
         disabled={disabled}
@@ -14,7 +14,7 @@ export const Button: FC<IButtonProps> = memo(
           className?.join(' '),
         ].join(' ')}
       >
-        {text}
+        {text ? text : children}
       </button>
     );
   }

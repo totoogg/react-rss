@@ -7,6 +7,10 @@
   font-size: 2rem;
 }
 
+.card:hover {
+  transform: scale(1.02);
+}
+
 .description {
   display: flex;
   flex-direction: column;

@@ -1,10 +1,12 @@
 .card {
-  width: 400px;
+  width: 100%;
+  font-size: 2rem;
+}
+
+img {
   border-radius: 0.5rem;
   overflow: hidden;
-  background-color: var(--emerald-800);
-  color: #ffffff;
-  font-size: 2rem;
+  margin-bottom: 20px;
 }
 
 .description {
@@ -13,4 +15,40 @@
   gap: 5px;
   justify-content: space-between;
   padding: 10px;
+}
+
+.escape {
+  width: 50px;
+  height: 50px;
+  border-color: var(--emerald-800);
+  color: var(--emerald-300);
+  margin-bottom: 30px;
+  margin-top: 10px;
+  margin-left: auto;
+  background-color: var(--emerald-800);
+  position: relative;
+}
+
+.line_escape {
+  position: absolute;
+  width: 40px;
+  height: 4px;
+  background-color: var(--emerald-300);
+  left: calc(50% - 20px);
+  border-radius: 10px;
+  transform: scale(0);
+}
+
+.line_escape:first-child {
+  transform: rotate(-45deg);
+  top: calc(50% - 2px);
+}
+
+.line_escape:last-child {
+  bottom: calc(50% - 2px);
+  transform: rotate(45deg);
+}
+
+.escape:hover {
+  transform: scale(1.2);
 }

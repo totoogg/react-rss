@@ -1,41 +1,59 @@
-import React, { FC, memo } from 'react';
+import React, { FC, memo, useCallback } from 'react';
 import { IDetailProps } from '../model/detailTypes';
 import {
   addCount,
+  Button,
   getFilms,
   getHome,
   getPersonById,
   minusCount,
 } from '@/shared';
-import styles from './detail.module.css';
 import { film, Person } from '@/shared/types/apiTypes';
+import { useLocation, useNavigate } from 'react-router-dom';
+import styles from './detail.module.css';
 
 export const Detail: FC<IDetailProps> = memo(({ id }) => {
   const [person, setPerson] = React.useState<Person>();
   const [home, setHome] = React.useState<Person>();
   const [films, setFilms] = React.useState<film[]>();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const handleImageLoaded = () => {
     minusCount();
     minusCount();
   };
 
+  const handleClick = useCallback(
+    () => navigate(`/${location.search}`),
+    [location.search, navigate]
+  );
+
   React.useEffect(() => {
     const getPerson = async () => {
-      const res = await Promise.all([getPersonById(id), getFilms()]);
-      const homePlanet = await getHome(res[0].homeworld);
+      try {
+        const res = await Promise.all([getPersonById(id), getFilms()]);
 
-      setPerson(res[0] || '');
-      setHome(homePlanet || '');
-      setFilms(res[1] || '');
+        const homePlanet = await getHome(res[0].homeworld);
+
+        setPerson(res[0] || '');
+        setHome(homePlanet || '');
+        setFilms(res[1] || '');
+      } catch {
+        navigate(`/error${location.search}`);
+      }
     };
 
     getPerson();
     addCount();
-  }, [id]);
+  }, [id, location.search, navigate]);
 
   return (
     <div className={styles.card}>
+      <Button onClick={handleClick} className={[styles.escape]}>
+        <span className={styles.line_escape} />
+        <span className={styles.line_escape} />
+      </Button>
       <img
         src={`https://raw.githubusercontent.com/vieraboschkova/swapi-gallery/main/static/assets/img/people/${id}.jpg`}
         alt={person?.name}

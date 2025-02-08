@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { Layout } from '../layout/layout';
-import { HomePage, PeoplePage } from '@/pages';
+import { Error, HomePage, PeoplePage } from '@/pages';
 
 export const AppRouter: FC = () => {
   const router = createBrowserRouter([
@@ -12,7 +12,7 @@ export const AppRouter: FC = () => {
           <HomePage />
         </Layout>
       ),
-      errorElement: <div>Error</div>,
+      errorElement: <Error />,
       children: [
         {
           path: 'people/:personId',
