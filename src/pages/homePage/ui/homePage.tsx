@@ -1,45 +1,33 @@
-import { Component } from 'react';
+import React, { FC, memo } from 'react';
 import { Main } from '@/widgets';
-import styles from './homePage.module.css';
-import { IHomePageState } from '../model/homePageTypes';
 import { ErrorResponse } from '@/entities';
+import styles from './homePage.module.css';
 
-export class HomePage extends Component<object, IHomePageState> {
-  constructor(props: object) {
-    super(props);
+export const HomePage: FC = memo(() => {
+  const [isError, setIsError] = React.useState<boolean>(false);
 
-    this.state = {
-      isError: false,
+  React.useEffect(() => {
+    const showResponse = () => {
+      setIsError(true);
     };
 
-    this.showResponse = this.showResponse.bind(this);
-  }
-
-  showResponse() {
-    this.setState({
-      isError: true,
-    });
-    this.forceUpdate();
-  }
-
-  componentDidMount() {
     if (typeof window !== 'undefined') {
-      window.addEventListener('customErrorResponse', this.showResponse);
+      window.addEventListener('customErrorResponse', showResponse);
     }
-  }
 
-  componentWillUnmount() {
-    if (typeof window !== 'undefined') {
-      window.removeEventListener('customErrorResponse', this.showResponse);
-    }
-  }
+    return () => {
+      if (typeof window !== 'undefined') {
+        window.removeEventListener('customErrorResponse', showResponse);
+      }
+    };
+  }, []);
 
-  render() {
-    return (
-      <div className={styles.page}>
-        {this.state.isError && <ErrorResponse />}
-        {!this.state.isError && <Main />}
-      </div>
-    );
-  }
-}
+  return (
+    <div className={styles.page}>
+      {isError && <ErrorResponse />}
+      {!isError && <Main />}
+    </div>
+  );
+});
+
+HomePage.displayName = 'HomePage';

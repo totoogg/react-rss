@@ -1,12 +1,12 @@
-import { Component } from 'react';
+import { FC, memo } from 'react';
 import styles from './loader.module.css';
 
-export class Loader extends Component {
-  render() {
-    return (
-      <div className={styles.wrapper}>
-        <span className={styles.loader}></span>
-      </div>
-    );
-  }
-}
+export const Loader: FC = memo(() => {
+  return (
+    <div className={styles.wrapper}>
+      <span className={styles.loader}></span>
+    </div>
+  );
+});
+
+Loader.displayName = 'Loader';

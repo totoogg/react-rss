@@ -1,63 +1,51 @@
-import { Button, Input } from '@/shared';
-import { Component } from 'react';
+import React, { memo } from 'react';
+import { Button, Input, useRestoreSearch } from '@/shared';
 import styles from './search.module.css';
-import { ISearchState } from '../model/searchType';
+import { useNavigate } from 'react-router-dom';
 
-export class Search extends Component<object, ISearchState> {
-  constructor(props: object) {
-    super(props);
-    this.state = { search: '', count: 1 };
+export const Search = memo(() => {
+  const [search, setSearch] = React.useState<string>('');
+  const localStart = useRestoreSearch();
+  const navigate = useNavigate();
 
-    this.onChange = this.onChange.bind(this);
-    this.handleLocal = this.handleLocal.bind(this);
-  }
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch(e.target.value);
+  };
 
-  componentDidMount() {
-    const local = localStorage.getItem('search') || '';
-    this.setState({ search: local });
-  }
-
-  shouldComponentUpdate(
-    _nextProps: object,
-    nextState: Readonly<ISearchState>
-  ): boolean {
-    const local = localStorage.getItem('search') || '';
-    if (local === nextState.search && this.state.count) {
-      window.dispatchEvent(new Event('storage'));
-    }
-    return true;
-  }
-
-  onChange(e: React.ChangeEvent<HTMLInputElement>) {
-    this.setState({ search: e.target.value, count: 0 });
-  }
-
-  handleLocal() {
+  const handleLocal = () => {
     const local = localStorage.getItem('search');
-    if (local === this.state.search) return;
-    localStorage.setItem('search', this.state.search);
-    window.dispatchEvent(new Event('storage'));
-  }
+    if (local === search) return;
+    localStorage.setItem('search', search);
+    navigate({
+      search: `?search=${search}&page=1`,
+    });
+    navigate(0);
+  };
 
-  render() {
-    return (
-      <div className={styles.search}>
-        <Input
-          name="search"
-          onChange={this.onChange}
-          placeholder="Search"
-          type="text"
-          value={this.state.search}
-          className={[styles.input]}
-          onEnter={this.handleLocal}
-        />
-        <Button
-          text="Search"
-          onClick={this.handleLocal}
-          className={[styles.button]}
-          classNameButton="flat"
-        />
-      </div>
-    );
-  }
-}
+  React.useEffect(() => {
+    setSearch(localStart || '');
+    window.dispatchEvent(new Event('storage'));
+  }, [localStart]);
+
+  return (
+    <div className={styles.search}>
+      <Input
+        name="search"
+        onChange={onChange}
+        placeholder="Search"
+        type="text"
+        value={search}
+        className={[styles.input]}
+        onEnter={handleLocal}
+      />
+      <Button
+        text="Search"
+        onClick={handleLocal}
+        className={[styles.button]}
+        classNameButton="flat"
+      />
+    </div>
+  );
+});
+
+Search.displayName = 'Search';

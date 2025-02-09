@@ -1,59 +1,52 @@
-import { Component } from 'react';
-import { ICardProps, ICardState } from '../model/cardTypes';
-import styles from './card.module.css';
+import React, { FC, memo } from 'react';
+import { ICardProps } from '../model/cardTypes';
 import { addCount, getHome, minusCount } from '@/shared';
+import styles from './card.module.css';
 
-export class Card extends Component<ICardProps, ICardState> {
-  constructor(props: ICardProps) {
-    super(props);
-    this.state = {
-      homePlanet: '',
+export const Card: FC<ICardProps> = memo(
+  ({ birthdayYear, films, home, name, url }) => {
+    const [homePlanet, setHomePlanet] = React.useState<string>('');
+
+    const handleImageLoaded = () => {
+      minusCount();
+      minusCount();
     };
-  }
 
-  handleImageLoaded() {
-    minusCount();
-    minusCount();
-  }
+    React.useEffect(() => {
+      const changeLocalStorage = async () => {
+        const res = await getHome(home);
 
-  async changeLocalStorage() {
-    const res = await getHome(this.props.home);
+        setHomePlanet(res || '');
+      };
 
-    this.setState({
-      homePlanet: res || '',
-    });
+      changeLocalStorage();
+      addCount();
+    }, [home]);
 
-    this.forceUpdate();
-  }
-
-  componentDidMount() {
-    this.changeLocalStorage();
-    addCount();
-  }
-
-  render() {
     return (
       <div className={styles.card}>
         <img
-          src={`https://raw.githubusercontent.com/vieraboschkova/swapi-gallery/main/static/assets/img/people/${this.props.url.slice(29, -1)}.jpg`}
-          alt={this.props.name}
-          onLoad={this.handleImageLoaded}
+          src={`https://raw.githubusercontent.com/vieraboschkova/swapi-gallery/main/static/assets/img/people/${url.slice(29, -1)}.jpg`}
+          alt={name}
+          onLoad={handleImageLoaded}
         />
         <div className={styles.description}>
           <span>
-            <b>Name:</b> <i>{this.props.name}</i>
+            <b>Name:</b> <i>{name}</i>
           </span>
           <span>
-            <b>Home planet:</b> <i>{this.state.homePlanet}</i>
+            <b>Home planet:</b> <i>{homePlanet}</i>
           </span>
           <span>
-            <b>Films:</b> <i>{this.props.films}</i>
+            <b>Films:</b> <i>{films}</i>
           </span>
           <span>
-            <b>Birthday year:</b> <i>{this.props.birthdayYear}</i>
+            <b>Birthday year:</b> <i>{birthdayYear}</i>
           </span>
         </div>
       </div>
     );
   }
-}
+);
+
+Card.displayName = 'Card';

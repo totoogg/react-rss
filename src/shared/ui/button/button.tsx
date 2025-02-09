@@ -1,21 +1,23 @@
-import { Component } from 'react';
-import styles from './button.module.css';
+import { FC, memo } from 'react';
 import { IButtonProps } from '@/shared/types/buttonTypes';
+import styles from './button.module.css';
 
-export class Button extends Component<IButtonProps> {
-  render() {
+export const Button: FC<IButtonProps> = memo(
+  ({ onClick, text, className, classNameButton, disabled, children }) => {
     return (
       <button
-        disabled={this.props.disabled}
-        onClick={this.props.onClick}
+        disabled={disabled}
+        onClick={onClick}
         className={[
           styles.button,
-          this.props.classNameButton === 'flat' ? styles.flat : styles.outline,
-          this.props.className?.join(' '),
+          classNameButton === 'flat' ? styles.flat : styles.outline,
+          className?.join(' '),
         ].join(' ')}
       >
-        {this.props.text}
+        {text ? text : children}
       </button>
     );
   }
-}
+);
+
+Button.displayName = 'Button';

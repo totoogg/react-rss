@@ -1,3 +1,10 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .gallery {
   display: flex;
   flex-wrap: wrap;
@@ -9,4 +16,8 @@
   text-align: center;
   font-size: 2rem;
   padding: 40px;
+}
+
+.no-underline {
+  text-decoration: none;
 }

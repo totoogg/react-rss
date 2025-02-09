@@ -1,13 +1,9 @@
-import { Component } from 'react';
+import { FC, memo } from 'react';
 import { ErrorBoundary, Fallback } from '@/shared';
 import { IProvidersProps } from '../types/providerTypes';
 
-export class Providers extends Component<IProvidersProps> {
-  render() {
-    return (
-      <ErrorBoundary fallback={<Fallback />}>
-        {this.props.children}
-      </ErrorBoundary>
-    );
-  }
-}
+export const Providers: FC<IProvidersProps> = memo(({ children }) => {
+  return <ErrorBoundary fallback={<Fallback />}>{children}</ErrorBoundary>;
+});
+
+Providers.displayName = 'Providers';

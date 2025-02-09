@@ -1,15 +1,19 @@
-import { Component } from 'react';
+import { FC, memo } from 'react';
 import { ILayoutProps } from '../types/layoutTypes';
 import { Footer, Header } from '@/widgets';
+import { Outlet } from 'react-router-dom';
 
-export class Layout extends Component<ILayoutProps> {
-  render() {
-    return (
-      <>
-        <Header />
-        <div>{this.props.children}</div>
-        <Footer />
-      </>
-    );
-  }
-}
+export const Layout: FC<ILayoutProps> = memo(({ children }) => {
+  return (
+    <>
+      <Header />
+      <div>{children}</div>
+      <div>
+        <Outlet />
+      </div>
+      <Footer />
+    </>
+  );
+});
+
+Layout.displayName = 'Layout';
