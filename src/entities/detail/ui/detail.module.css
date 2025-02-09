@@ -1,6 +1,9 @@
 .card {
   width: 100%;
   font-size: 2rem;
+  overflow-y: auto;
+  height: 100%;
+  padding-right: 10px;
 }
 
 img {
