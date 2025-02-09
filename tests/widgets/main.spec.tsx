@@ -27,6 +27,27 @@ beforeEach(() => {
   vi.spyOn(handlers, 'getHome').mockReturnValue(
     new Promise((resolve) => resolve('Tatooine'))
   );
+  vi.spyOn(handlers, 'getPersonById').mockReturnValue(
+    new Promise((resolve) =>
+      resolve({
+        name: 'Han Solo',
+        height: '180',
+        mass: '80',
+        hair_color: 'brown',
+        skin_color: 'fair',
+        eye_color: 'brown',
+        birth_year: '29BBY',
+        gender: 'male',
+        homeworld: 'https://swapi.dev/api/planets/22/',
+        films: [
+          'https://swapi.dev/api/films/1/',
+          'https://swapi.dev/api/films/2/',
+          'https://swapi.dev/api/films/3/',
+        ],
+        url: 'https://swapi.dev/api/people/14/',
+      })
+    )
+  );
 });
 
 afterEach(() => {
@@ -49,27 +70,30 @@ describe('Main Component', () => {
                 'https://swapi.dev/api/films/5/',
                 'https://swapi.dev/api/films/6/',
               ],
-              birthdayYear: '41.9BBY',
+              birth_year: '41.9BBY',
             },
             {
               name: '',
               url: '',
               home: '',
               films: [],
-              birthdayYear: '',
+              birth_year: '',
             },
           ],
         })
       )
     );
 
-    const { container } = render(<Main />, {
-      wrapper: ({ children }) => (
-        <MemoryRouter initialEntries={['/test?page=1']}>
-          {children}
-        </MemoryRouter>
-      ),
-    });
+    const { container, getByText, getAllByText, getAllByRole } = render(
+      <Main />,
+      {
+        wrapper: ({ children }) => (
+          <MemoryRouter initialEntries={['/test?page=1']}>
+            {children}
+          </MemoryRouter>
+        ),
+      }
+    );
     window.dispatchEvent(new Event('storage'));
     await whenStable();
     expect(container.querySelectorAll('div[class*="container"]').length).toBe(
@@ -77,6 +101,15 @@ describe('Main Component', () => {
     );
     expect(container.querySelectorAll('a[class*="no-underline"]').length).toBe(
       2
+    );
+    expect(getByText('nick')).toBeInTheDocument();
+    expect(getByText('41.9BBY')).toBeInTheDocument();
+    expect(getByText('4, 5, 6')).toBeInTheDocument();
+    expect(getAllByText('Tatooine').length).toBe(2);
+
+    expect(getAllByRole('link')[0]).toHaveAttribute(
+      'href',
+      '/people/11?search=null&page=1'
     );
   });
 
