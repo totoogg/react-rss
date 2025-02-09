@@ -12,7 +12,7 @@ export const Pagination: FC<IPaginationProps> = memo(({ count }) => {
   const handleClick = useCallback(
     (i: number) => {
       if (i !== Number(currentPage) + 1) {
-        navigate(`/${location.search.split('&')[0]}&page=${i}`);
+        navigate(`/${location.search?.split('&')[0]}&page=${i}`);
         navigate(0);
       }
     },
@@ -21,9 +21,10 @@ export const Pagination: FC<IPaginationProps> = memo(({ count }) => {
 
   useEffect(() => {
     const page = location.search
-      .split('&')
+      ?.split('&')
       .find((el) => el.includes('page'))
       ?.split('=')[1];
+
     if (!page) {
       setCurrentPage('0');
     } else {

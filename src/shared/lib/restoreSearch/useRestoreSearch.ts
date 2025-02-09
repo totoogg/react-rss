@@ -7,6 +7,11 @@ export const useRestoreSearch = () => {
 
   React.useEffect(() => {
     const local = localStorage.getItem('search') || '';
+
+    if (!local) {
+      localStorage.setItem('search', '');
+    }
+
     const search = location.search
       .split('&')
       .find((el) => el.includes('search'))

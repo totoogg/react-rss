@@ -5,6 +5,7 @@
   background-color: var(--emerald-800);
   color: #ffffff;
   font-size: 2rem;
+  height: 100%;
 }
 
 .card:hover {
