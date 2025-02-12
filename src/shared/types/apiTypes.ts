@@ -23,7 +23,7 @@ export interface Person extends Character {
   gender: string;
 }
 
-export interface film {
+export interface IFilm {
   title: string;
   url: string;
 }

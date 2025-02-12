@@ -1,10 +1,10 @@
-import { Character, film } from '../types/apiTypes';
+import { Character, IFilm } from '../types/apiTypes';
 
 let count = 0;
 
 function checkLoader() {
   if (count <= 0) {
-    // count = 0;
+    //count = 0;
     window.dispatchEvent(new Event('customLoaderOff'));
   } else {
     window.dispatchEvent(new Event('customLoaderOn'));
@@ -74,7 +74,7 @@ export async function getFilms() {
     const results = (await data.results.map((item: Character) => ({
       title: item.title,
       url: item.url,
-    }))) as film[];
+    }))) as IFilm[];
 
     minusCount();
 

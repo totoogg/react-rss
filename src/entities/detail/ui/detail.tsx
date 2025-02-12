@@ -8,14 +8,14 @@ import {
   getPersonById,
   minusCount,
 } from '@/shared';
-import { film, Person } from '@/shared/types/apiTypes';
+import { IFilm, Person } from '@/shared/types/apiTypes';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styles from './detail.module.css';
 
 export const Detail: FC<IDetailProps> = memo(({ id }) => {
   const [person, setPerson] = React.useState<Person>();
   const [home, setHome] = React.useState<Person>();
-  const [films, setFilms] = React.useState<film[]>();
+  const [films, setFilms] = React.useState<IFilm[]>();
   const navigate = useNavigate();
   const location = useLocation();
 
