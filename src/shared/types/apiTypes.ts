@@ -2,19 +2,19 @@ export interface IApi {
   count: number;
   next: string | null;
   previous: string | null;
-  results: Character[];
+  results: ICharacter[];
 }
 
-export interface Character {
+export interface ICharacter {
+  name: string;
+  birth_year: string;
+  films: string[];
+  url: string;
   title?: string;
-  name?: string;
-  birth_year?: string;
-  homeworld?: string;
-  films?: string[];
-  url?: string;
 }
 
-export interface Person extends Character {
+export interface Person extends ICharacter {
+  homeworld: string;
   height: string;
   mass: string;
   hair_color: string;

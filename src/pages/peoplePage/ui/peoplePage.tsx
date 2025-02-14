@@ -1,12 +1,12 @@
 import { FC, useCallback } from 'react';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { Detail } from '@/entities';
 import styles from './peoplePage.module.css';
 
 export const PeoplePage: FC = () => {
   const { personId } = useParams();
   const navigate = useNavigate();
-  const location = useLocation();
+  const [searchParams] = useSearchParams();
 
   const handleClick = useCallback(
     (e?: React.MouseEvent) => {
@@ -16,11 +16,11 @@ export const PeoplePage: FC = () => {
           target.className.includes('wrapper') ||
           target.className.includes('page')
         ) {
-          navigate(`/${location.search}`);
+          navigate(`/?${searchParams.toString()}`);
         }
       }
     },
-    [location.search, navigate]
+    [navigate, searchParams]
   );
 
   return (

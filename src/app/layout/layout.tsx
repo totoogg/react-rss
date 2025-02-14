@@ -1,5 +1,5 @@
 import { FC, memo } from 'react';
-import { ILayoutProps } from '../types/layoutTypes';
+import { ILayoutProps } from '../types';
 import { Footer, Header } from '@/widgets';
 import { Outlet } from 'react-router-dom';
 

@@ -1,12 +1,12 @@
 import React, { memo } from 'react';
 import { Button, Input, useRestoreSearch } from '@/shared';
 import styles from './search.module.css';
-import { useNavigate } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 
 export const Search = memo(() => {
   const [search, setSearch] = React.useState<string>('');
   const localStart = useRestoreSearch();
-  const navigate = useNavigate();
+  const [, setSearchParams] = useSearchParams();
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
@@ -16,15 +16,19 @@ export const Search = memo(() => {
     const local = localStorage.getItem('search');
     if (local === search) return;
     localStorage.setItem('search', search);
-    navigate({
-      search: `?search=${search}&page=1`,
-    });
-    navigate(0);
+    setSearchParams(
+      {
+        page: '1',
+        search,
+      },
+      {
+        replace: true,
+      }
+    );
   };
 
   React.useEffect(() => {
     setSearch(localStart || '');
-    window.dispatchEvent(new Event('storage'));
   }, [localStart]);
 
   return (

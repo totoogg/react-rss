@@ -1,23 +1,19 @@
-import React, { FC, memo, useCallback } from 'react';
+import { FC, memo, useCallback } from 'react';
 import { IDetailProps } from '../model/detailTypes';
-import {
-  addCount,
-  Button,
-  getFilms,
-  getHome,
-  getPersonById,
-  minusCount,
-} from '@/shared';
-import { IFilm, Person } from '@/shared/types/apiTypes';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Button, minusCount, useGetFilmsQuery } from '@/shared';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import styles from './detail.module.css';
+import {
+  useGetHomeByIdQuery,
+  useGetPersonByIdQuery,
+} from '../model/apiSliceWithPersonById';
 
 export const Detail: FC<IDetailProps> = memo(({ id }) => {
-  const [person, setPerson] = React.useState<Person>();
-  const [home, setHome] = React.useState<Person>();
-  const [films, setFilms] = React.useState<IFilm[]>();
   const navigate = useNavigate();
-  const location = useLocation();
+  const [searchParams] = useSearchParams();
+  const { data: films } = useGetFilmsQuery();
+  const { data: person } = useGetPersonByIdQuery(id);
+  const { data: home } = useGetHomeByIdQuery(id);
 
   const handleImageLoaded = () => {
     minusCount();
@@ -25,28 +21,9 @@ export const Detail: FC<IDetailProps> = memo(({ id }) => {
   };
 
   const handleClick = useCallback(
-    () => navigate(`/${location.search}`),
-    [location.search, navigate]
+    () => navigate(`/?${searchParams.toString()}`),
+    [navigate, searchParams]
   );
-
-  React.useEffect(() => {
-    const getPerson = async () => {
-      try {
-        const res = await Promise.all([getPersonById(id), getFilms()]);
-
-        const homePlanet = await getHome(res[0].homeworld);
-
-        setPerson(res[0] || '');
-        setHome(homePlanet || '');
-        setFilms(res[1] || '');
-      } catch {
-        navigate(`/error${location.search}`);
-      }
-    };
-
-    getPerson();
-    addCount();
-  }, [id, location.search, navigate]);
 
   return (
     <div className={styles.card}>

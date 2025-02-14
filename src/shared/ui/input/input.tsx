@@ -1,5 +1,5 @@
 import { FC, memo } from 'react';
-import { IInputProps } from '@/shared/types/inputTypes';
+import { IInputProps } from '@/shared/types';
 import styles from './input.module.css';
 
 export const Input: FC<IInputProps> = memo(

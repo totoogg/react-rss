@@ -1,76 +1,31 @@
-import React, { FC, memo } from 'react';
-import { IMainState } from '../model/mainType';
+import { FC, memo } from 'react';
 import { Card } from '@/entities';
-import { getFilms, getSearchPeople } from '@/shared';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import styles from './main.module.css';
+import { Link, useSearchParams } from 'react-router-dom';
 import { Pagination } from '@/features';
+import { useGetFilmsQuery, useSearchPeople } from '@/shared';
+import styles from './main.module.css';
 
 export const Main: FC = memo(() => {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const [state, setState] = React.useState<IMainState>({
-    results: [],
-    films: [],
-    count: '',
-  });
-
-  React.useEffect(() => {
-    const changeLocalStorage = async () => {
-      const local = localStorage.getItem('search');
-      const page = location.search
-        .split('&')
-        .find((el) => el.includes('page'))
-        ?.split('=')[1];
-
-      const people = await getSearchPeople(local || '', page || '1');
-
-      navigate({
-        search: `?search=${local}&page=${page || '1'}`,
-      });
-
-      setState((state) => ({
-        ...state,
-        results: people.results,
-        count: people.count,
-      }));
-
-      const res = await getFilms();
-
-      setState((state) => ({
-        ...state,
-        films: res,
-      }));
-    };
-
-    if (typeof window !== 'undefined') {
-      window.addEventListener('storage', changeLocalStorage);
-    }
-
-    return () => {
-      if (typeof window !== 'undefined') {
-        window.removeEventListener('storage', changeLocalStorage);
-      }
-    };
-  }, [location, location.search, navigate, state]);
+  const { data } = useGetFilmsQuery();
+  const { count, people } = useSearchPeople();
+  const [searchParams] = useSearchParams();
 
   return (
     <div className={styles.main}>
-      {+state.count > 10 ? <Pagination count={state.count} /> : ''}
+      {+count > 10 ? <Pagination count={String(count)} /> : ''}
       <div className={styles.gallery}>
-        {state.results.length > 0 ? (
-          state.results.map((item) => (
+        {people.length > 0 ? (
+          people.map((item) => (
             <Link
               key={item.url}
-              to={`people/${(item.url || '').slice(29, -1)}${location.search}`}
+              to={`people/${(item.url || '').slice(29, -1)}?${searchParams.toString()}`}
               className={styles['no-underline']}
             >
               <Card
                 name={item.name || ''}
                 url={item.url || ''}
-                home={item.homeworld || ''}
                 films={
-                  state.films
+                  (data || [])
                     .filter((film) =>
                       item.films?.some((url) => url === film.url)
                     )
@@ -89,7 +44,7 @@ export const Main: FC = memo(() => {
           </div>
         )}
       </div>
-      {+state.count > 10 ? <Pagination count={state.count} /> : ''}
+      {+count > 10 ? <Pagination count={String(count)} /> : ''}
     </div>
   );
 });

@@ -1,27 +1,14 @@
-import React, { FC, memo } from 'react';
+import { FC, memo } from 'react';
 import { ICardProps } from '../model/cardTypes';
-import { addCount, getHome, minusCount } from '@/shared';
+import { minusCount } from '@/shared';
 import styles from './card.module.css';
 
 export const Card: FC<ICardProps> = memo(
-  ({ birthdayYear, films, home, name, url }) => {
-    const [homePlanet, setHomePlanet] = React.useState<string>('');
-
+  ({ birthdayYear, films, name, url }) => {
     const handleImageLoaded = () => {
       minusCount();
       minusCount();
     };
-
-    React.useEffect(() => {
-      const changeLocalStorage = async () => {
-        const res = await getHome(home);
-
-        setHomePlanet(res || '');
-      };
-
-      changeLocalStorage();
-      addCount();
-    }, [home]);
 
     return (
       <div className={styles.card}>
@@ -33,9 +20,6 @@ export const Card: FC<ICardProps> = memo(
         <div className={styles.description}>
           <span>
             <b>Name:</b> <i>{name}</i>
-          </span>
-          <span>
-            <b>Home planet:</b> <i>{homePlanet}</i>
           </span>
           <span>
             <b>Films:</b> <i>{films}</i>

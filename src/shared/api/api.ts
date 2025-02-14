@@ -1,4 +1,4 @@
-import { Character, IFilm } from '../types/apiTypes';
+import { IFilm } from '../types/apiTypes';
 
 let count = 0;
 
@@ -71,10 +71,12 @@ export async function getFilms() {
   try {
     const res = await fetch(`https://swapi.dev/api/films`);
     const data = await res.json();
-    const results = (await data.results.map((item: Character) => ({
-      title: item.title,
-      url: item.url,
-    }))) as IFilm[];
+    const results = (await data.results.map(
+      (item: { title: unknown; url: unknown }) => ({
+        title: item.title,
+        url: item.url,
+      })
+    )) as IFilm[];
 
     minusCount();
 

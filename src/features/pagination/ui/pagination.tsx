@@ -1,36 +1,34 @@
 import { FC, memo, useCallback, useEffect, useState } from 'react';
 import { IPaginationProps } from '../model/paginationTypes';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import { Button } from '@/shared';
 import styles from './pagination.module.css';
 
 export const Pagination: FC<IPaginationProps> = memo(({ count }) => {
-  const navigate = useNavigate();
-  const location = useLocation();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [currentPage, setCurrentPage] = useState('');
 
   const handleClick = useCallback(
     (i: number) => {
       if (i !== Number(currentPage) + 1) {
-        navigate(`/${location.search?.split('&')[0]}&page=${i}`);
-        navigate(0);
+        setSearchParams(
+          { page: String(i), search: localStorage.getItem('search') || '' },
+          { replace: true }
+        );
       }
     },
-    [currentPage, location, navigate]
+    [currentPage, setSearchParams]
   );
 
   useEffect(() => {
-    const page = location.search
-      ?.split('&')
-      .find((el) => el.includes('page'))
-      ?.split('=')[1];
+    const page = searchParams.get('page');
 
     if (!page) {
       setCurrentPage('0');
     } else {
       setCurrentPage(String(+page - 1));
     }
-  }, [location.search]);
+  }, [searchParams]);
 
   return (
     <div className={styles.container}>

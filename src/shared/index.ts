@@ -1,4 +1,4 @@
-export { apiSlice } from './api/apiSlice';
+export { apiSlice, useGetFilmsQuery, useLazyGetPeopleQuery } from './api';
 export {
   getFilms,
   getSearchPeople,
@@ -7,11 +7,21 @@ export {
   getHome,
   getPersonById,
 } from './api/api';
-export { Loader } from './ui/loader/loader';
-export { Fallback } from './ui/fallback/fallback';
-export { Button } from './ui/button/button';
-export { Input } from './ui/input/input';
+export { Loader } from './ui/loader';
+export { Fallback } from './ui/fallback';
+export { Button } from './ui/button';
+export { Input } from './ui/input';
 export { ErrorBoundary } from './ui/errorBoundary';
-export { useRestoreSearch } from './lib/restoreSearch/useRestoreSearch';
-export { useAppDispatch } from './lib/store/useAppDispatch';
-export { useAppSelector } from './lib/store/useAppSelector';
+export { useRestoreSearch } from './lib/restoreSearch';
+export { useAppDispatch, useAppSelector } from './lib/store';
+export { useSearchPeople } from './lib/searchPeople';
+export type {
+  IApi,
+  ICharacter,
+  Person,
+  IButtonProps,
+  IErrorBoundaryProps,
+  IErrorBoundaryState,
+  IFilm,
+  IInputProps,
+} from './types';
