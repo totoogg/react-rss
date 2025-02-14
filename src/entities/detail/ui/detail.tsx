@@ -1,6 +1,6 @@
 import { FC, memo, useCallback } from 'react';
 import { IDetailProps } from '../model/detailTypes';
-import { Button, minusCount, useGetFilmsQuery } from '@/shared';
+import { Button, useGetFilmsQuery } from '@/shared';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import styles from './detail.module.css';
 import {
@@ -16,8 +16,7 @@ export const Detail: FC<IDetailProps> = memo(({ id }) => {
   const { data: home } = useGetHomeByIdQuery(id);
 
   const handleImageLoaded = () => {
-    minusCount();
-    minusCount();
+    //todo
   };
 
   const handleClick = useCallback(

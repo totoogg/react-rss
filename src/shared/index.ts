@@ -1,12 +1,12 @@
-export { apiSlice, useGetFilmsQuery, useLazyGetPeopleQuery } from './api';
 export {
-  getFilms,
-  getSearchPeople,
-  addCount,
-  minusCount,
-  getHome,
-  getPersonById,
-} from './api/api';
+  apiSlice,
+  useGetFilmsQuery,
+  useLazyGetPeopleQuery,
+  loaderReducer,
+  selectIsLoader,
+  errorReducer,
+  selectIsError,
+} from './api';
 export { Loader } from './ui/loader';
 export { Fallback } from './ui/fallback';
 export { Button } from './ui/button';

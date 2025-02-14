@@ -1,13 +1,11 @@
 import { FC, memo } from 'react';
 import { ICardProps } from '../model/cardTypes';
-import { minusCount } from '@/shared';
 import styles from './card.module.css';
 
 export const Card: FC<ICardProps> = memo(
   ({ birthdayYear, films, name, url }) => {
     const handleImageLoaded = () => {
-      minusCount();
-      minusCount();
+      //todo
     };
 
     return (
