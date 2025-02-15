@@ -1,0 +1,17 @@
+.layout {
+  background-color: var(--emerald-50);
+}
+
+.moon {
+  --emerald-50: #022c22;
+  --emerald-100: #064e3b;
+  --emerald-200: #065f46;
+  --emerald-300: #047857;
+  --emerald-400: #059669;
+  --emerald-500: #10b981;
+  --emerald-600: #34d399;
+  --emerald-700: #6ee7b7;
+  --emerald-800: #a7f3d0;
+  --emerald-900: #d1fae5;
+  --emerald-950: #ecfdf5;
+}

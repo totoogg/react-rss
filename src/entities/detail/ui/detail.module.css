@@ -4,12 +4,15 @@
   overflow-y: auto;
   height: 100%;
   padding-right: 10px;
+  color: var(--emerald-950);
 }
 
-img {
+.img {
   border-radius: 0.5rem;
   overflow: hidden;
   margin-bottom: 20px;
+  width: 350px;
+  height: 480px;
 }
 
 .description {
@@ -54,4 +57,23 @@ img {
 
 .escape:hover {
   transform: scale(1.2);
+}
+
+.img-loader {
+  width: 350px;
+  height: 480px;
+  background:
+    linear-gradient(0.25turn, transparent, #FFF, transparent),
+    linear-gradient(#DDD, #DDD);
+  background-color: #fff;
+  background-repeat: no-repeat;
+  background-size: 480px 480px, 480px 480px, 100px 15px;
+  background-position: -480px 0, 0 0, 15px 150px;
+  animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+  to {
+    background-position: 480px 0, 0 0, 15px 150px;
+  }
 }

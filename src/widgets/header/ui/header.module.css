@@ -3,6 +3,9 @@
   width: 100%;
   background-color: var(--emerald-100);
   padding: 10px;
+  position: sticky;
+  top: 0;
+  z-index: 9998;
 }
 
 .wrapper {
@@ -10,5 +13,5 @@
   margin: auto;
   width: 100%;
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
 }

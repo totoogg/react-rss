@@ -1,12 +1,12 @@
-import { FC, memo, useCallback } from 'react';
+import { FC, memo, useCallback, useState } from 'react';
 import { IDetailProps } from '../model/detailTypes';
 import { Button, useGetFilmsQuery } from '@/shared';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import styles from './detail.module.css';
 import {
   useGetHomeByIdQuery,
   useGetPersonByIdQuery,
 } from '../model/apiSliceWithPersonById';
+import styles from './detail.module.css';
 
 export const Detail: FC<IDetailProps> = memo(({ id }) => {
   const navigate = useNavigate();
@@ -14,10 +14,11 @@ export const Detail: FC<IDetailProps> = memo(({ id }) => {
   const { data: films } = useGetFilmsQuery();
   const { data: person } = useGetPersonByIdQuery(id);
   const { data: home } = useGetHomeByIdQuery(id);
+  const [imgLoader, setImgLoader] = useState<boolean>(true);
 
-  const handleImageLoaded = () => {
-    //todo
-  };
+  const handleImageLoaded = useCallback(() => {
+    setImgLoader(false);
+  }, []);
 
   const handleClick = useCallback(
     () => navigate(`/?${searchParams.toString()}`),
@@ -33,6 +34,9 @@ export const Detail: FC<IDetailProps> = memo(({ id }) => {
       <img
         src={`https://raw.githubusercontent.com/vieraboschkova/swapi-gallery/main/static/assets/img/people/${id}.jpg`}
         alt={person?.name}
+        className={[styles.img, imgLoader ? styles['img-loader'] : ''].join(
+          ' '
+        )}
         onLoad={handleImageLoaded}
       />
       <div className={styles.description}>

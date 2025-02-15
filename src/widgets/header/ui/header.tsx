@@ -1,5 +1,5 @@
 import { FC, memo } from 'react';
-import { Search } from '@/features';
+import { Search, ToggleTheme } from '@/features';
 import styles from './header.module.css';
 
 export const Header: FC = memo(() => {
@@ -7,6 +7,7 @@ export const Header: FC = memo(() => {
     <div className={styles.header}>
       <div className={styles.wrapper}>
         <Search />
+        <ToggleTheme />
       </div>
     </div>
   );
