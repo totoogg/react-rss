@@ -1,11 +1,12 @@
 import { FC, memo, useCallback, useState } from 'react';
 import { IDetailProps } from '../model/detailTypes';
-import { Button, useGetFilmsQuery } from '@/shared';
+import { Button, getFilms, useGetFilmsQuery } from '@/shared';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import {
   useGetHomeByIdQuery,
   useGetPersonByIdQuery,
 } from '../model/apiSliceWithPersonById';
+import { ChoosePeople } from '@/features';
 import styles from './detail.module.css';
 
 export const Detail: FC<IDetailProps> = memo(({ id }) => {
@@ -27,6 +28,14 @@ export const Detail: FC<IDetailProps> = memo(({ id }) => {
 
   return (
     <div className={styles.card}>
+      <ChoosePeople
+        birth_year={person?.birth_year || ''}
+        films={getFilms(person?.films || [], films || [])}
+        name={person?.name || ''}
+        url={person?.url || ''}
+        className={styles.choose}
+      />
+
       <Button onClick={handleClick} className={[styles.escape]}>
         <span className={styles.line_escape} />
         <span className={styles.line_escape} />
@@ -69,6 +78,9 @@ export const Detail: FC<IDetailProps> = memo(({ id }) => {
         </span>
         <span>
           <b>Eye color:</b> <i>{person?.eye_color}</i>
+        </span>
+        <span>
+          <b>Birthday year:</b> <i>{person?.birth_year}</i>
         </span>
         <span>
           <b>Gender:</b> <i>{person?.gender}</i>

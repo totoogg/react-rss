@@ -22,10 +22,11 @@ export const apiSliceWithPeople = apiSlice.injectEndpoints({
       },
     }),
     getHomeById: builder.query<{ name: string }, string>({
-      queryFn: async (url) => {
-        const res = await fetch(url);
-        const data = await res.json();
-        return data.name;
+      query: (id) => `planets/${id}`,
+      transformResponse(res: Person) {
+        return {
+          name: res.name,
+        };
       },
     }),
   }),

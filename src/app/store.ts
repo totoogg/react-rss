@@ -1,9 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { apiSlice, errorReducer, loaderReducer } from '@/shared';
-import { themeReducer } from '@/features';
+import { themeReducer, choosePeopleReducer } from '@/features';
 
 export const store = configureStore({
   reducer: {
+    choose: choosePeopleReducer,
     loader: loaderReducer,
     theme: themeReducer,
     error: errorReducer,

@@ -1,8 +1,8 @@
 import { FC, memo } from 'react';
-import { Main } from '@/widgets';
+import { Main, PeopleList } from '@/widgets';
 import { ErrorResponse } from '@/entities';
-import styles from './homePage.module.css';
 import { selectIsError, useAppSelector } from '@/shared';
+import styles from './homePage.module.css';
 
 export const HomePage: FC = memo(() => {
   const isError = useAppSelector(selectIsError);
@@ -10,7 +10,11 @@ export const HomePage: FC = memo(() => {
   return (
     <div className={styles.page}>
       {isError && <ErrorResponse />}
-      {!isError && <Main />}
+      {!isError && (
+        <Main>
+          <PeopleList />
+        </Main>
+      )}
     </div>
   );
 });
