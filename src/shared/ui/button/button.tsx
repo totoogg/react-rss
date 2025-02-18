@@ -11,7 +11,7 @@ export const Button: FC<IButtonProps> = memo(
         className={[
           styles.button,
           classNameButton === 'flat' ? styles.flat : styles.outline,
-          className?.join(' '),
+          className,
         ].join(' ')}
       >
         {text ? text : children}

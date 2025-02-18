@@ -1,4 +1,4 @@
-import { useLazyGetPeopleQuery } from '@/shared/api/apiSlice';
+import { useLazyGetPeopleQuery } from '@/shared/api/';
 import { ICharacter } from '@/shared/types';
 import React, { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';

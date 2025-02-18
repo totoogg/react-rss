@@ -35,7 +35,7 @@ export const Pagination: FC<IPaginationProps> = memo(({ count }) => {
       {Array.from({ length: Math.ceil(Number(count) / 10) }, (_, i) => (
         <Button
           onClick={() => handleClick(i + 1)}
-          className={[styles.button]}
+          className={styles.button}
           text={String(i + 1)}
           key={i}
           classNameButton={Number(currentPage) === i ? 'flat' : 'outline'}

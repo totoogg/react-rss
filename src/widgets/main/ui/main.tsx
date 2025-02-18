@@ -47,7 +47,7 @@ export const Main: FC<IMainProps> = memo(({ children }) => {
           <div className={styles['chose-buttons']}>
             <Button
               onClick={() => dispatch(clearChoosePeople())}
-              className={[styles.button]}
+              className={styles.button}
               classNameButton="flat"
             >
               Unselect all

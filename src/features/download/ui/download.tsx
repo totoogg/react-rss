@@ -31,7 +31,7 @@ export const Download: FC<IDownloadProps> = memo(
     }, [data, fileName]);
 
     return (
-      <Button onClick={download} className={[className]} classNameButton="flat">
+      <Button onClick={download} className={className} classNameButton="flat">
         Download
       </Button>
     );

@@ -6,7 +6,7 @@ export const Input: FC<IInputProps> = memo(
   ({ name, onChange, onEnter, placeholder, type, value, className }) => {
     return (
       <input
-        className={[styles.input, className?.join(' ')].join(' ')}
+        className={[styles.input, className].join(' ')}
         placeholder={placeholder}
         type={type}
         name={name}

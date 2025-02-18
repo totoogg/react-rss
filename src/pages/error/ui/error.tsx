@@ -21,7 +21,7 @@ export const Error: FC = memo(() => {
         onClick={() =>
           navigate(`/?search=${searchParams.get('search')}&page=1`)
         }
-        className={[styles.button]}
+        className={styles.button}
       />
     </div>
   );

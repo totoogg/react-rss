@@ -39,13 +39,13 @@ export const Search = memo(() => {
         placeholder="Search"
         type="text"
         value={search}
-        className={[styles.input]}
+        className={styles.input}
         onEnter={handleLocal}
       />
       <Button
         text="Search"
         onClick={handleLocal}
-        className={[styles.button]}
+        className={styles.button}
         classNameButton="flat"
       />
     </div>

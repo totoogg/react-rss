@@ -36,7 +36,7 @@ export const Detail: FC<IDetailProps> = memo(({ id }) => {
         className={styles.choose}
       />
 
-      <Button onClick={handleClick} className={[styles.escape]}>
+      <Button onClick={handleClick} className={styles.escape}>
         <span className={styles.line_escape} />
         <span className={styles.line_escape} />
       </Button>

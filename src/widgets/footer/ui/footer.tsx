@@ -23,7 +23,7 @@ export const Footer: FC = memo(() => {
             text="ERROR"
             onClick={handleErrors}
             classNameButton="flat"
-            className={[styles.error]}
+            className={styles.error}
           />
         </div>
       </div>
