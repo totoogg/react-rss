@@ -1,6 +1,6 @@
 export { Search } from './search';
 export { Pagination } from './pagination';
-export { ToggleTheme, selectIsSun, themeReducer } from './toggleTheme';
+export { ToggleTheme } from './toggleTheme';
 export {
   choosePeopleReducer,
   choosePeople,

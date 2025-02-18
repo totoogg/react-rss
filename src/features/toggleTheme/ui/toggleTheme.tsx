@@ -1,15 +1,18 @@
-import { FC } from 'react';
-import { Sun, Moon, useAppDispatch, useAppSelector } from '@/shared';
-import { selectIsSun, toggleTheme } from '../model/toggleThemeSlice';
+import { FC, memo } from 'react';
+import { Sun, Moon } from '@/shared';
 import styles from './toggleTheme.module.css';
+import { IToggleProps } from '../model/toggleThemeTypes';
 
-export const ToggleTheme: FC = () => {
-  const dispatch = useAppDispatch();
-  const isSun = useAppSelector(selectIsSun);
-
+export const ToggleTheme: FC<IToggleProps> = memo(({ setTheme, theme }) => {
   return (
-    <div onClick={() => dispatch(toggleTheme())} className={styles.block}>
-      {isSun ? <Sun className={styles.svg} /> : <Moon className={styles.svg} />}
+    <div onClick={setTheme} className={styles.block}>
+      {theme === 'light' ? (
+        <Sun className={styles.svg} />
+      ) : (
+        <Moon className={styles.svg} />
+      )}
     </div>
   );
-};
+});
+
+ToggleTheme.displayName = 'ToggleTheme';
