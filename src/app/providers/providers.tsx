@@ -3,7 +3,7 @@ import { ErrorBoundary, Fallback } from '@/shared';
 import { IProvidersProps } from '../types';
 import { Provider } from 'react-redux';
 import { store } from '../store';
-import { ThemeProvide } from '@/entities';
+import { ThemeProvide } from './theme';
 
 export const Providers: FC<IProvidersProps> = memo(({ children }) => {
   return (

@@ -1,11 +1,18 @@
-import { FC, memo } from 'react';
-import { Sun, Moon } from '@/shared';
+import { FC, memo, useCallback, useContext } from 'react';
+import { Sun, Moon, ThemeContext } from '@/shared';
 import styles from './toggleTheme.module.css';
-import { IToggleProps } from '../model/toggleThemeTypes';
 
-export const ToggleTheme: FC<IToggleProps> = memo(({ setTheme, theme }) => {
+export const ToggleTheme: FC = memo(() => {
+  const { theme, setTheme } = useContext(ThemeContext);
+
+  const toggleTheme = useCallback(() => {
+    if (setTheme) {
+      setTheme(theme === 'light' ? 'dark' : 'light');
+    }
+  }, [setTheme, theme]);
+
   return (
-    <div onClick={setTheme} className={styles.block}>
+    <div onClick={toggleTheme} className={styles.block}>
       {theme === 'light' ? (
         <Sun className={styles.svg} />
       ) : (

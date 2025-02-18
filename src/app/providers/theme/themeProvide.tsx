@@ -1,6 +1,6 @@
 import { FC, useMemo, useState } from 'react';
-import { IThemeProvider } from '../model/themeProviderTypes';
-import { ThemeContext } from '../config/themeConfig';
+import { IThemeProvider } from './themeProviderTypes';
+import { ThemeContext } from '../../../shared/config/theme/themeConfig';
 
 export const ThemeProvide: FC<IThemeProvider> = ({ children }) => {
   const [theme, setTheme] = useState<string>('light');

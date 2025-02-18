@@ -1,0 +1,1 @@
+export { ThemeProvide } from './themeProvide';
