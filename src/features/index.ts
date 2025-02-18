@@ -7,4 +7,7 @@ export {
   selectIsChoosePeople,
   selectLengthChoosePeople,
   ChoosePeople,
+  clearChoosePeople,
+  selectChoosePeople,
 } from './choose';
+export { Download } from './download';

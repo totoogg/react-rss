@@ -1,11 +1,29 @@
 import { FC, memo } from 'react';
-import { Pagination } from '@/features';
-import { useSearchPeople } from '@/shared';
+import {
+  clearChoosePeople,
+  Download,
+  Pagination,
+  selectChoosePeople,
+  selectLengthChoosePeople,
+} from '@/features';
+import {
+  Button,
+  ICharacter,
+  useAppDispatch,
+  useAppSelector,
+  useSearchPeople,
+} from '@/shared';
 import { IMainProps } from '../model/mainType';
 import styles from './main.module.css';
 
 export const Main: FC<IMainProps> = memo(({ children }) => {
   const { count, people } = useSearchPeople();
+  const lengthChoosePeople = useAppSelector((state) =>
+    selectLengthChoosePeople(state)
+  );
+  const dispatch = useAppDispatch();
+  const choosePeople = useAppSelector((state) => selectChoosePeople(state));
+  const select = lengthChoosePeople > 1 ? 'people' : 'person';
 
   return (
     <div className={styles.main}>
@@ -21,6 +39,29 @@ export const Main: FC<IMainProps> = memo(({ children }) => {
           </div>
         )}
       </div>
+      {lengthChoosePeople > 0 ? (
+        <div className={styles.choose}>
+          <span>
+            <b>{lengthChoosePeople}</b> {select} are selected
+          </span>
+          <div className={styles['chose-buttons']}>
+            <Button
+              onClick={() => dispatch(clearChoosePeople())}
+              className={[styles.button]}
+              classNameButton="flat"
+            >
+              Unselect all
+            </Button>
+            <Download
+              className={styles.button}
+              data={choosePeople as { [key: string]: ICharacter }}
+              fileName={`${lengthChoosePeople}_${select}.csv`}
+            />
+          </div>
+        </div>
+      ) : (
+        ''
+      )}
       {+count > 10 ? <Pagination count={String(count)} /> : ''}
     </div>
   );
