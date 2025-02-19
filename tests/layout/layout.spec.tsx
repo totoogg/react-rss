@@ -1,9 +1,9 @@
 import React from 'react';
-import { render } from '@testing-library/react';
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { Layout } from '../../src/app/layout/layout';
 import '@testing-library/jest-dom/vitest';
 import * as useHooks from '../../src/shared/lib/restoreSearch/useRestoreSearch';
+import { renderWithProviders } from '../test-utils';
 
 const mockedUseNavigate = vi.fn();
 
@@ -17,11 +17,7 @@ beforeEach(() => {
     return {
       ...mod,
       useNavigate: () => mockedUseNavigate,
-      useLocation: () => ({
-        location: {
-          search: 'search=a',
-        },
-      }),
+      useSearchParams: () => ['', () => {}],
     };
   });
   vi.mock('module_path/module_name', () => ({
@@ -34,7 +30,7 @@ beforeEach(() => {
 
 describe('Providers Component', () => {
   it('render providers', async () => {
-    const { getByText } = render(
+    const { getByText } = renderWithProviders(
       <Layout>
         <p>Hello</p>
       </Layout>

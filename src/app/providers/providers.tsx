@@ -2,8 +2,10 @@ import { FC, memo } from 'react';
 import { ErrorBoundary, Fallback } from '@/shared';
 import { IProvidersProps } from '../types';
 import { Provider } from 'react-redux';
-import { store } from '../store';
+import { setupStore } from '../store';
 import { ThemeProvide } from './theme';
+
+const store = setupStore();
 
 export const Providers: FC<IProvidersProps> = memo(({ children }) => {
   return (

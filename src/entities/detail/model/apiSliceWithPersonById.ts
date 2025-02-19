@@ -32,5 +32,5 @@ export const apiSliceWithPeople = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useGetPersonByIdQuery, useGetHomeByIdQuery } =
+export const { useLazyGetHomeByIdQuery, useLazyGetPersonByIdQuery } =
   apiSliceWithPeople;

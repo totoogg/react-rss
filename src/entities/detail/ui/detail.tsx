@@ -1,20 +1,22 @@
-import { FC, memo, useCallback, useState } from 'react';
+import { FC, memo, useCallback, useEffect, useState } from 'react';
 import { IDetailProps } from '../model/detailTypes';
-import { Button, getFilms, useGetFilmsQuery } from '@/shared';
+import { Button, getFilms, Person, useGetFilmsQuery } from '@/shared';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import {
-  useGetHomeByIdQuery,
-  useGetPersonByIdQuery,
+  useLazyGetHomeByIdQuery,
+  useLazyGetPersonByIdQuery,
 } from '../model/apiSliceWithPersonById';
 import { ChoosePeople } from '@/features';
 import styles from './detail.module.css';
 
 export const Detail: FC<IDetailProps> = memo(({ id }) => {
+  const [person, setPerson] = useState<Person>();
+  const [home, setHome] = useState<string>();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const { data: films } = useGetFilmsQuery();
-  const { data: person } = useGetPersonByIdQuery(id);
-  const { data: home } = useGetHomeByIdQuery(id);
+  const [getHome] = useLazyGetHomeByIdQuery();
+  const [getPerson] = useLazyGetPersonByIdQuery();
   const [imgLoader, setImgLoader] = useState<boolean>(true);
 
   const handleImageLoaded = useCallback(() => {
@@ -25,6 +27,17 @@ export const Detail: FC<IDetailProps> = memo(({ id }) => {
     () => navigate(`/?${searchParams.toString()}`),
     [navigate, searchParams]
   );
+
+  useEffect(() => {
+    getPerson(id).then(({ data }) => {
+      getHome(data?.homeworld?.split('/').reverse()[1] || '').then(
+        ({ data }) => {
+          setHome(data?.name);
+        }
+      );
+      setPerson(data);
+    });
+  }, [getHome, getPerson, id]);
 
   return (
     <div className={styles.card}>
@@ -53,7 +66,7 @@ export const Detail: FC<IDetailProps> = memo(({ id }) => {
           <b>Name:</b> <i>{person?.name}</i>
         </span>
         <span>
-          <b>Home planet:</b> <i>{home?.name}</i>
+          <b>Home planet:</b> <i>{home}</i>
         </span>
         <span>
           <b>Films:</b>{' '}
