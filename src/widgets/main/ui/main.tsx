@@ -42,7 +42,7 @@ export const Main: FC<IMainProps> = memo(({ children }) => {
       {lengthChoosePeople > 0 ? (
         <div className={styles.choose}>
           <span>
-            <b>{lengthChoosePeople}</b> {select} are selected
+            <b>{lengthChoosePeople}</b> {select} selected
           </span>
           <div className={styles['chose-buttons']}>
             <Button

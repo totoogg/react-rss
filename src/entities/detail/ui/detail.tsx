@@ -43,7 +43,7 @@ export const Detail: FC<IDetailProps> = memo(({ id }) => {
     <div className={styles.card}>
       <ChoosePeople
         birth_year={person?.birth_year || ''}
-        films={getFilms(person?.films || [], films || [])}
+        films={[getFilms(person?.films || [], films || [])]}
         name={person?.name || ''}
         url={person?.url || ''}
         className={styles.choose}
@@ -69,13 +69,7 @@ export const Detail: FC<IDetailProps> = memo(({ id }) => {
           <b>Home planet:</b> <i>{home}</i>
         </span>
         <span>
-          <b>Films:</b>{' '}
-          <i>
-            {films
-              ?.filter((el) => person?.films?.includes(el.url))
-              .map((el) => el.title)
-              .join(', ')}
-          </i>
+          <b>Films:</b> <i>{getFilms(person?.films || [], films || [])}</i>
         </span>
         <span>
           <b>Height:</b> <i>{person?.height}</i>
