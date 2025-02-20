@@ -32,5 +32,5 @@
 }
 
 .custom-checkbox+label:hover::before {
-  border-color: var(--emerald-300);
+  border-color: var(--emerald-400);
 }

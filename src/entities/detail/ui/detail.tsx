@@ -6,7 +6,7 @@ import {
   useLazyGetHomeByIdQuery,
   useLazyGetPersonByIdQuery,
 } from '../model/apiSliceWithPersonById';
-import { ChoosePeople } from '@/features';
+import { ChoosePeople, ToggleTheme } from '@/features';
 import styles from './detail.module.css';
 
 export const Detail: FC<IDetailProps> = memo(({ id }) => {
@@ -41,18 +41,20 @@ export const Detail: FC<IDetailProps> = memo(({ id }) => {
 
   return (
     <div className={styles.card}>
-      <ChoosePeople
-        birth_year={person?.birth_year || ''}
-        films={[getFilms(person?.films || [], films || [])]}
-        name={person?.name || ''}
-        url={person?.url || ''}
-        className={styles.choose}
-      />
-
-      <Button onClick={handleClick} className={styles.escape}>
-        <span className={styles.line_escape} />
-        <span className={styles.line_escape} />
-      </Button>
+      <div className={styles.buttons}>
+        <ChoosePeople
+          birth_year={person?.birth_year || ''}
+          films={[getFilms(person?.films || [], films || [])]}
+          name={person?.name || ''}
+          url={person?.url || ''}
+          className={styles.choose}
+        />
+        <ToggleTheme />
+        <Button onClick={handleClick} className={styles.escape}>
+          <span className={styles.line_escape} />
+          <span className={styles.line_escape} />
+        </Button>
+      </div>
       <img
         src={`https://raw.githubusercontent.com/vieraboschkova/swapi-gallery/main/static/assets/img/people/${id}.jpg`}
         alt={person?.name}

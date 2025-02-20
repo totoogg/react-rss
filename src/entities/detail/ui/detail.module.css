@@ -24,14 +24,20 @@
   padding: 10px;
 }
 
+.buttons {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
 .escape {
   width: 50px;
   height: 50px;
   border-color: var(--emerald-800);
   color: var(--emerald-300);
-  margin-bottom: 30px;
-  margin-top: 10px;
-  margin-left: auto;
   background-color: var(--emerald-800);
   position: relative;
 }
@@ -79,11 +85,6 @@
   }
 }
 
-.choose {
-  position: absolute;
-  top: 10px;
-  left: 0;
-}
 
 .choose::before {
   width: 50px;
