@@ -27,7 +27,7 @@ export const PeopleList: FC = () => {
           </Link>
           <ChoosePeople
             birth_year={item.birth_year}
-            films={getFilms(item.films || [], data || [])}
+            films={[getFilms(item.films || [], data || [])]}
             name={item.name}
             url={item.url}
             className={styles.choose}
