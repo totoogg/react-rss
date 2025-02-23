@@ -1,0 +1,1 @@
+export { useSearchPeople } from './useSearchPeople';

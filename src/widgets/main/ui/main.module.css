@@ -18,6 +18,27 @@
   padding: 40px;
 }
 
-.no-underline {
-  text-decoration: none;
+.choose {
+  color: var(--emerald-950);
+  width: 400px;
+  font-size: 2rem;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.chose-buttons {
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.button {
+  width: 130px;
+  height: 40px;
+  font-size: 2rem;
 }

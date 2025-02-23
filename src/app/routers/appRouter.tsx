@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { Layout } from '../layout/layout';
+import { Layout } from '../layout';
 import { Error, HomePage, PeoplePage } from '@/pages';
 
 export const AppRouter: FC = () => {

@@ -1,5 +1,5 @@
 import { FC, memo } from 'react';
-import { IButtonProps } from '@/shared/types/buttonTypes';
+import { IButtonProps } from '@/shared/types';
 import styles from './button.module.css';
 
 export const Button: FC<IButtonProps> = memo(
@@ -11,7 +11,7 @@ export const Button: FC<IButtonProps> = memo(
         className={[
           styles.button,
           classNameButton === 'flat' ? styles.flat : styles.outline,
-          className?.join(' '),
+          className,
         ].join(' ')}
       >
         {text ? text : children}

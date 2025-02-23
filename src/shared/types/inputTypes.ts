@@ -1,10 +1,5 @@
-export interface IInputProps {
-  type: string;
-  placeholder: string;
-  name: string;
-  value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+import { InputHTMLAttributes } from 'react';
+
+export interface IInputProps extends InputHTMLAttributes<HTMLInputElement> {
   onEnter: () => void;
-  className?: string[];
-  id?: string;
 }

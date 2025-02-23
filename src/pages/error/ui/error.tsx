@@ -1,12 +1,12 @@
 import { FC, memo } from 'react';
-import { useLocation, useNavigate, useRouteError } from 'react-router-dom';
+import { useNavigate, useRouteError, useSearchParams } from 'react-router-dom';
 import { Button } from '@/shared';
 import styles from './error.module.css';
 
 export const Error: FC = memo(() => {
   const error = useRouteError() as { statusText: string };
   const navigate = useNavigate();
-  const location = useLocation();
+  const [searchParams] = useSearchParams();
   console.error(error);
 
   return (
@@ -19,11 +19,9 @@ export const Error: FC = memo(() => {
       <Button
         text="Home page"
         onClick={() =>
-          navigate(
-            `/${location.search.split('&').find((el) => el.includes('search'))}`
-          )
+          navigate(`/?search=${searchParams.get('search')}&page=1`)
         }
-        className={[styles.button]}
+        className={styles.button}
       />
     </div>
   );

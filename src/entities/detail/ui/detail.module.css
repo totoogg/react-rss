@@ -1,15 +1,9 @@
-.card {
-  width: 100%;
-  font-size: 2rem;
-  overflow-y: auto;
-  height: 100%;
-  padding-right: 10px;
-}
-
-img {
+.img {
   border-radius: 0.5rem;
   overflow: hidden;
   margin-bottom: 20px;
+  width: 350px;
+  height: 480px;
 }
 
 .description {
@@ -20,38 +14,21 @@ img {
   padding: 10px;
 }
 
-.escape {
-  width: 50px;
-  height: 50px;
-  border-color: var(--emerald-800);
-  color: var(--emerald-300);
-  margin-bottom: 30px;
-  margin-top: 10px;
-  margin-left: auto;
-  background-color: var(--emerald-800);
-  position: relative;
+.img-loader {
+  width: 350px;
+  height: 480px;
+  background:
+    linear-gradient(0.25turn, transparent, #FFF, transparent),
+    linear-gradient(#DDD, #DDD);
+  background-color: #fff;
+  background-repeat: no-repeat;
+  background-size: 480px 480px, 480px 480px, 100px 15px;
+  background-position: -480px 0, 0 0, 15px 150px;
+  animation: loading 1.5s infinite;
 }
 
-.line_escape {
-  position: absolute;
-  width: 40px;
-  height: 4px;
-  background-color: var(--emerald-300);
-  left: calc(50% - 20px);
-  border-radius: 10px;
-  transform: scale(0);
-}
-
-.line_escape:first-child {
-  transform: rotate(-45deg);
-  top: calc(50% - 2px);
-}
-
-.line_escape:last-child {
-  bottom: calc(50% - 2px);
-  transform: rotate(45deg);
-}
-
-.escape:hover {
-  transform: scale(1.2);
+@keyframes loading {
+  to {
+    background-position: 480px 0, 0 0, 15px 150px;
+  }
 }

@@ -1,2 +1,14 @@
-export { Search } from './search/ui/search';
-export { Pagination } from './pagination/ui/pagination';
+export { Search } from './search';
+export { Pagination } from './pagination';
+export { ToggleTheme } from './toggleTheme';
+export {
+  choosePeopleReducer,
+  choosePeople,
+  selectIsChoosePeople,
+  selectLengthChoosePeople,
+  ChoosePeople,
+  clearChoosePeople,
+  selectChoosePeople,
+} from './choose';
+export { Download } from './download';
+export { Close } from './close';

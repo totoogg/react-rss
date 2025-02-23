@@ -4,8 +4,6 @@
   background-color: var(--emerald-100);
   padding: 10px;
   margin-top: auto;
-  position: relative;
-  z-index: 20;
 }
 
 .wrapper {

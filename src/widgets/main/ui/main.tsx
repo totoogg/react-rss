@@ -1,86 +1,36 @@
-import React, { FC, memo } from 'react';
-import { IMainState } from '../model/mainType';
-import { Card } from '@/entities';
-import { getFilms, getSearchPeople } from '@/shared';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { FC, memo } from 'react';
+import {
+  clearChoosePeople,
+  Download,
+  Pagination,
+  selectChoosePeople,
+  selectLengthChoosePeople,
+} from '@/features';
+import {
+  Button,
+  ICharacter,
+  useAppDispatch,
+  useAppSelector,
+  useSearchPeople,
+} from '@/shared';
+import { IMainProps } from '../model/mainType';
 import styles from './main.module.css';
-import { Pagination } from '@/features';
 
-export const Main: FC = memo(() => {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const [state, setState] = React.useState<IMainState>({
-    results: [],
-    films: [],
-    count: '',
-  });
-
-  React.useEffect(() => {
-    const changeLocalStorage = async () => {
-      const local = localStorage.getItem('search');
-      const page = location.search
-        .split('&')
-        .find((el) => el.includes('page'))
-        ?.split('=')[1];
-
-      const people = await getSearchPeople(local || '', page || '1');
-
-      navigate({
-        search: `?search=${local}&page=${page || '1'}`,
-      });
-
-      setState((state) => ({
-        ...state,
-        results: people.results,
-        count: people.count,
-      }));
-
-      const res = await getFilms();
-
-      setState((state) => ({
-        ...state,
-        films: res,
-      }));
-    };
-
-    if (typeof window !== 'undefined') {
-      window.addEventListener('storage', changeLocalStorage);
-    }
-
-    return () => {
-      if (typeof window !== 'undefined') {
-        window.removeEventListener('storage', changeLocalStorage);
-      }
-    };
-  }, [location, location.search, navigate, state]);
+export const Main: FC<IMainProps> = memo(({ children }) => {
+  const { count, people } = useSearchPeople();
+  const lengthChoosePeople = useAppSelector((state) =>
+    selectLengthChoosePeople(state)
+  );
+  const dispatch = useAppDispatch();
+  const choosePeople = useAppSelector((state) => selectChoosePeople(state));
+  const select = lengthChoosePeople > 1 ? 'people' : 'person';
 
   return (
     <div className={styles.main}>
-      {+state.count > 10 ? <Pagination count={state.count} /> : ''}
+      {+count > 10 ? <Pagination count={String(count)} /> : ''}
       <div className={styles.gallery}>
-        {state.results.length > 0 ? (
-          state.results.map((item) => (
-            <Link
-              key={item.url}
-              to={`people/${(item.url || '').slice(29, -1)}${location.search}`}
-              className={styles['no-underline']}
-            >
-              <Card
-                name={item.name || ''}
-                url={item.url || ''}
-                home={item.homeworld || ''}
-                films={
-                  state.films
-                    .filter((film) =>
-                      item.films?.some((url) => url === film.url)
-                    )
-                    .map((film) => film.title)
-                    .join(', ') || ''
-                }
-                birthdayYear={item.birth_year || ''}
-              />
-            </Link>
-          ))
+        {people.length > 0 ? (
+          children
         ) : (
           <div className={styles.notFound}>
             No characters with the name &quot;
@@ -89,7 +39,30 @@ export const Main: FC = memo(() => {
           </div>
         )}
       </div>
-      {+state.count > 10 ? <Pagination count={state.count} /> : ''}
+      {lengthChoosePeople > 0 ? (
+        <div className={styles.choose}>
+          <span>
+            <b>{lengthChoosePeople}</b> {select} selected
+          </span>
+          <div className={styles['chose-buttons']}>
+            <Button
+              onClick={() => dispatch(clearChoosePeople())}
+              className={styles.button}
+              classNameButton="flat"
+            >
+              Unselect all
+            </Button>
+            <Download
+              className={styles.button}
+              data={choosePeople as { [key: string]: ICharacter }}
+              fileName={`${lengthChoosePeople}_${select}.csv`}
+            />
+          </div>
+        </div>
+      ) : (
+        ''
+      )}
+      {+count > 10 ? <Pagination count={String(count)} /> : ''}
     </div>
   );
 });
