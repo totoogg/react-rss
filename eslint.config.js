@@ -5,6 +5,7 @@ import reactRefresh from 'eslint-plugin-react-refresh';
 import react from 'eslint-plugin-react';
 import tseslint from 'typescript-eslint';
 import eslintPluginPrettier from 'eslint-plugin-prettier/recommended';
+import eslintPluginNext from '@next/eslint-plugin-next';
 import reactCompiler from 'eslint-plugin-react-compiler';
 
 export default tseslint.config(
@@ -25,6 +26,7 @@ export default tseslint.config(
       'react-hooks': reactHooks,
       'react-refresh': reactRefresh,
       'react-compiler': reactCompiler,
+      eslintPluginNext,
     },
     rules: {
       ...reactHooks.configs.recommended.rules,
@@ -38,6 +40,7 @@ export default tseslint.config(
       'react/prop-types': 0,
       '@typescript-eslint/no-invalid-void-type': 0,
       '@typescript-eslint/no-dynamic-delete': 0,
+      'react-refresh/only-export-components': 0,
     },
     settings: {
       react: {

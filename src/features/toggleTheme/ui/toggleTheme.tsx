@@ -1,6 +1,7 @@
 import { FC, memo, useCallback, useContext } from 'react';
 import { Sun, Moon, ThemeContext } from '@/shared';
 import styles from './toggleTheme.module.css';
+import Image from 'next/image';
 
 export const ToggleTheme: FC = memo(() => {
   const { theme, setTheme } = useContext(ThemeContext);
@@ -14,9 +15,9 @@ export const ToggleTheme: FC = memo(() => {
   return (
     <div onClick={toggleTheme} className={styles.block}>
       {theme === 'light' ? (
-        <Sun className={styles.svg} />
+        <Image src={Sun} alt="Sun" className={styles.svg} />
       ) : (
-        <Moon className={styles.svg} />
+        <Image src={Moon} alt="Moon" className={styles.svg} />
       )}
     </div>
   );

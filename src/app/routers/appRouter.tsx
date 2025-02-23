@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { Layout } from '../layout';
-import { Error, HomePage, PeoplePage } from '@/pages';
+import { Layout } from '../layout1';
+import { Error, HomePage, PeoplePage } from '@/_pages';
 
 export const AppRouter: FC = () => {
   const router = createBrowserRouter([

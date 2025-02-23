@@ -28,7 +28,7 @@ export type {
   IInputProps,
   IChooseProps,
 } from './types';
-export { default as Sun } from './assets/icons/sun-svgrepo-com.svg?react';
-export { default as Moon } from './assets/icons/moon-svgrepo-com.svg?react';
+export { default as Sun } from './assets/icons/sun-svgrepo-com.svg';
+export { default as Moon } from './assets/icons/moon-svgrepo-com.svg';
 export { ThemeContext } from './config';
 export type { IThemeContext } from './config';

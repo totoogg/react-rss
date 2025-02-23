@@ -2,7 +2,7 @@ import { FC, memo } from 'react';
 import { Providers } from './providers/providers';
 import { AppRouter } from './routers/appRouter';
 
-export const App: FC = memo(() => {
+const App: FC = memo(() => {
   return (
     <Providers>
       <AppRouter />
@@ -11,3 +11,5 @@ export const App: FC = memo(() => {
 });
 
 App.displayName = 'App';
+
+export default App;
