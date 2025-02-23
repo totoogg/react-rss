@@ -11,3 +11,4 @@ export {
   selectChoosePeople,
 } from './choose';
 export { Download } from './download';
+export { Close } from './close';

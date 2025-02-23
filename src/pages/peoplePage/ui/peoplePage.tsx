@@ -1,10 +1,9 @@
 import { FC, useCallback } from 'react';
-import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
-import { Detail } from '@/entities';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { PersonDetail } from '@/widgets';
 import styles from './peoplePage.module.css';
 
 export const PeoplePage: FC = () => {
-  const { personId } = useParams();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
@@ -27,7 +26,7 @@ export const PeoplePage: FC = () => {
     <div className={styles.page} onClick={handleClick}>
       <div className={styles.wrapper}>
         <div className={styles.detail}>
-          <Detail id={personId || ''} />
+          <PersonDetail />
         </div>
       </div>
     </div>
