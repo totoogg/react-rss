@@ -1,11 +1,10 @@
 import { FC, useCallback } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
 import { PersonDetail } from '@/widgets';
 import styles from './peoplePage.module.css';
+import { useRouter } from 'next/router';
 
 export const PeoplePage: FC = () => {
-  const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
+  const router = useRouter();
 
   const handleClick = useCallback(
     (e?: React.MouseEvent) => {
@@ -15,11 +14,17 @@ export const PeoplePage: FC = () => {
           target.className.includes('wrapper') ||
           target.className.includes('page')
         ) {
-          navigate(`/?${searchParams.toString()}`);
+          router.push(
+            `/?search=${router.query.search}&page=${router.query.page}`,
+            undefined,
+            {
+              shallow: true,
+            }
+          );
         }
       }
     },
-    [navigate, searchParams]
+    [router]
   );
 
   return (

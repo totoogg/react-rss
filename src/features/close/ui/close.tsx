@@ -1,15 +1,21 @@
 import { Button } from '@/shared';
 import { FC, memo, useCallback } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
 import styles from './close.module.css';
+import { useRouter } from 'next/router';
 
 export const Close: FC = memo(() => {
-  const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
+  const router = useRouter();
 
   const handleClick = useCallback(
-    () => navigate(`/?${searchParams.toString()}`),
-    [navigate, searchParams]
+    () =>
+      router.push(
+        `/?search=${router.query.search}&page=${router.query.page}`,
+        undefined,
+        {
+          shallow: true,
+        }
+      ),
+    [router]
   );
 
   return (

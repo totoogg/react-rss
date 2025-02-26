@@ -1,6 +1,15 @@
-import { useRouter } from 'next/router';
+import { HomePage, PeoplePage } from '@/_pages';
+import { NextPageContext } from 'next';
 
-export default function User() {
-  const { query } = useRouter();
-  return <h1>Пользователь c id {query.id}</h1>;
+export default function User(query: string) {
+  return (
+    <>
+      <HomePage key={query} />
+      <PeoplePage />
+    </>
+  );
 }
+
+User.getInitialProps = async (ctx: NextPageContext) => {
+  return ctx.query;
+};

@@ -1,16 +1,18 @@
 import { Detail } from '@/entities';
 import { getFilms, Person, useGetFilmsQuery } from '@/shared';
 import { FC, memo, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
 import {
   useLazyGetHomeByIdQuery,
   useLazyGetPersonByIdQuery,
 } from '../model/apiSliceWithPersonById';
 import { ChoosePeople, Close, ToggleTheme } from '@/features';
 import styles from './personDetail.module.css';
+import { useRouter } from 'next/router';
 
 export const PersonDetail: FC = memo(() => {
-  const { personId } = useParams();
+  const {
+    query: { id: personId },
+  } = useRouter();
   const [person, setPerson] = useState<Person>();
   const [home, setHome] = useState<string>();
   const { data: films } = useGetFilmsQuery();
@@ -18,7 +20,7 @@ export const PersonDetail: FC = memo(() => {
   const [getPerson] = useLazyGetPersonByIdQuery();
 
   useEffect(() => {
-    getPerson(personId || '').then(({ data }) => {
+    getPerson(String(personId) || '').then(({ data }) => {
       getHome(data?.homeworld?.split('/').reverse()[1] || '').then(
         ({ data }) => {
           setHome(data?.name);
@@ -42,7 +44,7 @@ export const PersonDetail: FC = memo(() => {
         <Close />
       </div>
       <Detail
-        id={personId || ''}
+        id={String(personId) || ''}
         birth_year={person?.birth_year || ''}
         eye_color={person?.eye_color || ''}
         films={getFilms(person?.films || [], films || [])}
