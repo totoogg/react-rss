@@ -1,12 +1,14 @@
-import { FC, memo } from 'react';
+import { FC, memo, StrictMode } from 'react';
 import { Providers } from './providers/providers';
 import { AppRouter } from './routers/appRouter';
 
 const App: FC = memo(() => {
   return (
-    <Providers>
-      <AppRouter />
-    </Providers>
+    <StrictMode>
+      <Providers>
+        <AppRouter />
+      </Providers>
+    </StrictMode>
   );
 });
 

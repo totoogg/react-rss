@@ -1,46 +1,47 @@
 import { useLazyGetPeopleQuery } from '@/shared/api/';
 import { ICharacter } from '@/shared/types';
+import { useRouter } from 'next/router';
 import React, { useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
 
 export const useSearchPeople = () => {
   const [count, setCount] = useState<number>(0);
   const [people, setPeople] = useState<ICharacter[]>([]);
-  const [searchParams, setSearchParams] = useSearchParams();
+  const router = useRouter();
   const [fetchPeople] = useLazyGetPeopleQuery();
 
   React.useEffect(() => {
-    const search = searchParams.get('search') || '';
+    const query = router.query;
+    const search = (query.search || '') as string;
     const local = localStorage.getItem('search') || '';
-    let page =
-      Number(searchParams.get('page')) > 0
-        ? Number(searchParams.get('page'))
-        : 1;
+    let page = Number(query.page) > 0 ? Number(query.page) : 1;
+    const checkParams =
+      Object.prototype.hasOwnProperty.call(query, 'search') &&
+      Object.prototype.hasOwnProperty.call(query, 'page');
+
+    if (!checkParams) {
+      router.push(`/?search=${search}&page=${page}`, undefined, {
+        shallow: true,
+      });
+    }
 
     if (search && local !== search) {
       localStorage.setItem('search', search);
       page = 1;
-      searchParams.set('page', String(page));
+      router.push(`/?search=${search}&page=${page}`, undefined, {
+        shallow: true,
+      });
     }
 
-    setSearchParams(
-      {
-        page: String(page),
+    if (checkParams) {
+      fetchPeople({
+        page,
         search,
-      },
-      {
-        replace: true,
-      }
-    );
-
-    fetchPeople({
-      page,
-      search,
-    }).then(({ data }) => {
-      setCount(data?.count || 0);
-      setPeople(data?.people || []);
-    });
-  }, [fetchPeople, searchParams, setSearchParams]);
+      }).then(({ data }) => {
+        setCount(data?.count || 0);
+        setPeople(data?.people || []);
+      });
+    }
+  }, [fetchPeople, router]);
 
   return { count, people };
 };

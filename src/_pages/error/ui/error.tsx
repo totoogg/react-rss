@@ -1,25 +1,23 @@
 import { FC, memo } from 'react';
-import { useNavigate, useRouteError, useSearchParams } from 'react-router-dom';
 import { Button } from '@/shared';
+import { useRouter } from 'next/router';
 import styles from './error.module.css';
 
 export const Error: FC = memo(() => {
-  const error = useRouteError() as { statusText: string };
-  const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
-  console.error(error);
+  const router = useRouter();
+  console.error(404);
 
   return (
     <div className={styles.wrapper}>
       <h1>Oops!</h1>
       <p>Sorry, an unexpected error has occurred.</p>
       <p>
-        <i>{error && error.statusText}</i>
+        <i>{404}</i>
       </p>
       <Button
         text="Home page"
         onClick={() =>
-          navigate(`/?search=${searchParams.get('search')}&page=1`)
+          router.push(`/?search=${router.query.search || ''}&page=1`)
         }
         className={styles.button}
       />

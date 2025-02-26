@@ -1,21 +1,22 @@
-import { FC } from 'react';
-import { getFilms, useGetFilmsQuery, useSearchPeople } from '@/shared';
-import { Link, useSearchParams } from 'react-router-dom';
+import { FC, memo } from 'react';
+import { getFilms, useGetFilmsQuery } from '@/shared';
 import { Card } from '@/entities';
 import { ChoosePeople } from '@/features';
 import styles from './peopleList.module.css';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { IPeopleListProps } from '../model/peopleListTypes';
 
-export const PeopleList: FC = () => {
-  const [searchParams] = useSearchParams();
+export const PeopleList: FC<IPeopleListProps> = memo(({ people }) => {
+  const router = useRouter();
   const { data } = useGetFilmsQuery();
-  const { people } = useSearchPeople();
 
   return (
     <>
       {people.map((item) => (
         <div className={styles.content} key={item.url}>
           <Link
-            to={`people/${(item.url || '').slice(29, -1)}?${searchParams.toString()}`}
+            href={`people/${(item.url || '').slice(29, -1)}?search=${router.query.search || ''}&page=${router.query.page || 1}`}
             className={styles['no-underline']}
           >
             <Card
@@ -36,4 +37,6 @@ export const PeopleList: FC = () => {
       ))}
     </>
   );
-};
+});
+
+PeopleList.displayName = 'PeopleList';
