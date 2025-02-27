@@ -1,17 +1,32 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi, afterEach, beforeEach } from 'vitest';
 import { Header } from '../../src/widgets/header/ui/header';
-import { BrowserRouter } from 'react-router-dom';
 import '@testing-library/jest-dom/vitest';
+
+const mockedSetSearchParams = vi.fn();
+
+beforeEach(() => {
+  vi.mock('next/router', async () => {
+    const actual =
+      await vi.importActual<typeof import('next/router')>('next/router');
+    return {
+      ...actual,
+      useRouter: () => ({
+        query: { page: '1', search: '' },
+        push: mockedSetSearchParams,
+      }),
+    };
+  });
+});
+
+afterEach(() => {
+  vi.clearAllMocks();
+});
 
 describe('Header Component', () => {
   it('renders the header', () => {
-    const { container } = render(
-      <BrowserRouter>
-        <Header />
-      </BrowserRouter>
-    );
+    const { container } = render(<Header />);
     expect(container.querySelectorAll('div[class*="header"]').length).toBe(1);
     expect(container.querySelectorAll('div[class*="wrapper"]').length).toBe(1);
     expect(container.querySelectorAll('div[class*="search"]').length).toBe(1);

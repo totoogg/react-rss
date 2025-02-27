@@ -1,27 +1,28 @@
 import React, { act } from 'react';
 import { describe, it, expect, vi, afterEach, beforeEach } from 'vitest';
-import { PeoplePage } from '../../src/pages/peoplePage/ui/peoplePage';
-import { MemoryRouter } from 'react-router-dom';
+import { PeoplePage } from '../../src/_pages/peoplePage/ui/peoplePage';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom/vitest';
 import { renderWithProviders } from '../test-utils';
+import { fireEvent } from '@testing-library/dom';
 
 const whenStable = async () =>
   await act(async () => {
     await new Promise((resolve) => setTimeout(resolve, 0));
   });
 
-const mockedUseNavigate = vi.fn();
+const mockedSetSearchParams = vi.fn();
 
 beforeEach(() => {
-  vi.mock('react-router-dom', async () => {
-    const mod =
-      await vi.importActual<typeof import('react-router-dom')>(
-        'react-router-dom'
-      );
+  vi.mock('next/router', async () => {
+    const actual =
+      await vi.importActual<typeof import('next/router')>('next/router');
     return {
-      ...mod,
-      useNavigate: () => mockedUseNavigate,
+      ...actual,
+      useRouter: () => ({
+        query: { page: '1', search: '', id: 1 },
+        push: mockedSetSearchParams,
+      }),
     };
   });
 });
@@ -32,11 +33,7 @@ afterEach(() => {
 
 describe('PeoplePage Component', () => {
   it('renders the PeoplePage', async () => {
-    const { container } = renderWithProviders(
-      <MemoryRouter initialEntries={['/people/1?search=&page=1']}>
-        <PeoplePage />
-      </MemoryRouter>
-    );
+    const { container, getByAltText } = renderWithProviders(<PeoplePage />);
 
     await whenStable();
 
@@ -46,6 +43,10 @@ describe('PeoplePage Component', () => {
 
     await userEvent.click(container.querySelectorAll('div[class*="page"]')[0]);
     await whenStable();
-    expect(mockedUseNavigate).toHaveBeenCalled();
+    expect(mockedSetSearchParams).toHaveBeenCalled();
+
+    const image = getByAltText('Han Solo');
+    expect(image).toBeInTheDocument();
+    fireEvent.load(image);
   });
 });

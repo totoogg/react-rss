@@ -1,8 +1,7 @@
 import React, { act } from 'react';
 import { render } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { Error } from '../../src/pages/error/ui/error';
-import { MemoryRouter } from 'react-router-dom';
+import { Error } from '../../src/_pages/error/ui/error';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom/vitest';
 
@@ -11,19 +10,18 @@ const whenStable = async () =>
     await new Promise((resolve) => setTimeout(resolve, 0));
   });
 
-const mockedUseNavigate = vi.fn();
-const mockedUseRouteError = vi.fn();
+const mockedSetSearchParams = vi.fn();
 
 beforeEach(() => {
-  vi.mock('react-router-dom', async () => {
-    const mod =
-      await vi.importActual<typeof import('react-router-dom')>(
-        'react-router-dom'
-      );
+  vi.mock('next/router', async () => {
+    const actual =
+      await vi.importActual<typeof import('next/router')>('next/router');
     return {
-      ...mod,
-      useNavigate: () => mockedUseNavigate,
-      useRouteError: () => mockedUseRouteError,
+      ...actual,
+      useRouter: () => ({
+        query: { page: '1', search: '' },
+        push: mockedSetSearchParams,
+      }),
     };
   });
 });
@@ -35,11 +33,7 @@ afterEach(() => {
 describe('Error page Component', () => {
   it('renders the Error Page', async () => {
     const error = vi.spyOn(console, 'error').mockImplementation(() => null);
-    const { container, getByRole, getByText } = render(<Error />, {
-      wrapper: ({ children }) => (
-        <MemoryRouter initialEntries={['/error']}>{children}</MemoryRouter>
-      ),
-    });
+    const { container, getByRole, getByText } = render(<Error />);
 
     await whenStable();
 
@@ -52,7 +46,7 @@ describe('Error page Component', () => {
 
     await userEvent.click(getByText('Home page'));
 
-    expect(mockedUseNavigate).toHaveBeenCalled();
+    expect(mockedSetSearchParams).toHaveBeenCalled();
     expect(error).toHaveBeenCalled();
   });
 });

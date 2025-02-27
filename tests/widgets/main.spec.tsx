@@ -1,7 +1,6 @@
 import React, { act } from 'react';
-import { describe, it, expect, afterEach, vi } from 'vitest';
+import { describe, it, expect, afterEach, vi, beforeEach } from 'vitest';
 import { Main } from '../../src/widgets/main/ui/main';
-import { MemoryRouter } from 'react-router-dom';
 import '@testing-library/jest-dom/vitest';
 import { renderWithProviders } from '../test-utils';
 import { server } from '../server/index';
@@ -17,6 +16,22 @@ const whenStable = async () =>
     await new Promise((resolve) => setTimeout(resolve, 0));
   });
 
+const mockedSetSearchParams = vi.fn();
+
+beforeEach(() => {
+  vi.mock('next/router', async () => {
+    const actual =
+      await vi.importActual<typeof import('next/router')>('next/router');
+    return {
+      ...actual,
+      useRouter: () => ({
+        query: { page: '1', search: '' },
+        push: mockedSetSearchParams,
+      }),
+    };
+  });
+});
+
 afterEach(() => {
   vi.clearAllMocks();
 });
@@ -24,11 +39,9 @@ afterEach(() => {
 describe('Main Component', () => {
   it('renders the main', async () => {
     const { container } = renderWithProviders(
-      <MemoryRouter initialEntries={['/test?page=1&search=a']}>
-        <Main>
-          <div>Hello</div>
-        </Main>
-      </MemoryRouter>,
+      <Main count={2}>
+        <div>Hello</div>
+      </Main>,
       {
         preloadedState: {
           choose: {
@@ -39,18 +52,14 @@ describe('Main Component', () => {
     );
 
     await whenStable();
-    expect(container.querySelectorAll('div[class*="container"]').length).toBe(
-      2
-    );
+    expect(container.querySelectorAll('div[class*="notFound"]').length).toBe(0);
   });
 
   it('renders the main with select people', async () => {
     const { getByText } = renderWithProviders(
-      <MemoryRouter initialEntries={['/test?page=1&search=a']}>
-        <Main>
-          <div>Hello</div>
-        </Main>
-      </MemoryRouter>,
+      <Main count={0}>
+        <div>Hello</div>
+      </Main>,
       {
         preloadedState: {
           choose: {
@@ -69,11 +78,9 @@ describe('Main Component', () => {
 
   it('renders the main with select person', async () => {
     const { getByText } = renderWithProviders(
-      <MemoryRouter initialEntries={['/test?page=1&search=a']}>
-        <Main>
-          <div>Hello</div>
-        </Main>
-      </MemoryRouter>,
+      <Main count={0}>
+        <div>Hello</div>
+      </Main>,
       {
         preloadedState: {
           choose: {
@@ -116,11 +123,9 @@ describe('Main Component', () => {
     );
 
     const { container, getByText } = renderWithProviders(
-      <MemoryRouter initialEntries={['?search=null']}>
-        <Main>
-          <div>Hello</div>
-        </Main>
-      </MemoryRouter>,
+      <Main count={0}>
+        <div>Hello</div>
+      </Main>,
       {
         preloadedState: {
           choose: {
@@ -135,7 +140,7 @@ describe('Main Component', () => {
       0
     );
     expect(
-      getByText('No characters with the name "null" found')
+      getByText('No characters with the name "" found')
     ).toBeInTheDocument();
   });
 });

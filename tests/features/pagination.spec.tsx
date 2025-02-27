@@ -3,26 +3,20 @@ import { render } from '@testing-library/react';
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { Pagination } from '../../src/features/pagination/ui/pagination';
 import '@testing-library/jest-dom/vitest';
-import { MemoryRouter } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
 
 const mockedSetSearchParams = vi.fn();
 
 beforeEach(() => {
-  vi.mock('react-router-dom', async () => {
-    const mod =
-      await vi.importActual<typeof import('react-router-dom')>(
-        'react-router-dom'
-      );
+  vi.mock('next/router', async () => {
+    const actual =
+      await vi.importActual<typeof import('next/router')>('next/router');
     return {
-      ...mod,
-      useSearchParams: () => [
-        new Map([
-          ['page', '1'],
-          ['search', 'a'],
-        ]),
-        mockedSetSearchParams,
-      ],
+      ...actual,
+      useRouter: () => ({
+        query: { page: '1', search: '' },
+        push: mockedSetSearchParams,
+      }),
     };
   });
 });
@@ -33,13 +27,7 @@ afterEach(() => {
 
 describe('Pagination Component', () => {
   it('onClick next page', async () => {
-    const { getByText } = render(<Pagination count="12" />, {
-      wrapper: ({ children }) => (
-        <MemoryRouter initialEntries={['/?search=&page=']}>
-          {children}
-        </MemoryRouter>
-      ),
-    });
+    const { getByText } = render(<Pagination count="12" />);
 
     const page = getByText('1');
 
@@ -47,8 +35,9 @@ describe('Pagination Component', () => {
 
     await userEvent.click(getByText('2'));
     expect(mockedSetSearchParams).toHaveBeenCalledWith(
-      { page: '2', search: '' },
-      { replace: true }
+      '/?search=&page=2',
+      undefined,
+      { shallow: true }
     );
   });
 });

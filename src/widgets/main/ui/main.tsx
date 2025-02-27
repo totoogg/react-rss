@@ -23,18 +23,6 @@ export const Main: FC<IMainProps> = memo(({ children, count }) => {
 
   return (
     <div className={styles.main}>
-      {+count > 10 ? <Pagination count={String(count)} /> : ''}
-      <div className={styles.gallery}>
-        {count > 0 ? (
-          children
-        ) : (
-          <div className={styles.notFound}>
-            No characters with the name &quot;
-            {router.query.search || ''}
-            &quot; found
-          </div>
-        )}
-      </div>
       {lengthChoosePeople > 0 ? (
         <div className={styles.choose}>
           <span>
@@ -58,6 +46,18 @@ export const Main: FC<IMainProps> = memo(({ children, count }) => {
       ) : (
         ''
       )}
+      {+count > 10 ? <Pagination count={String(count)} /> : ''}
+      <div className={styles.gallery}>
+        {count > 0 ? (
+          children
+        ) : (
+          <div className={styles.notFound}>
+            No characters with the name &quot;
+            {router.query.search || ''}
+            &quot; found
+          </div>
+        )}
+      </div>
       {+count > 10 ? <Pagination count={String(count)} /> : ''}
     </div>
   );

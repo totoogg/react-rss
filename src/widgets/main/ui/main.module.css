@@ -19,8 +19,11 @@
 }
 
 .choose {
+  position: sticky;
+  top: 0;
   color: var(--emerald-950);
-  width: 400px;
+  width: 100%;
+  padding: 1rem;
   font-size: 2rem;
   margin-top: 20px;
   margin-bottom: 20px;
@@ -28,6 +31,8 @@
   flex-direction: column;
   align-items: center;
   gap: 10px;
+  background-color: var(--emerald-50);
+  z-index: 1;
 }
 
 .chose-buttons {
