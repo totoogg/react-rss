@@ -6,6 +6,12 @@ export {
   selectIsLoader,
   errorReducer,
   selectIsError,
+  getFilms as getFilmsQuery,
+  getPeople,
+  useGetPeopleQuery,
+  getRunningQueriesThunk,
+  addLoader,
+  removeLoader,
 } from './api';
 export { Loader } from './ui/loader';
 export { Fallback } from './ui/fallback';
@@ -15,7 +21,6 @@ export { Choose } from './ui/choose';
 export { ErrorBoundary } from './ui/errorBoundary';
 export { useRestoreSearch } from './lib/restoreSearch';
 export { useAppDispatch, useAppSelector } from './lib/store';
-export { useSearchPeople } from './lib/searchPeople';
 export { getFilms } from './lib/getFilms/getFilms';
 export type {
   IApi,

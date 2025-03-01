@@ -1,34 +1,47 @@
 import { Detail } from '@/entities';
-import { getFilms, Person, useGetFilmsQuery } from '@/shared';
-import { FC, memo, useEffect, useState } from 'react';
 import {
-  useLazyGetHomeByIdQuery,
-  useLazyGetPersonByIdQuery,
+  getFilms,
+  removeLoader,
+  useAppDispatch,
+  useGetFilmsQuery,
+} from '@/shared';
+import { FC, memo, useEffect } from 'react';
+import {
+  useGetHomeByIdQuery,
+  useGetPersonByIdQuery,
 } from '../model/apiSliceWithPersonById';
 import { ChoosePeople, Close, ToggleTheme } from '@/features';
 import styles from './personDetail.module.css';
 import { useRouter } from 'next/router';
+import { skipToken } from '@reduxjs/toolkit/query';
 
 export const PersonDetail: FC = memo(() => {
   const {
+    isFallback,
     query: { id: personId },
   } = useRouter();
-  const [person, setPerson] = useState<Person>();
-  const [home, setHome] = useState<string>();
+  const dispatch = useAppDispatch();
   const { data: films } = useGetFilmsQuery();
-  const [getHome] = useLazyGetHomeByIdQuery();
-  const [getPerson] = useLazyGetPersonByIdQuery();
+  const { data: person, isSuccess: isPersonSuccess } = useGetPersonByIdQuery(
+    typeof personId === 'string' ? personId : skipToken,
+    {
+      skip: isFallback,
+    }
+  );
+  const { data: home, isSuccess: isHomeSuccess } = useGetHomeByIdQuery(
+    typeof person?.homeworld === 'string'
+      ? person.homeworld?.split('/').reverse()[1]
+      : skipToken,
+    {
+      skip: isFallback,
+    }
+  );
 
   useEffect(() => {
-    getPerson(String(personId) || '').then(({ data }) => {
-      getHome(data?.homeworld?.split('/').reverse()[1] || '').then(
-        ({ data }) => {
-          setHome(data?.name);
-        }
-      );
-      setPerson(data);
-    });
-  }, [getHome, getPerson, personId]);
+    if (isPersonSuccess && isHomeSuccess) {
+      dispatch(removeLoader());
+    }
+  }, [dispatch, isHomeSuccess, isPersonSuccess]);
 
   return (
     <div className={styles.card}>
@@ -51,7 +64,7 @@ export const PersonDetail: FC = memo(() => {
         gender={person?.gender || ''}
         hair_color={person?.hair_color || ''}
         height={person?.height || ''}
-        home={home || ''}
+        home={home?.name || ''}
         mass={person?.mass || ''}
         name={person?.name || ''}
         skin_color={person?.skin_color || ''}

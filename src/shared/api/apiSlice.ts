@@ -36,3 +36,7 @@ export const apiSlice = createApi({
   baseQuery: customBaseQuery,
   endpoints: () => ({}),
 });
+
+export const {
+  util: { getRunningQueriesThunk },
+} = apiSlice;

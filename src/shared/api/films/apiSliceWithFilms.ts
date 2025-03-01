@@ -16,3 +16,5 @@ export const apiSliceWithFilms = apiSlice.injectEndpoints({
 });
 
 export const { useGetFilmsQuery } = apiSliceWithFilms;
+
+export const { getFilms } = apiSliceWithFilms.endpoints;

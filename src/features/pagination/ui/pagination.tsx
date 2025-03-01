@@ -1,26 +1,28 @@
 import { FC, memo, useCallback, useEffect, useState } from 'react';
 import { IPaginationProps } from '../model/paginationTypes';
-import { Button } from '@/shared';
+import { addLoader, Button, useAppDispatch } from '@/shared';
 import { useRouter } from 'next/router';
 import styles from './pagination.module.css';
 
 export const Pagination: FC<IPaginationProps> = memo(({ count }) => {
   const router = useRouter();
   const [currentPage, setCurrentPage] = useState('');
+  const dispatch = useAppDispatch();
 
   const handleClick = useCallback(
     (i: number) => {
       if (i !== Number(currentPage) + 1) {
+        dispatch(addLoader());
         router.push(
           `/?search=${localStorage.getItem('search') || ''}&page=${String(i)}`,
           undefined,
           {
-            shallow: true,
+            shallow: false,
           }
         );
       }
     },
-    [currentPage, router]
+    [currentPage, dispatch, router]
   );
 
   useEffect(() => {

@@ -21,4 +21,6 @@ export const apiSliceWithFilms = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useLazyGetPeopleQuery } = apiSliceWithFilms;
+export const { useLazyGetPeopleQuery, useGetPeopleQuery } = apiSliceWithFilms;
+
+export const { getPeople } = apiSliceWithFilms.endpoints;

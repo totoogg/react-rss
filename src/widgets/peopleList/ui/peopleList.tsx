@@ -1,5 +1,10 @@
-import { FC, memo } from 'react';
-import { getFilms, useGetFilmsQuery } from '@/shared';
+import { FC, memo, useCallback } from 'react';
+import {
+  addLoader,
+  getFilms,
+  useAppDispatch,
+  useGetFilmsQuery,
+} from '@/shared';
 import { Card } from '@/entities';
 import { ChoosePeople } from '@/features';
 import styles from './peopleList.module.css';
@@ -10,6 +15,16 @@ import { IPeopleListProps } from '../model/peopleListTypes';
 export const PeopleList: FC<IPeopleListProps> = memo(({ people }) => {
   const router = useRouter();
   const { data } = useGetFilmsQuery();
+  const dispatch = useAppDispatch();
+
+  const filmsData = useCallback(
+    (films: string[]) => getFilms(films || [], data || []),
+    [data]
+  );
+
+  const handleLinkClick = useCallback(() => {
+    dispatch(addLoader());
+  }, [dispatch]);
 
   return (
     <>
@@ -18,11 +33,12 @@ export const PeopleList: FC<IPeopleListProps> = memo(({ people }) => {
           <Link
             href={`people/${(item.url || '').slice(29, -1)}?search=${router.query.search || ''}&page=${router.query.page || 1}`}
             className={styles['no-underline']}
+            onClick={handleLinkClick}
           >
             <Card
               name={item.name || ''}
               url={item.url || ''}
-              films={getFilms(item.films || [], data || [])}
+              films={filmsData(item.films || [])}
               birthdayYear={item.birth_year || ''}
             />
           </Link>

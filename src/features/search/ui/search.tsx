@@ -1,5 +1,11 @@
 import React, { memo, useCallback } from 'react';
-import { Button, Input, useRestoreSearch } from '@/shared';
+import {
+  addLoader,
+  Button,
+  Input,
+  useAppDispatch,
+  useRestoreSearch,
+} from '@/shared';
 import { useRouter } from 'next/router';
 import styles from './search.module.css';
 
@@ -7,6 +13,7 @@ export const Search = memo(() => {
   const [search, setSearch] = React.useState<string>('');
   const localStart = useRestoreSearch();
   const router = useRouter();
+  const dispatch = useAppDispatch();
 
   const onChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
@@ -17,11 +24,12 @@ export const Search = memo(() => {
 
     if (local === search) return;
 
+    dispatch(addLoader());
     localStorage.setItem('search', search);
     router.push(`/?search=${search}&page=1`, undefined, {
-      shallow: true,
+      shallow: false,
     });
-  }, [router, search]);
+  }, [dispatch, router, search]);
 
   React.useEffect(() => {
     setSearch(localStart || '');

@@ -2,9 +2,11 @@ import { FC, useCallback } from 'react';
 import { PersonDetail } from '@/widgets';
 import styles from './peoplePage.module.css';
 import { useRouter } from 'next/router';
+import { addLoader, useAppDispatch } from '@/shared';
 
 export const PeoplePage: FC = () => {
   const router = useRouter();
+  const dispatch = useAppDispatch();
 
   const handleClick = useCallback(
     (e?: React.MouseEvent) => {
@@ -14,17 +16,18 @@ export const PeoplePage: FC = () => {
           target.className.includes('wrapper') ||
           target.className.includes('page')
         ) {
+          dispatch(addLoader());
           router.push(
             `/?search=${router.query.search}&page=${router.query.page}`,
             undefined,
             {
-              shallow: true,
+              shallow: false,
             }
           );
         }
       }
     },
-    [router]
+    [dispatch, router]
   );
 
   return (
