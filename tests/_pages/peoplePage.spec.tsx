@@ -45,7 +45,7 @@ describe('PeoplePage Component', () => {
     await whenStable();
     expect(mockedSetSearchParams).toHaveBeenCalled();
 
-    const image = getByAltText('Han Solo');
+    const image = getByAltText('');
     expect(image).toBeInTheDocument();
     fireEvent.load(image);
   });

@@ -1,7 +1,7 @@
 import { AnyAction, combineReducers, configureStore } from '@reduxjs/toolkit';
 import { apiSlice, errorReducer, loaderReducer } from '@/shared';
 import { choosePeopleReducer } from '@/features';
-import { createWrapper, HYDRATE } from 'next-redux-wrapper';
+import { createWrapper, HYDRATE, MakeStore } from 'next-redux-wrapper';
 
 const rootReducer = combineReducers({
   choose: choosePeopleReducer,
@@ -24,16 +24,23 @@ const reducer = (
   return rootReducer(state, action);
 };
 
-export const setupStore = () => {
+export const setupStore = (preloadedState?: Partial<RootState>) => {
   return configureStore({
     reducer,
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware().concat(apiSlice.middleware),
     devTools: process.env.NODE_ENV !== 'production',
+    preloadedState,
   });
 };
 
 export type AppStore = ReturnType<typeof setupStore>;
 export type RootState = ReturnType<typeof rootReducer>;
 
-export const wrapper = createWrapper<AppStore>(setupStore, { debug: true });
+export const makeStore: MakeStore<AppStore> = () => {
+  return setupStore();
+};
+
+export const wrapper = createWrapper<AppStore>(makeStore, {
+  debug: process.env.NODE_ENV !== 'production',
+});

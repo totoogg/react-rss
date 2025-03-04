@@ -5,8 +5,41 @@ import '@testing-library/jest-dom/vitest';
 import { renderWithProviders } from '../test-utils';
 import { server } from '../server';
 import { http, HttpResponse } from 'msw';
-import * as useHooks from '../../src/shared/lib/searchPeople/useSearchPeople';
 import { fireEvent } from '@testing-library/dom';
+import * as nextRouter from 'next/router';
+
+const BASE_ROUTER_MOCK: nextRouter.NextRouter = {
+  route: '/',
+  pathname: '/',
+  asPath: '/',
+  basePath: '',
+  query: {},
+  push: vi.fn(),
+  replace: vi.fn(),
+  reload: vi.fn(),
+  back: vi.fn(),
+  prefetch: vi.fn(),
+  beforePopState: vi.fn(),
+  events: {
+    on: vi.fn(),
+    off: vi.fn(),
+    emit: vi.fn(),
+  },
+  isFallback: false,
+  isLocaleDomain: false,
+  isReady: true,
+  defaultLocale: 'en',
+  domainLocales: [],
+  isPreview: false,
+  forward: vi.fn(),
+};
+
+export function mockNextRouterQuery(query: nextRouter.NextRouter['query']) {
+  vi.spyOn(nextRouter, 'useRouter').mockImplementation(() => ({
+    ...BASE_ROUTER_MOCK,
+    query,
+  }));
+}
 
 const whenStable = async () =>
   await act(async () => {
@@ -31,14 +64,12 @@ beforeEach(() => {
 
 afterEach(() => {
   vi.clearAllMocks();
+  vi.resetAllMocks();
 });
 
 describe('HomePage Component', () => {
   it('renders the HomePage without error', async () => {
-    vi.spyOn(useHooks, 'useSearchPeople').mockReturnValue({
-      count: 1,
-      people: [{ name: '1', birth_year: '2', films: ['3'], url: '4' }],
-    });
+    mockNextRouterQuery({ page: '1', search: '' });
     const { container, getByRole } = renderWithProviders(<HomePage />);
 
     await whenStable();
@@ -69,5 +100,27 @@ describe('HomePage Component', () => {
     expect(
       getByText('Something went wrong. Please try again later.')
     ).toBeInTheDocument();
+  });
+
+  it('renders the HomePage without search params', async () => {
+    vi.mock('next/router', async () => {
+      const actual =
+        await vi.importActual<typeof import('next/router')>('next/router');
+      return {
+        ...actual,
+        useRouter: () => ({
+          query: {},
+          push: mockedSetSearchParams,
+        }),
+      };
+    });
+
+    const { container } = renderWithProviders(<HomePage />);
+
+    await whenStable();
+
+    expect(container.querySelectorAll('div[class*="page"]').length).toBe(1);
+
+    expect(container.querySelectorAll('div[class*="main"]').length).toBe(0);
   });
 });

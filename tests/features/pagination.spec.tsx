@@ -1,9 +1,9 @@
 import React from 'react';
-import { render } from '@testing-library/react';
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { Pagination } from '../../src/features/pagination/ui/pagination';
 import '@testing-library/jest-dom/vitest';
 import userEvent from '@testing-library/user-event';
+import { renderWithProviders } from '../test-utils';
 
 const mockedSetSearchParams = vi.fn();
 
@@ -27,7 +27,7 @@ afterEach(() => {
 
 describe('Pagination Component', () => {
   it('onClick next page', async () => {
-    const { getByText } = render(<Pagination count="12" />);
+    const { getByText } = renderWithProviders(<Pagination count="12" />);
 
     const page = getByText('1');
 
@@ -37,7 +37,7 @@ describe('Pagination Component', () => {
     expect(mockedSetSearchParams).toHaveBeenCalledWith(
       '/?search=&page=2',
       undefined,
-      { shallow: true }
+      { shallow: false }
     );
   });
 });
