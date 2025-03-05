@@ -14,12 +14,12 @@ import {
 } from '../model/apiSliceWithPersonById';
 import { ChoosePeople, Close, ToggleTheme } from '@/features';
 import styles from './personDetail.module.css';
-import { useSearchParams } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import { skipToken } from '@reduxjs/toolkit/query';
 
 export const PersonDetail: FC = memo(() => {
-  const query = useSearchParams();
-  const personId = query.get('id');
+  const query = useParams();
+  const personId = query.id;
   const dispatch = useAppDispatch();
   const { data: films } = useGetFilmsQuery();
   const { data: person, isSuccess: isPersonSuccess } = useGetPersonByIdQuery(
