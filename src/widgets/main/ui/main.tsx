@@ -1,3 +1,5 @@
+'use client';
+
 import { FC, memo } from 'react';
 import {
   clearChoosePeople,
@@ -9,10 +11,11 @@ import {
 import { Button, ICharacter, useAppDispatch, useAppSelector } from '@/shared';
 import { IMainProps } from '../model/mainType';
 import styles from './main.module.css';
-import { useRouter } from 'next/router';
+import { useSearchParams } from 'next/navigation';
 
 export const Main: FC<IMainProps> = memo(({ children, count }) => {
-  const router = useRouter();
+  const query = useSearchParams();
+  const search = query.get('search');
 
   const lengthChoosePeople = useAppSelector((state) =>
     selectLengthChoosePeople(state)
@@ -53,7 +56,7 @@ export const Main: FC<IMainProps> = memo(({ children, count }) => {
         ) : (
           <div className={styles.notFound}>
             No characters with the name &quot;
-            {router.query.search || ''}
+            {search || ''}
             &quot; found
           </div>
         )}

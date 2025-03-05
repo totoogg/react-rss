@@ -1,3 +1,5 @@
+'use client';
+
 import { Detail } from '@/entities';
 import {
   getFilms,
@@ -12,20 +14,18 @@ import {
 } from '../model/apiSliceWithPersonById';
 import { ChoosePeople, Close, ToggleTheme } from '@/features';
 import styles from './personDetail.module.css';
-import { useRouter } from 'next/router';
+import { useSearchParams } from 'next/navigation';
 import { skipToken } from '@reduxjs/toolkit/query';
 
 export const PersonDetail: FC = memo(() => {
-  const {
-    isFallback,
-    query: { id: personId },
-  } = useRouter();
+  const query = useSearchParams();
+  const personId = query.get('id');
   const dispatch = useAppDispatch();
   const { data: films } = useGetFilmsQuery();
   const { data: person, isSuccess: isPersonSuccess } = useGetPersonByIdQuery(
     typeof personId === 'string' ? personId : skipToken,
     {
-      skip: isFallback,
+      skip: !query,
     }
   );
   const { data: home, isSuccess: isHomeSuccess } = useGetHomeByIdQuery(
@@ -33,7 +33,7 @@ export const PersonDetail: FC = memo(() => {
       ? person.homeworld?.split('/').reverse()[1]
       : skipToken,
     {
-      skip: isFallback,
+      skip: !query,
     }
   );
 

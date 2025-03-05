@@ -3,6 +3,7 @@ export interface IApi {
   next: string | null;
   previous: string | null;
   results: ICharacter[];
+  detail?: string;
 }
 
 export interface ICharacter {

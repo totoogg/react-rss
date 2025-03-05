@@ -1,3 +1,5 @@
+'use client';
+
 import React, { memo, useCallback } from 'react';
 import {
   addLoader,
@@ -6,7 +8,7 @@ import {
   useAppDispatch,
   useRestoreSearch,
 } from '@/shared';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import styles from './search.module.css';
 
 export const Search = memo(() => {
@@ -26,9 +28,8 @@ export const Search = memo(() => {
 
     dispatch(addLoader());
     localStorage.setItem('search', search);
-    router.push(`/?search=${search}&page=1`, undefined, {
-      shallow: false,
-    });
+    router.push(`/?search=${search}&page=1`);
+    router.refresh();
   }, [dispatch, router, search]);
 
   React.useEffect(() => {

@@ -8,7 +8,7 @@ import { renderWithProviders } from '../test-utils';
 const mockDispatch = vi.fn();
 
 beforeEach(() => {
-  vi.mock('next/router', () => ({
+  vi.mock('next/navigation', () => ({
     useRouter: vi.fn().mockImplementation(() => ({
       isFallback: false,
       pathname: '/',

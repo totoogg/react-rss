@@ -1,10 +1,13 @@
+'use client';
+
 import { FC, memo } from 'react';
 import { Button } from '@/shared';
-import { useRouter } from 'next/router';
+import { useRouter, useSearchParams } from 'next/navigation';
 import styles from './error.module.css';
 
 export const Error: FC = memo(() => {
   const router = useRouter();
+  const query = useSearchParams();
   console.error(404);
 
   return (
@@ -16,9 +19,10 @@ export const Error: FC = memo(() => {
       </p>
       <Button
         text="Home page"
-        onClick={() =>
-          router.push(`/?search=${router.query.search || ''}&page=1`)
-        }
+        onClick={() => {
+          router.push(`/?search=${query.get('search') || ''}&page=1`);
+          router.refresh();
+        }}
         className={styles.button}
       />
     </div>

@@ -6,7 +6,7 @@ import { renderWithProviders } from '../test-utils';
 import { server } from '../server';
 import { http, HttpResponse } from 'msw';
 import { fireEvent } from '@testing-library/dom';
-import * as nextRouter from 'next/router';
+import * as nextRouter from 'next/navigation';
 
 const BASE_ROUTER_MOCK: nextRouter.NextRouter = {
   route: '/',
@@ -49,9 +49,11 @@ const whenStable = async () =>
 const mockedSetSearchParams = vi.fn();
 
 beforeEach(() => {
-  vi.mock('next/router', async () => {
+  vi.mock('next/navigation', async () => {
     const actual =
-      await vi.importActual<typeof import('next/router')>('next/router');
+      await vi.importActual<typeof import('next/navigation')>(
+        'next/navigation'
+      );
     return {
       ...actual,
       useRouter: () => ({
@@ -103,9 +105,11 @@ describe('HomePage Component', () => {
   });
 
   it('renders the HomePage without search params', async () => {
-    vi.mock('next/router', async () => {
+    vi.mock('next/navigation', async () => {
       const actual =
-        await vi.importActual<typeof import('next/router')>('next/router');
+        await vi.importActual<typeof import('next/navigation')>(
+          'next/navigation'
+        );
       return {
         ...actual,
         useRouter: () => ({

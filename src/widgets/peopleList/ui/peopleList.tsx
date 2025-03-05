@@ -1,3 +1,5 @@
+'use client';
+
 import { FC, memo, useCallback } from 'react';
 import {
   addLoader,
@@ -9,11 +11,13 @@ import { Card } from '@/entities';
 import { ChoosePeople } from '@/features';
 import styles from './peopleList.module.css';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
+import { useSearchParams } from 'next/navigation';
 import { IPeopleListProps } from '../model/peopleListTypes';
 
 export const PeopleList: FC<IPeopleListProps> = memo(({ people }) => {
-  const router = useRouter();
+  const query = useSearchParams();
+  const page = query.get('page');
+  const search = query.get('search');
   const { data } = useGetFilmsQuery();
   const dispatch = useAppDispatch();
 
@@ -31,7 +35,7 @@ export const PeopleList: FC<IPeopleListProps> = memo(({ people }) => {
       {people.map((item) => (
         <div className={styles.content} key={item.url}>
           <Link
-            href={`people/${(item.url || '').slice(29, -1)}?search=${router.query.search || ''}&page=${router.query.page || 1}`}
+            href={`people/${(item.url || '').slice(29, -1)}?search=${search || ''}&page=${page || 1}`}
             className={styles['no-underline']}
             onClick={handleLinkClick}
           >

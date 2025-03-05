@@ -1,11 +1,15 @@
+'use client';
+
 import { FC, memo, useCallback, useEffect, useState } from 'react';
 import { IPaginationProps } from '../model/paginationTypes';
 import { addLoader, Button, useAppDispatch } from '@/shared';
-import { useRouter } from 'next/router';
+import { useRouter, useSearchParams } from 'next/navigation';
 import styles from './pagination.module.css';
 
 export const Pagination: FC<IPaginationProps> = memo(({ count }) => {
   const router = useRouter();
+  const query = useSearchParams();
+  const page = query.get('page');
   const [currentPage, setCurrentPage] = useState('');
   const dispatch = useAppDispatch();
 
@@ -14,26 +18,21 @@ export const Pagination: FC<IPaginationProps> = memo(({ count }) => {
       if (i !== Number(currentPage) + 1) {
         dispatch(addLoader());
         router.push(
-          `/?search=${localStorage.getItem('search') || ''}&page=${String(i)}`,
-          undefined,
-          {
-            shallow: false,
-          }
+          `/?search=${localStorage.getItem('search') || ''}&page=${String(i)}`
         );
+        router.refresh();
       }
     },
     [currentPage, dispatch, router]
   );
 
   useEffect(() => {
-    const page = router.query.page;
-
     if (!page) {
       setCurrentPage('0');
     } else {
       setCurrentPage(String(+page - 1));
     }
-  }, [router.query.page]);
+  }, [page]);
 
   return (
     <div className={styles.container}>

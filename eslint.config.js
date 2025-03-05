@@ -41,6 +41,7 @@ export default tseslint.config(
       '@typescript-eslint/no-invalid-void-type': 0,
       '@typescript-eslint/no-dynamic-delete': 0,
       'react-refresh/only-export-components': 0,
+      'react-compiler/react-compiler': 0,
     },
     settings: {
       react: {

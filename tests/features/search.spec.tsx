@@ -10,9 +10,11 @@ const mockedSetSearchParams = vi.fn();
 
 beforeEach(() => {
   vi.spyOn(useHooks, 'useRestoreSearch').mockReturnValue('');
-  vi.mock('next/router', async () => {
+  vi.mock('next/navigation', async () => {
     const actual =
-      await vi.importActual<typeof import('next/router')>('next/router');
+      await vi.importActual<typeof import('next/navigation')>(
+        'next/navigation'
+      );
     return {
       ...actual,
       useRouter: () => ({

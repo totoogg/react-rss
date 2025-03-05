@@ -1,3 +1,5 @@
+'use client';
+
 import { FC, memo, useEffect } from 'react';
 import { Main, PeopleList } from '@/widgets';
 import { ErrorResponse } from '@/entities';
@@ -9,19 +11,20 @@ import {
   useGetPeopleQuery,
 } from '@/shared';
 import styles from './homePage.module.css';
-import { useRouter } from 'next/router';
+import { useSearchParams } from 'next/navigation';
 import { skipToken } from '@reduxjs/toolkit/query';
 
 export const HomePage: FC = memo(() => {
-  const router = useRouter();
+  const query = useSearchParams();
   const dispatch = useAppDispatch();
-  const { search, page } = router.query;
+  const search = query.get('search');
+  const page = query.get('page');
   const { data, isSuccess } = useGetPeopleQuery(
     typeof search === 'string'
       ? { search: String(search), page: Number(page) }
       : skipToken,
     {
-      skip: router.isFallback,
+      skip: !query,
     }
   );
   const isError = useAppSelector(selectIsError);

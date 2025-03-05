@@ -1,3 +1,5 @@
+'use client';
+
 import { FC, memo, useContext } from 'react';
 import { ILayoutProps } from '../types';
 import { Footer, Header } from '@/widgets';

@@ -1,11 +1,16 @@
+'use client';
+
 import { FC, useCallback } from 'react';
 import { PersonDetail } from '@/widgets';
 import styles from './peoplePage.module.css';
-import { useRouter } from 'next/router';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { addLoader, useAppDispatch } from '@/shared';
 
 export const PeoplePage: FC = () => {
   const router = useRouter();
+  const query = useSearchParams();
+  const page = query.get('page');
+  const search = query.get('search');
   const dispatch = useAppDispatch();
 
   const handleClick = useCallback(
@@ -17,17 +22,11 @@ export const PeoplePage: FC = () => {
           target.className.includes('page')
         ) {
           dispatch(addLoader());
-          router.push(
-            `/?search=${router.query.search}&page=${router.query.page}`,
-            undefined,
-            {
-              shallow: false,
-            }
-          );
+          router.push(`/?search=${search}&page=${page}`);
         }
       }
     },
-    [dispatch, router]
+    [dispatch, page, router, search]
   );
 
   return (

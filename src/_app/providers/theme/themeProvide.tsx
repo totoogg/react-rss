@@ -1,3 +1,5 @@
+'use client';
+
 import { FC, useMemo, useState } from 'react';
 import { IThemeProvider } from './themeProviderTypes';
 import { ThemeContext } from '../../../shared/config/theme/themeConfig';
