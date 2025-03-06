@@ -8,32 +8,38 @@ import { renderWithProviders } from '../test-utils';
 const mockDispatch = vi.fn();
 
 beforeEach(() => {
-  vi.mock('next/navigation', () => ({
-    useRouter: vi.fn().mockImplementation(() => ({
-      isFallback: false,
-      pathname: '/',
-      route: '/',
-      query: { id: '1' },
-      asPath: '/',
-      basePath: '',
-      events: {
-        on: vi.fn(),
-        off: vi.fn(),
-        emit: vi.fn(),
+  vi.mock('next/navigation', async () => {
+    const actual =
+      await vi.importActual<typeof import('next/navigation')>(
+        'next/navigation'
+      );
+    return {
+      ...actual,
+      useParams: () => ({
+        id: 1,
+      }),
+      useSearchParams: () => {
+        return {
+          has: (key: string) => {
+            return key === 'page' || key === 'search';
+          },
+          get: (key: string) => {
+            if (key === 'page') {
+              return '1';
+            } else if (key === 'search') {
+              return '';
+            }
+            return null;
+          },
+        };
       },
-      push: vi.fn(),
-      replace: vi.fn(),
-      reload: vi.fn(),
-      back: vi.fn(),
-      prefetch: vi.fn(),
-      beforePopState: vi.fn(),
-      isLocaleDomain: false,
-      isReady: true,
-      defaultLocale: 'en',
-      domainLocales: [],
-      isPreview: false,
-    })),
-  }));
+      useRouter: () => ({
+        query: { page: '1', search: '' },
+        push: vi.fn(),
+        replace: vi.fn(),
+      }),
+    };
+  });
 
   vi.mock('@/shared', async (importOriginal) => ({
     ...(await importOriginal<typeof import('../../src/shared')>()),

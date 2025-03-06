@@ -26,9 +26,28 @@ beforeEach(() => {
       );
     return {
       ...actual,
+      useParams: () => ({
+        id: 1,
+      }),
+      useSearchParams: () => {
+        return {
+          has: (key: string) => {
+            return key === 'page' || key === 'search';
+          },
+          get: (key: string) => {
+            if (key === 'page') {
+              return '1';
+            } else if (key === 'search') {
+              return '';
+            }
+            return null;
+          },
+        };
+      },
       useRouter: () => ({
         query: { page: '1', search: '' },
         push: mockedSetSearchParams,
+        replace: mockedSetSearchParams,
       }),
     };
   });

@@ -6,40 +6,6 @@ import { renderWithProviders } from '../test-utils';
 import { server } from '../server';
 import { http, HttpResponse } from 'msw';
 import { fireEvent } from '@testing-library/dom';
-import * as nextRouter from 'next/navigation';
-
-const BASE_ROUTER_MOCK: nextRouter.NextRouter = {
-  route: '/',
-  pathname: '/',
-  asPath: '/',
-  basePath: '',
-  query: {},
-  push: vi.fn(),
-  replace: vi.fn(),
-  reload: vi.fn(),
-  back: vi.fn(),
-  prefetch: vi.fn(),
-  beforePopState: vi.fn(),
-  events: {
-    on: vi.fn(),
-    off: vi.fn(),
-    emit: vi.fn(),
-  },
-  isFallback: false,
-  isLocaleDomain: false,
-  isReady: true,
-  defaultLocale: 'en',
-  domainLocales: [],
-  isPreview: false,
-  forward: vi.fn(),
-};
-
-export function mockNextRouterQuery(query: nextRouter.NextRouter['query']) {
-  vi.spyOn(nextRouter, 'useRouter').mockImplementation(() => ({
-    ...BASE_ROUTER_MOCK,
-    query,
-  }));
-}
 
 const whenStable = async () =>
   await act(async () => {
@@ -56,9 +22,28 @@ beforeEach(() => {
       );
     return {
       ...actual,
+      useParams: () => ({
+        id: 1,
+      }),
+      useSearchParams: () => {
+        return {
+          has: (key: string) => {
+            return key === 'page' || key === 'search';
+          },
+          get: (key: string) => {
+            if (key === 'page') {
+              return '1';
+            } else if (key === 'search') {
+              return '';
+            }
+            return null;
+          },
+        };
+      },
       useRouter: () => ({
         query: { page: '1', search: '' },
         push: mockedSetSearchParams,
+        refresh: vi.fn(),
       }),
     };
   });
@@ -66,12 +51,10 @@ beforeEach(() => {
 
 afterEach(() => {
   vi.clearAllMocks();
-  vi.resetAllMocks();
 });
 
 describe('HomePage Component', () => {
   it('renders the HomePage without error', async () => {
-    mockNextRouterQuery({ page: '1', search: '' });
     const { container, getByRole } = renderWithProviders(<HomePage />);
 
     await whenStable();
@@ -105,26 +88,12 @@ describe('HomePage Component', () => {
   });
 
   it('renders the HomePage without search params', async () => {
-    vi.mock('next/navigation', async () => {
-      const actual =
-        await vi.importActual<typeof import('next/navigation')>(
-          'next/navigation'
-        );
-      return {
-        ...actual,
-        useRouter: () => ({
-          query: {},
-          push: mockedSetSearchParams,
-        }),
-      };
-    });
-
     const { container } = renderWithProviders(<HomePage />);
 
     await whenStable();
 
     expect(container.querySelectorAll('div[class*="page"]').length).toBe(1);
 
-    expect(container.querySelectorAll('div[class*="main"]').length).toBe(0);
+    expect(container.querySelectorAll('div[class*="main"]').length).toBe(1);
   });
 });

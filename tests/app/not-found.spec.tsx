@@ -1,10 +1,9 @@
 import React, { act } from 'react';
-import { describe, it, expect, vi, afterEach, beforeEach } from 'vitest';
-import { PeoplePage } from '../../src/_pages/peoplePage/ui/peoplePage';
+import { render } from '@testing-library/react';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import Error from '../../src/app/not-found';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom/vitest';
-import { renderWithProviders } from '../test-utils';
-import { fireEvent } from '@testing-library/dom';
 
 const whenStable = async () =>
   await act(async () => {
@@ -52,22 +51,23 @@ afterEach(() => {
   vi.clearAllMocks();
 });
 
-describe('PeoplePage Component', () => {
-  it('renders the PeoplePage', async () => {
-    const { container, getByAltText } = renderWithProviders(<PeoplePage />);
+describe('Error page Component', () => {
+  it('renders the Error Page', async () => {
+    const error = vi.spyOn(console, 'error').mockImplementation(() => null);
+    const { container, getByRole, getByText } = render(<Error />);
 
     await whenStable();
 
-    expect(container.querySelectorAll('div[class*="page"]').length).toBe(1);
     expect(container.querySelectorAll('div[class*="wrapper"]').length).toBe(1);
-    expect(container.querySelectorAll('div[class*="detail"]').length).toBe(1);
+    expect(getByRole('heading', { name: 'Oops!' })).toBeInTheDocument();
+    expect(
+      getByText('Sorry, an unexpected error has occurred.')
+    ).toBeInTheDocument();
+    expect(getByText('Home page')).toBeInTheDocument();
 
-    await userEvent.click(container.querySelectorAll('div[class*="page"]')[0]);
-    await whenStable();
+    await userEvent.click(getByText('Home page'));
+
     expect(mockedSetSearchParams).toHaveBeenCalled();
-
-    const image = getByAltText('');
-    expect(image).toBeInTheDocument();
-    fireEvent.load(image);
+    expect(error).toHaveBeenCalled();
   });
 });

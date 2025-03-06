@@ -20,6 +20,7 @@ beforeEach(() => {
       useRouter: () => ({
         query: { page: '1', search: '' },
         push: mockedSetSearchParams,
+        refresh: mockedSetSearchParams,
       }),
     };
   });

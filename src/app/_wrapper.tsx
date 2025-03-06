@@ -16,10 +16,10 @@ import { HomePage } from '@/_pages';
 
 interface IWrapper {
   preloadedState: {
-    people: Pick<IApi, 'count'> &
+    people?: Pick<IApi, 'count'> &
       Record<'people', ICharacter[]> &
       Partial<{ detail: string }>;
-    films: IFilm[] & Partial<{ detail: string }>;
+    films?: IFilm[] & Partial<{ detail: string }>;
   };
 }
 
