@@ -1,39 +1,52 @@
 import { Detail } from '@/entities';
-import { getFilms, Person, useGetFilmsQuery } from '@/shared';
-import { FC, memo, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
 import {
-  useLazyGetHomeByIdQuery,
-  useLazyGetPersonByIdQuery,
+  getFilms,
+  removeLoader,
+  useAppDispatch,
+  useGetFilmsQuery,
+} from '@/shared';
+import { FC, memo, useEffect } from 'react';
+import {
+  useGetHomeByIdQuery,
+  useGetPersonByIdQuery,
 } from '../model/apiSliceWithPersonById';
 import { ChoosePeople, Close, ToggleTheme } from '@/features';
 import styles from './personDetail.module.css';
+import { useParams } from 'react-router';
+import { skipToken } from '@reduxjs/toolkit/query';
 
 export const PersonDetail: FC = memo(() => {
-  const { personId } = useParams();
-  const [person, setPerson] = useState<Person>();
-  const [home, setHome] = useState<string>();
+  const query = useParams();
+  const personId = query.personId;
+  const dispatch = useAppDispatch();
   const { data: films } = useGetFilmsQuery();
-  const [getHome] = useLazyGetHomeByIdQuery();
-  const [getPerson] = useLazyGetPersonByIdQuery();
+  const { data: person, isSuccess: isPersonSuccess } = useGetPersonByIdQuery(
+    typeof personId === 'string' ? personId : skipToken,
+    {
+      skip: !query,
+    }
+  );
+  const { data: home, isSuccess: isHomeSuccess } = useGetHomeByIdQuery(
+    typeof person?.homeworld === 'string'
+      ? person.homeworld?.split('/').reverse()[1]
+      : skipToken,
+    {
+      skip: !query,
+    }
+  );
 
   useEffect(() => {
-    getPerson(personId || '').then(({ data }) => {
-      getHome(data?.homeworld?.split('/').reverse()[1] || '').then(
-        ({ data }) => {
-          setHome(data?.name);
-        }
-      );
-      setPerson(data);
-    });
-  }, [getHome, getPerson, personId]);
+    if (isPersonSuccess && isHomeSuccess) {
+      dispatch(removeLoader());
+    }
+  }, [dispatch, isHomeSuccess, isPersonSuccess]);
 
   return (
     <div className={styles.card}>
       <div className={styles.buttons}>
         <ChoosePeople
           birth_year={person?.birth_year || ''}
-          films={[getFilms(person?.films || [], films || [])]}
+          films={[getFilms(person?.films || [], films?.results || [])]}
           name={person?.name || ''}
           url={person?.url || ''}
           className={styles.choose}
@@ -42,14 +55,14 @@ export const PersonDetail: FC = memo(() => {
         <Close />
       </div>
       <Detail
-        id={personId || ''}
+        id={String(personId) || ''}
         birth_year={person?.birth_year || ''}
         eye_color={person?.eye_color || ''}
-        films={getFilms(person?.films || [], films || [])}
+        films={getFilms(person?.films || [], films?.results || [])}
         gender={person?.gender || ''}
         hair_color={person?.hair_color || ''}
         height={person?.height || ''}
-        home={home || ''}
+        home={home?.name || ''}
         mass={person?.mass || ''}
         name={person?.name || ''}
         skin_color={person?.skin_color || ''}

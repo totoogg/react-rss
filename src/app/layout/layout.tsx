@@ -1,11 +1,11 @@
 import { FC, memo, useContext } from 'react';
 import { ILayoutProps } from '../types';
 import { Footer, Header } from '@/widgets';
-import { Outlet } from 'react-router-dom';
+import { Outlet } from 'react-router';
 import { ThemeContext } from '@/shared';
 import styles from './layout.module.css';
 
-export const Layout: FC<ILayoutProps> = memo(({ children }) => {
+const Layout: FC<ILayoutProps> = memo(({ children }) => {
   const { theme } = useContext(ThemeContext);
 
   return (
@@ -25,3 +25,4 @@ export const Layout: FC<ILayoutProps> = memo(({ children }) => {
 });
 
 Layout.displayName = 'Layout';
+export default Layout;

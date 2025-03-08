@@ -1,31 +1,33 @@
-import React, { memo } from 'react';
-import { Button, Input, useRestoreSearch } from '@/shared';
+import React, { memo, useCallback } from 'react';
+import {
+  addLoader,
+  Button,
+  Input,
+  useAppDispatch,
+  useRestoreSearch,
+} from '@/shared';
+import { useNavigate } from 'react-router';
 import styles from './search.module.css';
-import { useSearchParams } from 'react-router-dom';
 
 export const Search = memo(() => {
   const [search, setSearch] = React.useState<string>('');
   const localStart = useRestoreSearch();
-  const [, setSearchParams] = useSearchParams();
+  const router = useNavigate();
+  const dispatch = useAppDispatch();
 
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
-  };
+  }, []);
 
-  const handleLocal = () => {
+  const handleLocal = useCallback(() => {
     const local = localStorage.getItem('search');
+
     if (local === search) return;
+
+    dispatch(addLoader());
     localStorage.setItem('search', search);
-    setSearchParams(
-      {
-        page: '1',
-        search,
-      },
-      {
-        replace: true,
-      }
-    );
-  };
+    router(`/?search=${search}&page=1`);
+  }, [dispatch, router, search]);
 
   React.useEffect(() => {
     setSearch(localStart || '');

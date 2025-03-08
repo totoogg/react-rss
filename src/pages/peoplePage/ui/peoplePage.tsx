@@ -1,10 +1,12 @@
 import { FC, useCallback } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router';
 import { PersonDetail } from '@/widgets';
 import styles from './peoplePage.module.css';
+import { addLoader, useAppDispatch } from '@/shared';
 
 export const PeoplePage: FC = () => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const [searchParams] = useSearchParams();
 
   const handleClick = useCallback(
@@ -12,14 +14,16 @@ export const PeoplePage: FC = () => {
       if (e) {
         const target = e.target as HTMLElement;
         if (
-          target.className.includes('wrapper') ||
-          target.className.includes('page')
+          target.className.includes &&
+          (target.className.includes('wrapper') ||
+            target.className.includes('page'))
         ) {
+          dispatch(addLoader());
           navigate(`/?${searchParams.toString()}`);
         }
       }
     },
-    [navigate, searchParams]
+    [dispatch, navigate, searchParams]
   );
 
   return (

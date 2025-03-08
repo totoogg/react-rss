@@ -8,7 +8,6 @@ import { showError } from './error/errorSlice';
 
 const customBaseQuery: BaseQueryFn = async (args, api, extraOptions) => {
   api.dispatch(addLoader());
-
   try {
     const result = await fetchBaseQuery({ baseUrl: 'https://swapi.dev/api/' })(
       args,

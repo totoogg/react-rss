@@ -1,10 +1,10 @@
 import { FC, memo } from 'react';
-import { useNavigate, useRouteError, useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router';
 import { Button } from '@/shared';
 import styles from './error.module.css';
 
 export const Error: FC = memo(() => {
-  const error = useRouteError() as { statusText: string };
+  const error = '404';
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   console.error(error);
@@ -14,7 +14,7 @@ export const Error: FC = memo(() => {
       <h1>Oops!</h1>
       <p>Sorry, an unexpected error has occurred.</p>
       <p>
-        <i>{error && error.statusText}</i>
+        <i>{error}</i>
       </p>
       <Button
         text="Home page"

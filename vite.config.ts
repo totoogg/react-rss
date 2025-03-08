@@ -1,5 +1,5 @@
 import { defineConfig } from 'vitest/config';
-import react from '@vitejs/plugin-react';
+import { reactRouter } from '@react-router/dev/vite';
 import path from 'path';
 import svgr from 'vite-plugin-svgr';
 
@@ -14,7 +14,7 @@ export default defineConfig({
     svgr({
       include: '**/*.svg?react',
     }),
-    react(),
+    reactRouter(),
   ],
   test: {
     environment: 'jsdom',

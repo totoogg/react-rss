@@ -1,6 +1,6 @@
 import { Button } from '@/shared';
 import { FC, memo, useCallback } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router';
 import styles from './close.module.css';
 
 export const Close: FC = memo(() => {
