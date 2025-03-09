@@ -1,7 +1,7 @@
 import React, { act } from 'react';
 import { describe, it, expect, vi, afterEach, beforeEach } from 'vitest';
 import { PeoplePage } from '../../src/pages/peoplePage/ui/peoplePage';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter } from 'react-router';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom/vitest';
 import { renderWithProviders } from '../test-utils';
@@ -14,11 +14,9 @@ const whenStable = async () =>
 const mockedUseNavigate = vi.fn();
 
 beforeEach(() => {
-  vi.mock('react-router-dom', async () => {
+  vi.mock('react-router', async () => {
     const mod =
-      await vi.importActual<typeof import('react-router-dom')>(
-        'react-router-dom'
-      );
+      await vi.importActual<typeof import('react-router')>('react-router');
     return {
       ...mod,
       useNavigate: () => mockedUseNavigate,

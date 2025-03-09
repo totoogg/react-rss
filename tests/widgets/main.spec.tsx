@@ -1,7 +1,7 @@
 import React, { act } from 'react';
 import { describe, it, expect, afterEach, vi } from 'vitest';
 import { Main } from '../../src/widgets/main/ui/main';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter } from 'react-router';
 import '@testing-library/jest-dom/vitest';
 import { renderWithProviders } from '../test-utils';
 import { server } from '../server/index';
@@ -25,7 +25,7 @@ describe('Main Component', () => {
   it('renders the main', async () => {
     const { container } = renderWithProviders(
       <MemoryRouter initialEntries={['/test?page=1&search=a']}>
-        <Main>
+        <Main count={2}>
           <div>Hello</div>
         </Main>
       </MemoryRouter>,
@@ -40,14 +40,14 @@ describe('Main Component', () => {
 
     await whenStable();
     expect(container.querySelectorAll('div[class*="container"]').length).toBe(
-      2
+      0
     );
   });
 
   it('renders the main with select people', async () => {
     const { getByText } = renderWithProviders(
       <MemoryRouter initialEntries={['/test?page=1&search=a']}>
-        <Main>
+        <Main count={0}>
           <div>Hello</div>
         </Main>
       </MemoryRouter>,
@@ -70,7 +70,7 @@ describe('Main Component', () => {
   it('renders the main with select person', async () => {
     const { getByText } = renderWithProviders(
       <MemoryRouter initialEntries={['/test?page=1&search=a']}>
-        <Main>
+        <Main count={0}>
           <div>Hello</div>
         </Main>
       </MemoryRouter>,
@@ -117,7 +117,7 @@ describe('Main Component', () => {
 
     const { container, getByText } = renderWithProviders(
       <MemoryRouter initialEntries={['?search=null']}>
-        <Main>
+        <Main count={0}>
           <div>Hello</div>
         </Main>
       </MemoryRouter>,

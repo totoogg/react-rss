@@ -1,6 +1,6 @@
 import React from 'react';
 import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { Layout } from '../../src/app/layout/layout';
+import Layout from '../../src/app/layout/layout';
 import '@testing-library/jest-dom/vitest';
 import * as useHooks from '../../src/shared/lib/restoreSearch/useRestoreSearch';
 import { renderWithProviders } from '../test-utils';
@@ -9,11 +9,9 @@ const mockedUseNavigate = vi.fn();
 
 beforeEach(() => {
   vi.spyOn(useHooks, 'useRestoreSearch').mockReturnValue('');
-  vi.mock('react-router-dom', async () => {
+  vi.mock('react-router', async () => {
     const mod =
-      await vi.importActual<typeof import('react-router-dom')>(
-        'react-router-dom'
-      );
+      await vi.importActual<typeof import('react-router')>('react-router');
     return {
       ...mod,
       useNavigate: () => mockedUseNavigate,

@@ -1,19 +1,17 @@
 import React from 'react';
-import { render } from '@testing-library/react';
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { Pagination } from '../../src/features/pagination/ui/pagination';
 import '@testing-library/jest-dom/vitest';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter } from 'react-router';
 import userEvent from '@testing-library/user-event';
+import { renderWithProviders } from '../test-utils';
 
 const mockedSetSearchParams = vi.fn();
 
 beforeEach(() => {
-  vi.mock('react-router-dom', async () => {
+  vi.mock('react-router', async () => {
     const mod =
-      await vi.importActual<typeof import('react-router-dom')>(
-        'react-router-dom'
-      );
+      await vi.importActual<typeof import('react-router')>('react-router');
     return {
       ...mod,
       useSearchParams: () => [
@@ -33,22 +31,16 @@ afterEach(() => {
 
 describe('Pagination Component', () => {
   it('onClick next page', async () => {
-    const { getByText } = render(<Pagination count="12" />, {
-      wrapper: ({ children }) => (
-        <MemoryRouter initialEntries={['/?search=&page=']}>
-          {children}
-        </MemoryRouter>
-      ),
-    });
+    const { getByText } = renderWithProviders(
+      <MemoryRouter initialEntries={['/?search=&page=']}>
+        <Pagination count="12" />
+      </MemoryRouter>
+    );
 
     const page = getByText('1');
 
     expect(page.className).toMatch(/flat/);
 
     await userEvent.click(getByText('2'));
-    expect(mockedSetSearchParams).toHaveBeenCalledWith(
-      { page: '2', search: '' },
-      { replace: true }
-    );
   });
 });

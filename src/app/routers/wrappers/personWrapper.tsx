@@ -24,7 +24,7 @@ export function Wrapper({
   useEffect(() => {
     async function showPage() {
       if (people && films) {
-        if (people.detail || films.detail || person.detail || home.detail) {
+        if (people.detail || films.detail || person?.detail || home?.detail) {
           dispatch(showError());
         } else {
           await Promise.all([
@@ -45,15 +45,27 @@ export function Wrapper({
             dispatch(
               apiSliceWithPerson.util.upsertQueryData(
                 'getPersonById',
-                person.url.split('/')[5],
-                person
+                (person as { url: string }).url.split('/')[5],
+                person || {
+                  name: 'unknown',
+                  birth_year: '',
+                  eye_color: '',
+                  gender: '',
+                  height: '',
+                  mass: '',
+                  skin_color: '',
+                  films: [],
+                  hair_color: '',
+                  homeworld: '',
+                  url: '',
+                }
               )
             ),
             dispatch(
               apiSliceWithPerson.util.upsertQueryData(
                 'getHomeById',
-                person.homeworld.split('/')[5],
-                home
+                (person as { homeworld: string }).homeworld.split('/')[5],
+                home || { name: 'unknown' }
               )
             ),
           ]);

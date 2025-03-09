@@ -3,12 +3,12 @@ import { Wrapper } from './wrappers/personWrapper';
 import { IApi, ICharacter, IFilm, Person } from '@/shared';
 
 export interface IProps {
-  people: Pick<IApi, 'count'> &
+  people?: Pick<IApi, 'count'> &
     Record<'results', ICharacter[]> &
     Partial<{ detail: string }>;
-  films: { results: IFilm[] } & Partial<{ detail: string }>;
-  person: Person & Partial<{ detail: string }>;
-  home: { name: string } & Partial<{ detail: string }>;
+  films?: { results: IFilm[] } & Partial<{ detail: string }>;
+  person?: Person & Partial<{ detail: string }>;
+  home?: { name: string } & Partial<{ detail: string }>;
 }
 
 export async function loader({

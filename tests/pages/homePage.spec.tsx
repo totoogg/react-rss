@@ -1,7 +1,7 @@
 import React, { act } from 'react';
 import { describe, it, expect, vi } from 'vitest';
 import { HomePage } from '../../src/pages/homePage/ui/homePage';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter } from 'react-router';
 import '@testing-library/jest-dom/vitest';
 import { renderWithProviders } from '../test-utils';
 import { server } from '../server';

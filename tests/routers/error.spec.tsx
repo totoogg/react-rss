@@ -1,10 +1,10 @@
 import React, { act } from 'react';
+import { render } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { Error } from '../../src/pages/error/ui/error';
-import { MemoryRouter } from 'react-router';
+import Error from '../../src/app/routers/error';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom/vitest';
-import { renderWithProviders } from '../test-utils';
+import { MemoryRouter } from 'react-router';
 
 const whenStable = async () =>
   await act(async () => {
@@ -12,7 +12,6 @@ const whenStable = async () =>
   });
 
 const mockedUseNavigate = vi.fn();
-const mockedUseRouteError = vi.fn();
 
 beforeEach(() => {
   vi.mock('react-router', async () => {
@@ -21,7 +20,11 @@ beforeEach(() => {
     return {
       ...mod,
       useNavigate: () => mockedUseNavigate,
-      useRouteError: () => mockedUseRouteError,
+      useLocation: () => ({
+        location: {
+          search: 'search=a',
+        },
+      }),
     };
   });
 });
@@ -33,8 +36,8 @@ afterEach(() => {
 describe('Error page Component', () => {
   it('renders the Error Page', async () => {
     const error = vi.spyOn(console, 'error').mockImplementation(() => null);
-    const { container, getByRole, getByText } = renderWithProviders(
-      <MemoryRouter initialEntries={['/error']}>
+    const { container, getByRole, getByText } = render(
+      <MemoryRouter>
         <Error />
       </MemoryRouter>
     );

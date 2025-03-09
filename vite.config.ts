@@ -14,7 +14,7 @@ export default defineConfig({
     svgr({
       include: '**/*.svg?react',
     }),
-    reactRouter(),
+    !process.env.VITEST && reactRouter(),
   ],
   test: {
     environment: 'jsdom',
