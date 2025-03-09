@@ -17,13 +17,15 @@ const customBaseQuery: BaseQueryFn = async (args, api, extraOptions) => {
     );
 
     if (result.error) {
-      throw new Error('Request');
+      api.dispatch(showError());
+      console.error('Error:', result.error);
     }
 
     return result;
   } catch (error) {
     api.dispatch(showError());
-    throw error;
+    console.error('Error:', error);
+    return { error };
   } finally {
     api.dispatch(removeLoader());
   }
@@ -34,3 +36,7 @@ export const apiSlice = createApi({
   baseQuery: customBaseQuery,
   endpoints: () => ({}),
 });
+
+export const {
+  util: { getRunningQueriesThunk },
+} = apiSlice;

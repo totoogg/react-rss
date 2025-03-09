@@ -1,0 +1,26 @@
+.page {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.9);
+  cursor: pointer;
+  z-index: 4;
+}
+
+.wrapper {
+  max-width: var(--content);
+  margin: auto;
+  padding-right: 10px;
+}
+
+.detail {
+  cursor: default;
+  max-width: var(--table);
+  width: 400px;
+  margin-left: auto;
+  padding: 10px;
+  height: 100vh;
+  background-color: var(--emerald-300);
+}

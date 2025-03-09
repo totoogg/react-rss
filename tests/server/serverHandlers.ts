@@ -47,7 +47,7 @@ const handlers = [
     };
     return HttpResponse.json(mockApiResponse);
   }),
-  http.get('https://swapi.dev/api/people/1/', () => {
+  http.get('https://swapi.dev/api/people/1', () => {
     const mockApiResponse = {
       name: 'Han Solo',
       height: '180',
@@ -67,7 +67,7 @@ const handlers = [
     };
     return HttpResponse.json(mockApiResponse);
   }),
-  http.get('https://swapi.dev/api/planets/', () => {
+  http.get('https://swapi.dev/api/planets/22', () => {
     const mockApiResponse = 'Tatooine';
     return HttpResponse.json(mockApiResponse);
   }),

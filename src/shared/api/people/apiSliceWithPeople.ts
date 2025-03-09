@@ -1,7 +1,7 @@
 import { IApi, ICharacter } from '@/shared/types';
 import { apiSlice } from '../apiSlice';
 
-export const apiSliceWithFilms = apiSlice.injectEndpoints({
+export const apiSliceWithPeople = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getPeople: builder.query<
       Pick<IApi, 'count'> & Record<'people', ICharacter[]>,
@@ -21,4 +21,6 @@ export const apiSliceWithFilms = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useLazyGetPeopleQuery } = apiSliceWithFilms;
+export const { useLazyGetPeopleQuery, useGetPeopleQuery } = apiSliceWithPeople;
+
+export const { getPeople } = apiSliceWithPeople.endpoints;

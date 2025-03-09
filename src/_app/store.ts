@@ -1,0 +1,23 @@
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import { apiSlice, errorReducer, loaderReducer } from '@/shared';
+import { choosePeopleReducer } from '@/features';
+
+const reducer = combineReducers({
+  choose: choosePeopleReducer,
+  loader: loaderReducer,
+  error: errorReducer,
+  [apiSlice.reducerPath]: apiSlice.reducer,
+});
+
+export const setupStore = (preloadedState?: Partial<RootState>) => {
+  return configureStore({
+    reducer,
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware().concat(apiSlice.middleware),
+    devTools: process.env.NODE_ENV !== 'production',
+    preloadedState,
+  });
+};
+
+export type AppStore = ReturnType<typeof setupStore>;
+export type RootState = ReturnType<typeof reducer>;

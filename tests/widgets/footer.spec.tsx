@@ -15,7 +15,7 @@ describe('Footer Component', () => {
   it('renders the footer', () => {
     const { container } = renderWithProviders(<Footer />);
     expect(container.querySelectorAll('div[class*="footer"]').length).toBe(1);
-    expect(container.querySelectorAll('div[class*="wrapper"]').length).toBe(1);
+    expect(container.querySelectorAll('div[class*="wrapper"]').length).toBe(2);
     expect(screen.getByText('ERROR')).toBeInTheDocument();
   });
 

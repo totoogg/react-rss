@@ -6,8 +6,8 @@ export interface ILoader {
 }
 
 const initialState: ILoader = {
-  isLoader: false,
-  countLoader: 0,
+  isLoader: true,
+  countLoader: 2,
 };
 
 const loaderSlice = createSlice({
@@ -20,6 +20,7 @@ const loaderSlice = createSlice({
     },
     removeLoader: (state) => {
       state.countLoader -= 1;
+      if (state.countLoader < 0) state.countLoader = 0;
       if (state.countLoader === 0) state.isLoader = false;
     },
   },

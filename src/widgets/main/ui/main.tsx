@@ -1,3 +1,5 @@
+'use client';
+
 import { FC, memo } from 'react';
 import {
   clearChoosePeople,
@@ -6,18 +8,15 @@ import {
   selectChoosePeople,
   selectLengthChoosePeople,
 } from '@/features';
-import {
-  Button,
-  ICharacter,
-  useAppDispatch,
-  useAppSelector,
-  useSearchPeople,
-} from '@/shared';
+import { Button, ICharacter, useAppDispatch, useAppSelector } from '@/shared';
 import { IMainProps } from '../model/mainType';
 import styles from './main.module.css';
+import { useSearchParams } from 'next/navigation';
 
-export const Main: FC<IMainProps> = memo(({ children }) => {
-  const { count, people } = useSearchPeople();
+export const Main: FC<IMainProps> = memo(({ children, count }) => {
+  const query = useSearchParams();
+  const search = query.get('search');
+
   const lengthChoosePeople = useAppSelector((state) =>
     selectLengthChoosePeople(state)
   );
@@ -27,18 +26,6 @@ export const Main: FC<IMainProps> = memo(({ children }) => {
 
   return (
     <div className={styles.main}>
-      {+count > 10 ? <Pagination count={String(count)} /> : ''}
-      <div className={styles.gallery}>
-        {people.length > 0 ? (
-          children
-        ) : (
-          <div className={styles.notFound}>
-            No characters with the name &quot;
-            {localStorage.getItem('search')}
-            &quot; found
-          </div>
-        )}
-      </div>
       {lengthChoosePeople > 0 ? (
         <div className={styles.choose}>
           <span>
@@ -62,6 +49,18 @@ export const Main: FC<IMainProps> = memo(({ children }) => {
       ) : (
         ''
       )}
+      {+count > 10 ? <Pagination count={String(count)} /> : ''}
+      <div className={styles.gallery}>
+        {count > 0 ? (
+          children
+        ) : (
+          <div className={styles.notFound}>
+            No characters with the name &quot;
+            {search || ''}
+            &quot; found
+          </div>
+        )}
+      </div>
       {+count > 10 ? <Pagination count={String(count)} /> : ''}
     </div>
   );

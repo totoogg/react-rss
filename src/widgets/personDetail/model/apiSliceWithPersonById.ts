@@ -1,7 +1,7 @@
 import { Person } from '@/shared';
 import { apiSlice } from '@/shared';
 
-export const apiSliceWithPeople = apiSlice.injectEndpoints({
+export const apiSliceWithPerson = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getPersonById: builder.query<Person, string>({
       query: (id) => `people/${id}`,
@@ -32,5 +32,11 @@ export const apiSliceWithPeople = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useLazyGetHomeByIdQuery, useLazyGetPersonByIdQuery } =
-  apiSliceWithPeople;
+export const {
+  useLazyGetHomeByIdQuery,
+  useLazyGetPersonByIdQuery,
+  useGetHomeByIdQuery,
+  useGetPersonByIdQuery,
+} = apiSliceWithPerson;
+
+export const { getPersonById, getHomeById } = apiSliceWithPerson.endpoints;
