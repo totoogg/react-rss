@@ -7,7 +7,7 @@ export interface ILoader {
 
 const initialState: ILoader = {
   isLoader: true,
-  countLoader: 1,
+  countLoader: 2,
 };
 
 const loaderSlice = createSlice({

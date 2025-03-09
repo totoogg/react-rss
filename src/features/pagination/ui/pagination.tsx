@@ -20,7 +20,6 @@ export const Pagination: FC<IPaginationProps> = memo(({ count }) => {
         router.push(
           `/?search=${localStorage.getItem('search') || ''}&page=${String(i)}`
         );
-        router.refresh();
       }
     },
     [currentPage, dispatch, router]

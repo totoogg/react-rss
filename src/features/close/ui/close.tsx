@@ -15,7 +15,6 @@ export const Close: FC = memo(() => {
   const handleClick = useCallback(() => {
     dispatch(addLoader());
     router.push(`/?search=${search}&page=${page}`);
-    router.refresh();
   }, [dispatch, page, router, search]);
 
   return (

@@ -21,7 +21,6 @@ export const Error: FC = memo(() => {
         text="Home page"
         onClick={() => {
           router.push(`/?search=${query.get('search') || ''}&page=1`);
-          router.refresh();
         }}
         className={styles.button}
       />

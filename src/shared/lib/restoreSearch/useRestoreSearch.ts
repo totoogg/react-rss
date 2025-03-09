@@ -19,14 +19,12 @@ export const useRestoreSearch = () => {
 
     if (!checkParams) {
       router.push(`/?search=${search || local}&page=${page}`);
-      router.refresh();
     }
 
     if (search && local !== search) {
       localStorage.setItem('search', search);
       page = 1;
       router.push(`/?search=${search}&page=${page}`);
-      router.refresh();
     }
 
     if (!local) {

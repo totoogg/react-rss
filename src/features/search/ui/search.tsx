@@ -29,7 +29,6 @@ export const Search = memo(() => {
     dispatch(addLoader());
     localStorage.setItem('search', search);
     router.push(`/?search=${search}&page=1`);
-    router.refresh();
   }, [dispatch, router, search]);
 
   React.useEffect(() => {
