@@ -1,9 +1,19 @@
 import { FC, memo } from 'react';
-import { IInputProps } from '@/shared/types';
 import styles from './input.module.css';
+import { IInputProps } from '@/shared/types';
 
 export const Input: FC<IInputProps> = memo(
-  ({ name, onChange, onEnter, placeholder, type, value, className }) => {
+  ({
+    name,
+    onChange,
+    placeholder,
+    type,
+    value,
+    className,
+    refInput,
+    list,
+    id,
+  }) => {
     return (
       <input
         className={[styles.input, className].join(' ')}
@@ -12,7 +22,9 @@ export const Input: FC<IInputProps> = memo(
         name={name}
         value={value}
         onChange={onChange}
-        onKeyDown={(e) => e.key === 'Enter' && onEnter()}
+        ref={refInput}
+        list={list}
+        id={id}
       />
     );
   }

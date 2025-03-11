@@ -1,25 +1,15 @@
-import { FC, memo, useContext } from 'react';
-import { ILayoutProps } from '../types';
-import { Footer, Header } from '@/widgets';
+import { FC, memo } from 'react';
+import { Header } from '@/widgets';
 import { Outlet } from 'react-router-dom';
-import { ThemeContext } from '@/shared';
 import styles from './layout.module.css';
 
-export const Layout: FC<ILayoutProps> = memo(({ children }) => {
-  const { theme } = useContext(ThemeContext);
-
+export const Layout: FC = memo(() => {
   return (
-    <div
-      className={[styles.layout, theme !== 'light' ? styles.moon : ''].join(
-        ' '
-      )}
-    >
+    <div className={styles.layout}>
       <Header />
-      <div>{children}</div>
       <div>
         <Outlet />
       </div>
-      <Footer />
     </div>
   );
 });

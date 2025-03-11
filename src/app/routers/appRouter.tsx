@@ -1,22 +1,23 @@
 import { FC } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { Layout } from '../layout';
-import { Error, HomePage, PeoplePage } from '@/pages';
+import { Error, HomePage, UncontrolledPage } from '@/pages';
 
 export const AppRouter: FC = () => {
   const router = createBrowserRouter([
     {
       path: '/',
-      element: (
-        <Layout>
-          <HomePage />
-        </Layout>
-      ),
+      element: <Layout />,
       errorElement: <Error />,
       children: [
+        { index: true, element: <HomePage /> },
         {
-          path: 'people/:personId',
-          element: <PeoplePage />,
+          path: 'uncontrolled',
+          element: <UncontrolledPage />,
+        },
+        {
+          path: 'react_hook_form',
+          element: <>react_hook_form</>,
         },
       ],
     },

@@ -3,16 +3,13 @@ import { ErrorBoundary, Fallback } from '@/shared';
 import { IProvidersProps } from '../types';
 import { Provider } from 'react-redux';
 import { setupStore } from '../store';
-import { ThemeProvide } from './theme';
 
 const store = setupStore();
 
 export const Providers: FC<IProvidersProps> = memo(({ children }) => {
   return (
     <ErrorBoundary fallback={<Fallback />}>
-      <Provider store={store}>
-        <ThemeProvide>{children}</ThemeProvide>
-      </Provider>
+      <Provider store={store}>{children}</Provider>
     </ErrorBoundary>
   );
 });

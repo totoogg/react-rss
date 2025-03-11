@@ -1,5 +1,5 @@
-import { InputHTMLAttributes } from 'react';
+import { InputHTMLAttributes, MutableRefObject } from 'react';
 
 export interface IInputProps extends InputHTMLAttributes<HTMLInputElement> {
-  onEnter: () => void;
+  refInput?: MutableRefObject<HTMLInputElement | null>;
 }

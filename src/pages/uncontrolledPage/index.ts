@@ -1,0 +1,1 @@
+export { UncontrolledPage } from './ui';

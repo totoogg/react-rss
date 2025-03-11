@@ -1,3 +1,3 @@
 export { HomePage } from './homePage';
-export { PeoplePage } from './peoplePage';
+export { UncontrolledPage } from './uncontrolledPage';
 export { Error } from './error';
