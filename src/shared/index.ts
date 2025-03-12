@@ -1,4 +1,4 @@
-export { dataReducer } from './store';
+export { dataReducer, addData, selectData } from './store';
 export { Fallback } from './ui/fallback';
 export { Button } from './ui/button';
 export { Input } from './ui/input';
@@ -17,3 +17,4 @@ export type {
   IChooseProps,
 } from './types';
 export { countries, countriesLower } from './constants/countries';
+export { schema } from './lib/validate/validate';

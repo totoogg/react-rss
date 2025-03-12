@@ -1,1 +1,1 @@
-export { default as dataReducer } from './data/dataSlice';
+export { default as dataReducer, addData, selectData } from './data/dataSlice';

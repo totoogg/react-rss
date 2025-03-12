@@ -1,7 +1,15 @@
-import { Button, countries, countriesLower, Input } from '@/shared';
+import {
+  addData,
+  Button,
+  countries,
+  Input,
+  schema,
+  useAppDispatch,
+} from '@/shared';
 import { FC, FormEvent, memo, useRef, useState } from 'react';
-import * as Yup from 'yup';
+import { ValidationError } from 'yup';
 import styles from './uncontrolledForm.module.css';
+import { useNavigate } from 'react-router-dom';
 
 export const UncontrolledForm: FC = memo(() => {
   const nameField = useRef<HTMLInputElement | null>(null);
@@ -17,80 +25,51 @@ export const UncontrolledForm: FC = memo(() => {
 
   const [error, setError] = useState<Record<string, string>>({});
 
-  const schema = Yup.object().shape({
-    username: Yup.string()
-      .required('Name is required')
-      .test({
-        test: (value) => value[0] === value[0]?.toUpperCase(),
-        message: 'The first letter must be capitalized',
-      }),
-    age: Yup.number()
-      .required('Age is required')
-      .positive('Age must be a positive number'),
-    email: Yup.string()
-      .email('Invalid email format')
-      .required('Email is required'),
-    password: Yup.string()
-      .required('Password is required')
-      .matches(
-        /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)/,
-        'Password must have 1 number, 1 uppercased letter, 1 lowercased letter and 1 special character'
-      ),
-    confirmPassword: Yup.string()
-      .required('Confirm password')
-      .test('passwords-match', 'The passwords do not match', function (value) {
-        return !value || this.parent.password === value;
-      }),
-    gender: Yup.string().required('Gender is required'),
-    accept: Yup.boolean().oneOf(
-      [true],
-      'You must accept Terms and Conditions agreement'
-    ),
-    file: Yup.mixed<File>()
-      .required('File is required')
-      .test(
-        'fileSize',
-        'The file is too big (> 1 MB)',
-        (value) => value && value.size <= 1048576
-      )
-      .test(
-        'fileFormat',
-        'Unsupported format (png | jpeg)',
-        (value) => value && ['image/png', 'image/jpeg'].includes(value.type)
-      ),
-    country: Yup.string()
-      .required('Country is required')
-      .test({
-        test: (value) =>
-          !value || countriesLower.includes(value?.toLowerCase()),
-        message: 'Such a country does not exist',
-      }),
-  });
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    console.log(manField.current?.checked);
-    console.log(femaleField.current?.checked);
-
     const formData = {
-      username: nameField.current?.value,
-      age: '-1',
-      email: '1@',
-      password: 'aA1',
-      confirmPassword: 'aA1#',
-      country: 'afhanistan',
-      gender: '',
-      accept: false,
-      file: new File([''], 'filename.png', {
-        type: 'image/pnga',
-      }),
+      username: nameField.current?.value || '',
+      age: ageField.current?.value || '-1',
+      email: emailField.current?.value || '',
+      password: passwordField.current?.value || '',
+      confirmPassword: confirmPasswordField.current?.value || '',
+      gender: manField.current?.checked
+        ? 'Male'
+        : femaleField.current?.checked
+          ? 'Female'
+          : '',
+      accept: acceptField.current?.checked || '',
+      file: fileField.current?.files?.[0] || '',
+      country: countryField.current?.value || '',
     };
 
     schema
       .validate(formData, { abortEarly: false })
-      .then((a) => console.log('a', a))
-      .catch((err: Yup.ValidationError) => {
+      .then(() => {
+        setError({});
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          dispatch(
+            addData({
+              ...formData,
+              file: reader.result as string,
+            })
+          );
+          navigate('/');
+        };
+        if (
+          fileField.current &&
+          fileField.current.files &&
+          fileField.current.files[0]
+        ) {
+          reader.readAsDataURL(fileField.current.files[0]);
+        }
+      })
+      .catch((err: ValidationError) => {
         const error: Record<string, string> = {};
         err.inner.forEach((e) => {
           if (e.path) {
@@ -205,6 +184,7 @@ export const UncontrolledForm: FC = memo(() => {
         refInput={fileField}
         id="file"
         className={styles.input}
+        accept=".jpeg, .png"
       />
       <p className={styles.error}>&nbsp;{error.file}</p>
       <label className={styles.label} htmlFor="country">
