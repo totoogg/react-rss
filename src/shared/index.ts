@@ -1,4 +1,5 @@
 export { dataReducer, addData, selectData } from './store';
+export type { Data } from './store';
 export { Fallback } from './ui/fallback';
 export { Button } from './ui/button';
 export { Input } from './ui/input';
