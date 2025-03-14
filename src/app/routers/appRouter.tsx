@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { Layout } from '../layout';
-import { Error, HomePage, UncontrolledPage } from '@/pages';
+import { ControlledPage, Error, HomePage, UncontrolledPage } from '@/pages';
 
 export const AppRouter: FC = () => {
   const router = createBrowserRouter([
@@ -17,7 +17,7 @@ export const AppRouter: FC = () => {
         },
         {
           path: 'react_hook_form',
-          element: <>react_hook_form</>,
+          element: <ControlledPage />,
         },
       ],
     },

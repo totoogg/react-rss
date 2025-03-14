@@ -61,11 +61,7 @@ export const UncontrolledForm: FC = memo(() => {
           );
           navigate('/');
         };
-        if (
-          fileField.current &&
-          fileField.current.files &&
-          fileField.current.files[0]
-        ) {
+        if (fileField.current?.files?.[0]) {
           reader.readAsDataURL(fileField.current.files[0]);
         }
       })
@@ -83,7 +79,7 @@ export const UncontrolledForm: FC = memo(() => {
   return (
     <form onSubmit={handleSubmit} className={styles.form}>
       <label className={styles.label} htmlFor="name">
-        Name
+        Name*
       </label>
       <Input
         placeholder="Name"
@@ -93,7 +89,7 @@ export const UncontrolledForm: FC = memo(() => {
       />
       <p className={styles.error}>&nbsp;{error.username}</p>
       <label className={styles.label} htmlFor="age">
-        Age
+        Age*
       </label>
       <Input
         placeholder="Age"
@@ -105,7 +101,7 @@ export const UncontrolledForm: FC = memo(() => {
       />
       <p className={styles.error}>&nbsp;{error.age}</p>
       <label className={styles.label} htmlFor="email">
-        Email
+        Email*
       </label>
       <Input
         placeholder="Email"
@@ -116,7 +112,7 @@ export const UncontrolledForm: FC = memo(() => {
       />
       <p className={styles.error}>&nbsp;{error.email}</p>
       <label className={styles.label} htmlFor="password">
-        Password
+        Password*
       </label>
       <Input
         placeholder="Password"
@@ -127,7 +123,7 @@ export const UncontrolledForm: FC = memo(() => {
       />
       <p className={styles.error}>&nbsp;{error.password}</p>
       <label className={styles.label} htmlFor="confirmPassword">
-        Confirm Password
+        Confirm Password*
       </label>
       <Input
         placeholder="Confirm Password"
@@ -137,7 +133,7 @@ export const UncontrolledForm: FC = memo(() => {
         className={styles.input}
       />
       <p className={styles.error}>&nbsp;{error.confirmPassword}</p>
-      <label className={styles.label}>Gender</label>
+      <label className={styles.label}>Gender*</label>
       <div>
         <input
           className={styles['custom-radio']}
@@ -173,11 +169,11 @@ export const UncontrolledForm: FC = memo(() => {
         htmlFor="accept"
         className={[styles.labelCheckbox, styles.input].join(' ')}
       >
-        I accept Terms and Conditions agreement
+        I accept Terms and Conditions agreement*
       </label>
       <p className={styles.error}>&nbsp;{error.accept}</p>
       <label className={styles.label} htmlFor="file">
-        File
+        File*
       </label>
       <Input
         type="file"
@@ -188,7 +184,7 @@ export const UncontrolledForm: FC = memo(() => {
       />
       <p className={styles.error}>&nbsp;{error.file}</p>
       <label className={styles.label} htmlFor="country">
-        Country
+        Country*
       </label>
       <Input
         refInput={countryField}

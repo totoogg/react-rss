@@ -1,12 +1,26 @@
 import { Data, selectData, useAppSelector } from '@/shared';
 import { FC, memo } from 'react';
 import styles from './content.module.css';
+import { Link } from 'react-router-dom';
 
 export const Content: FC = memo(() => {
   const data = useAppSelector(selectData);
 
   return (
     <>
+      {data.length === 0 && (
+        <p className={styles.empty}>
+          Empty. Please fill out and submit an{' '}
+          <Link to="/uncontrolled" className={styles.link}>
+            Uncontrolled
+          </Link>{' '}
+          or{' '}
+          <Link to="/react_hook_form" className={styles.link}>
+            React Hook Form
+          </Link>{' '}
+          form.
+        </p>
+      )}
       {data.map((item: Data, index: number) => (
         <div
           key={index}

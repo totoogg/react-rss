@@ -32,16 +32,13 @@ export const schema = Yup.object().shape({
   ),
   file: Yup.mixed<File>()
     .required('File is required')
-    .test(
-      'fileSize',
-      'The file is too big (> 1 MB)',
-      (value) => value && value.size <= 1048576
-    )
-    .test(
-      'fileFormat',
-      'Unsupported format (png | jpeg)',
-      (value) => value && ['image/png', 'image/jpeg'].includes(value.type)
-    ),
+    .test('fileSize', 'The file is too big (> 1 MB)', (value) => {
+      return value && value.size <= 1048576;
+    })
+    .test('fileFormat', 'Unsupported format (png | jpeg)', (value) => {
+      return value && ['image/png', 'image/jpeg'].includes(value.type);
+    })
+    .test('fileRequired', 'File is required', (value) => !!value),
   country: Yup.string()
     .required('Country is required')
     .test({
