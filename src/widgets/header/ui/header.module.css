@@ -1,0 +1,29 @@
+.header {
+  display: flex;
+  width: 100%;
+  background-color: var(--emerald-100);
+  padding: 10px;
+}
+
+.wrapper {
+  max-width: var(--content);
+  margin: auto;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.link {
+  text-decoration: none;
+  font-size: 3rem;
+  color: var(--emerald-500);
+}
+
+.link:hover {
+  color: var(--emerald-900);
+}
+
+.active {
+  color: var(--emerald-900);
+}
