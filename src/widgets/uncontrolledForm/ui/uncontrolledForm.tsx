@@ -33,7 +33,7 @@ export const UncontrolledForm: FC = memo(() => {
 
     const formData = {
       username: nameField.current?.value || '',
-      age: ageField.current?.value || '-1',
+      age: ageField.current?.value || '',
       email: emailField.current?.value || '',
       password: passwordField.current?.value || '',
       confirmPassword: confirmPasswordField.current?.value || '',
@@ -105,7 +105,7 @@ export const UncontrolledForm: FC = memo(() => {
       </label>
       <Input
         placeholder="Email"
-        type="email"
+        type="text"
         refInput={emailField}
         id="email"
         className={styles.input}

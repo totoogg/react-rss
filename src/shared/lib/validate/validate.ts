@@ -9,6 +9,7 @@ export const schema = Yup.object().shape({
       message: 'The first letter must be capitalized',
     }),
   age: Yup.number()
+    .typeError('Age is required')
     .required('Age is required')
     .positive('Age must be a positive number'),
   email: Yup.string()
@@ -19,7 +20,8 @@ export const schema = Yup.object().shape({
     .matches(
       /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)/,
       'Password must have 1 number, 1 uppercased letter, 1 lowercased letter and 1 special character'
-    ),
+    )
+    .test('passwordRequired', 'Password is required', (value) => !!value),
   confirmPassword: Yup.string()
     .required('Confirm password')
     .test('passwords-match', 'The passwords do not match', function (value) {
