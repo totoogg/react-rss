@@ -1,16 +1,15 @@
-import { FC, memo } from 'react';
-import { Search, ToggleTheme } from '@/features';
+import { FC } from 'react';
+import { Search } from '@/features';
 import styles from './header.module.css';
 
-export const Header: FC = memo(() => {
+export const Header: FC = () => {
   return (
     <div className={styles.header}>
       <div className={styles.wrapper}>
         <Search />
-        <ToggleTheme />
       </div>
     </div>
   );
-});
+};
 
 Header.displayName = 'Header';

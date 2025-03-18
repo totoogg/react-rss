@@ -1,28 +1,15 @@
-export {
-  apiSlice,
-  useGetFilmsQuery,
-  useLazyGetPeopleQuery,
-  loaderReducer,
-  selectIsLoader,
-  errorReducer,
-  selectIsError,
-} from './api';
+export { apiSlice, useGetCountriesQuery } from './api';
 export { Loader } from './ui/loader';
 export { Fallback } from './ui/fallback';
 export { Input } from './ui/input';
 export { Choose } from './ui/choose';
+export { Button } from './ui/button';
 export { ErrorBoundary } from './ui/errorBoundary';
-export { useRestoreSearch } from './lib/restoreSearch';
 export { useAppDispatch, useAppSelector } from './lib/store';
-export { useSearchPeople } from './lib/searchPeople';
-export { getFilms } from './lib/getFilms/getFilms';
 export type {
   IApi,
-  ICharacter,
-  Person,
   IErrorBoundaryProps,
   IErrorBoundaryState,
-  IFilm,
   IInputProps,
   IChooseProps,
 } from './types';

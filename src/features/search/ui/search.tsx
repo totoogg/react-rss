@@ -1,12 +1,9 @@
 import React from 'react';
-import { Button, Input, useRestoreSearch } from '@/shared';
+import { Button, Input } from '@/shared';
 import styles from './search.module.css';
-import { useSearchParams } from 'react-router-dom';
 
 export const Search = () => {
   const [search, setSearch] = React.useState<string>('');
-  const localStart = useRestoreSearch();
-  const [, setSearchParams] = useSearchParams();
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
@@ -16,20 +13,7 @@ export const Search = () => {
     const local = localStorage.getItem('search');
     if (local === search) return;
     localStorage.setItem('search', search);
-    setSearchParams(
-      {
-        page: '1',
-        search,
-      },
-      {
-        replace: true,
-      }
-    );
   };
-
-  React.useEffect(() => {
-    setSearch(localStart || '');
-  }, [localStart]);
 
   return (
     <div className={styles.search}>

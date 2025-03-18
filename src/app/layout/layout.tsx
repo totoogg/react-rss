@@ -2,6 +2,7 @@ import { FC, useContext } from 'react';
 import { Header } from '@/widgets';
 import { ThemeContext } from '@/shared';
 import styles from './layout.module.css';
+import { HomePage } from '@/pages';
 
 export const Layout: FC = () => {
   const { theme } = useContext(ThemeContext);
@@ -13,7 +14,7 @@ export const Layout: FC = () => {
       )}
     >
       <Header />
-      <div>main</div>
+      <HomePage />
     </div>
   );
 };

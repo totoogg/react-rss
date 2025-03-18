@@ -1,11 +1,7 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import { apiSlice, errorReducer, loaderReducer } from '@/shared';
-import { choosePeopleReducer } from '@/features';
+import { apiSlice } from '@/shared';
 
 const rootReducer = combineReducers({
-  choose: choosePeopleReducer,
-  loader: loaderReducer,
-  error: errorReducer,
   [apiSlice.reducerPath]: apiSlice.reducer,
 });
 

@@ -1,22 +1,18 @@
-import { FC, memo } from 'react';
-import { Main, PeopleList } from '@/widgets';
-import { ErrorResponse } from '@/entities';
-import { selectIsError, useAppSelector } from '@/shared';
+import { FC } from 'react';
+import { Main, CountriesList } from '@/widgets';
 import styles from './homePage.module.css';
+import { useGetCountriesQuery } from '@/shared';
 
-export const HomePage: FC = memo(() => {
-  const isError = useAppSelector(selectIsError);
+export const HomePage: FC = () => {
+  const { data } = useGetCountriesQuery();
 
   return (
     <div className={styles.page}>
-      {isError && <ErrorResponse />}
-      {!isError && (
-        <Main>
-          <PeopleList />
-        </Main>
-      )}
+      <Main>
+        <CountriesList data={data || []} />
+      </Main>
     </div>
   );
-});
+};
 
 HomePage.displayName = 'HomePage';

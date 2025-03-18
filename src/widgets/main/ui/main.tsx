@@ -1,70 +1,21 @@
-import { FC, memo } from 'react';
-import {
-  clearChoosePeople,
-  Download,
-  Pagination,
-  selectChoosePeople,
-  selectLengthChoosePeople,
-} from '@/features';
-import {
-  Button,
-  ICharacter,
-  useAppDispatch,
-  useAppSelector,
-  useSearchPeople,
-} from '@/shared';
+import { FC } from 'react';
 import { IMainProps } from '../model/mainType';
 import styles from './main.module.css';
+import { Loader, useGetCountriesQuery } from '@/shared';
+import { ErrorResponse } from '@/entities';
 
-export const Main: FC<IMainProps> = memo(({ children }) => {
-  const { count, people } = useSearchPeople();
-  const lengthChoosePeople = useAppSelector((state) =>
-    selectLengthChoosePeople(state)
-  );
-  const dispatch = useAppDispatch();
-  const choosePeople = useAppSelector((state) => selectChoosePeople(state));
-  const select = lengthChoosePeople > 1 ? 'people' : 'person';
+export const Main: FC<IMainProps> = ({ children }) => {
+  const { isError, isLoading } = useGetCountriesQuery();
 
   return (
     <div className={styles.main}>
-      {+count > 10 ? <Pagination count={String(count)} /> : ''}
-      <div className={styles.gallery}>
-        {people.length > 0 ? (
-          children
-        ) : (
-          <div className={styles.notFound}>
-            No characters with the name &quot;
-            {localStorage.getItem('search')}
-            &quot; found
-          </div>
-        )}
-      </div>
-      {lengthChoosePeople > 0 ? (
-        <div className={styles.choose}>
-          <span>
-            <b>{lengthChoosePeople}</b> {select} selected
-          </span>
-          <div className={styles['chose-buttons']}>
-            <Button
-              onClick={() => dispatch(clearChoosePeople())}
-              className={styles.button}
-              classNameButton="flat"
-            >
-              Unselect all
-            </Button>
-            <Download
-              className={styles.button}
-              data={choosePeople as { [key: string]: ICharacter }}
-              fileName={`${lengthChoosePeople}_${select}.csv`}
-            />
-          </div>
-        </div>
-      ) : (
-        ''
+      {isLoading && <Loader />}
+      {isError && <ErrorResponse />}
+      {!isLoading && !isError && (
+        <div className={styles.gallery}>{children}</div>
       )}
-      {+count > 10 ? <Pagination count={String(count)} /> : ''}
     </div>
   );
-});
+};
 
 Main.displayName = 'Main';
