@@ -1,4 +1,4 @@
-import { FC, memo } from 'react';
+import { FC } from 'react';
 import { ErrorBoundary, Fallback } from '@/shared';
 import { IProvidersProps } from '../types';
 import { Provider } from 'react-redux';
@@ -7,7 +7,7 @@ import { ThemeProvide } from './theme';
 
 const store = setupStore();
 
-export const Providers: FC<IProvidersProps> = memo(({ children }) => {
+export const Providers: FC<IProvidersProps> = ({ children }) => {
   return (
     <ErrorBoundary fallback={<Fallback />}>
       <Provider store={store}>
@@ -15,6 +15,6 @@ export const Providers: FC<IProvidersProps> = memo(({ children }) => {
       </Provider>
     </ErrorBoundary>
   );
-});
+};
 
 Providers.displayName = 'Providers';

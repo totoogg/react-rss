@@ -10,18 +10,13 @@
     "lint:fix": "eslint . --fix",
     "preview": "vite preview",
     "prepare": "husky",
-    "format:fix": "prettier --write .",
-    "test": "vitest run",
-    "test:watch": "vitest --watch",
-    "test:ui": "vitest --ui",
-    "test:coverage": "vitest run --coverage"
+    "format:fix": "prettier --write ."
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.5.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-redux": "^9.2.0",
-    "react-router-dom": "^7.1.5",
     "vite-plugin-svgr": "^4.3.0"
   },
   "devDependencies": {

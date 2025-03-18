@@ -9,7 +9,6 @@ export {
 } from './api';
 export { Loader } from './ui/loader';
 export { Fallback } from './ui/fallback';
-export { Button } from './ui/button';
 export { Input } from './ui/input';
 export { Choose } from './ui/choose';
 export { ErrorBoundary } from './ui/errorBoundary';
@@ -21,7 +20,6 @@ export type {
   IApi,
   ICharacter,
   Person,
-  IButtonProps,
   IErrorBoundaryProps,
   IErrorBoundaryState,
   IFilm,

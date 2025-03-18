@@ -1,11 +1,11 @@
 import { FC, memo } from 'react';
 import { Providers } from './providers/providers';
-import { AppRouter } from './routers/appRouter';
+import { Layout } from './layout';
 
 export const App: FC = memo(() => {
   return (
     <Providers>
-      <AppRouter />
+      <Layout />
     </Providers>
   );
 });

@@ -1,9 +1,9 @@
-import React, { memo } from 'react';
+import React from 'react';
 import { Button, Input, useRestoreSearch } from '@/shared';
 import styles from './search.module.css';
 import { useSearchParams } from 'react-router-dom';
 
-export const Search = memo(() => {
+export const Search = () => {
   const [search, setSearch] = React.useState<string>('');
   const localStart = useRestoreSearch();
   const [, setSearchParams] = useSearchParams();
@@ -50,6 +50,6 @@ export const Search = memo(() => {
       />
     </div>
   );
-});
+};
 
 Search.displayName = 'Search';

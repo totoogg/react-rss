@@ -1,7 +1,7 @@
-import { FC, memo } from 'react';
+import { FC } from 'react';
 import styles from './errorResponse.module.css';
 
-export const ErrorResponse: FC = memo(() => {
+export const ErrorResponse: FC = () => {
   return (
     <div className={styles.error}>
       <div className={styles.errorText}>
@@ -9,6 +9,6 @@ export const ErrorResponse: FC = memo(() => {
       </div>
     </div>
   );
-});
+};
 
 ErrorResponse.displayName = 'ErrorResponse';
