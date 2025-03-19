@@ -1,18 +1,17 @@
-import React from 'react';
-import { Button, Input } from '@/shared';
+import React, { useContext } from 'react';
+import { Button, CountryContext, Input } from '@/shared';
 import styles from './search.module.css';
 
 export const Search = () => {
-  const [search, setSearch] = React.useState<string>('');
+  const { setSearch } = useContext(CountryContext);
+  const [searchInput, setSearchInput] = React.useState<string>('');
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearch(e.target.value);
+    setSearchInput(e.target.value);
   };
 
-  const handleLocal = () => {
-    const local = localStorage.getItem('search');
-    if (local === search) return;
-    localStorage.setItem('search', search);
+  const handleSearch = () => {
+    setSearch?.(searchInput);
   };
 
   return (
@@ -22,13 +21,13 @@ export const Search = () => {
         onChange={onChange}
         placeholder="Search"
         type="text"
-        value={search}
+        value={searchInput}
         className={styles.input}
-        onEnter={handleLocal}
+        onEnter={handleSearch}
       />
       <Button
         text="Search"
-        onClick={handleLocal}
+        onClick={handleSearch}
         className={styles.button}
         classNameButton="flat"
       />

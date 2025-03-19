@@ -1,0 +1,40 @@
+.custom-select {
+  position: relative;
+  width: 200px;
+  font-size: 2rem;
+}
+
+.select-box {
+  padding: 5px;
+  border: 1px solid var(--emerald-500);
+  cursor: pointer;
+  background-color: var(--emerald-50);
+}
+
+.option {
+  padding: 5px;
+  cursor: pointer;
+}
+
+.option:hover {
+  background-color: var(--emerald-800);
+  color: var(--emerald-50);
+}
+
+.options {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  border: 1px solid var(--emerald-500);
+  background-color: var(--emerald-50);
+  z-index: 1000;
+  display: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.options.show {
+  display: block;
+  opacity: 1;
+}

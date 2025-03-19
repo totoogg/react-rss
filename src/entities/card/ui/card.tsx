@@ -2,7 +2,7 @@ import { FC, useState } from 'react';
 import { ICardProps } from '../model/cardTypes';
 import styles from './card.module.css';
 
-export const Card: FC<ICardProps> = ({
+const Card: FC<ICardProps> = ({
   data: { flag, flagAlt, flagString, name, population, region },
   children,
 }) => {
@@ -44,3 +44,5 @@ export const Card: FC<ICardProps> = ({
 };
 
 Card.displayName = 'Card';
+
+export default Card;

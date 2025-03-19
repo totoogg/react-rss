@@ -1,24 +1,58 @@
-import { FC } from 'react';
-import styles from './countriesList.module.css';
+import { FC, lazy, Suspense, useContext } from 'react';
 import { ICountriesProps } from '../model/countriesTypes';
-import { Card } from '@/entities/card';
 import { ChooseVisit } from '@/features';
+import { CountryContext, Loader } from '@/shared';
+import styles from './countriesList.module.css';
+
+const Card = lazy(() => import('../../../entities/card/ui/card.tsx'));
 
 export const CountriesList: FC<ICountriesProps> = ({ data }) => {
+  const { search, region, sort } = useContext(CountryContext);
+
+  const resultData = data
+    .filter((item) => {
+      const searchCountry = item.name
+        .toLowerCase()
+        .includes((search || '').toLowerCase());
+      if (region && region !== 'All') {
+        return item.region === region && searchCountry;
+      }
+      return searchCountry;
+    })
+    .sort((a, b) => {
+      if (sort === 'nameCountryUp') {
+        return b.name.localeCompare(a.name);
+      } else if (sort === 'nameCountryDown') {
+        return a.name.localeCompare(b.name);
+      } else if (sort === 'populationUp') {
+        return a.population - b.population;
+      } else if (sort === 'populationDown') {
+        return b.population - a.population;
+      } else {
+        return 0;
+      }
+    });
+
   return (
     <>
-      {data.length === 0 ? (
-        'Todo'
+      {resultData.length === 0 ? (
+        <div className={styles.notFound}>
+          No countries with the name &quot;
+          {search}
+          &quot; were found
+        </div>
       ) : (
         <>
-          {data.map((item) => (
+          {resultData.map((item) => (
             <div className={styles.content} key={item.name}>
-              <Card data={item}>
-                <span className={styles.visit}>
-                  <b>Visited:</b>{' '}
-                  <ChooseVisit name={item.name} className={styles.choose} />
-                </span>
-              </Card>
+              <Suspense fallback={<Loader />}>
+                <Card data={item}>
+                  <span className={styles.visit}>
+                    <b>Visited:</b>{' '}
+                    <ChooseVisit name={item.name} className={styles.choose} />
+                  </span>
+                </Card>
+              </Suspense>
             </div>
           ))}
         </>
