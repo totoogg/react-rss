@@ -5,3 +5,9 @@
 ![before optimization flamegraph](./profiler/image.png)
 ![before optimization flamegraph CountriesList](./profiler/image-1.png)
 ![before optimization ranked](./profiler/image-2.png)
+
+## After optimization (sort)
+
+![alt text](image.png)
+![alt text](image-1.png)
+![alt text](image-2.png)

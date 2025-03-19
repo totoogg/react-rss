@@ -16,7 +16,5 @@ export type {
   IButtonProps,
   IChooseProps,
 } from './types';
-export { default as Sun } from './assets/icons/sun-svgrepo-com.svg?react';
-export { default as Moon } from './assets/icons/moon-svgrepo-com.svg?react';
 export { CountryContext } from './config';
 export type { ICountryContext, Region, Sort } from './config';

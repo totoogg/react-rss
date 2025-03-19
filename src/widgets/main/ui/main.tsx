@@ -1,11 +1,11 @@
-import { FC } from 'react';
+import { FC, memo } from 'react';
 import { IMainProps } from '../model/mainType';
 import styles from './main.module.css';
 import { Loader, useGetCountriesQuery } from '@/shared';
 import { ErrorResponse } from '@/entities';
 import { SelectRegion, SelectSort } from '@/features';
 
-export const Main: FC<IMainProps> = ({ children }) => {
+export const Main: FC<IMainProps> = memo(({ children }) => {
   const { isError, isLoading } = useGetCountriesQuery();
 
   return (
@@ -23,6 +23,6 @@ export const Main: FC<IMainProps> = ({ children }) => {
       )}
     </div>
   );
-};
+});
 
 Main.displayName = 'Main';

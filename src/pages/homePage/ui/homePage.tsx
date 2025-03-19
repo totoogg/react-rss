@@ -1,9 +1,9 @@
-import { FC } from 'react';
+import { FC, memo } from 'react';
 import { Main, CountriesList } from '@/widgets';
 import styles from './homePage.module.css';
 import { useGetCountriesQuery } from '@/shared';
 
-export const HomePage: FC = () => {
+export const HomePage: FC = memo(() => {
   const { data } = useGetCountriesQuery();
 
   return (
@@ -13,6 +13,6 @@ export const HomePage: FC = () => {
       </Main>
     </div>
   );
-};
+});
 
 HomePage.displayName = 'HomePage';

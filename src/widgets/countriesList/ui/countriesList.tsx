@@ -1,4 +1,4 @@
-import { FC, lazy, Suspense, useContext } from 'react';
+import { FC, lazy, memo, Suspense, useContext, useMemo } from 'react';
 import { ICountriesProps } from '../model/countriesTypes';
 import { ChooseVisit } from '@/features';
 import { CountryContext, Loader } from '@/shared';
@@ -6,32 +6,36 @@ import styles from './countriesList.module.css';
 
 const Card = lazy(() => import('../../../entities/card/ui/card.tsx'));
 
-export const CountriesList: FC<ICountriesProps> = ({ data }) => {
+export const CountriesList: FC<ICountriesProps> = memo(({ data }) => {
   const { search, region, sort } = useContext(CountryContext);
 
-  const resultData = data
-    .filter((item) => {
-      const searchCountry = item.name
-        .toLowerCase()
-        .includes((search || '').toLowerCase());
-      if (region && region !== 'All') {
-        return item.region === region && searchCountry;
-      }
-      return searchCountry;
-    })
-    .sort((a, b) => {
-      if (sort === 'nameCountryUp') {
-        return b.name.localeCompare(a.name);
-      } else if (sort === 'nameCountryDown') {
-        return a.name.localeCompare(b.name);
-      } else if (sort === 'populationUp') {
-        return a.population - b.population;
-      } else if (sort === 'populationDown') {
-        return b.population - a.population;
-      } else {
-        return 0;
-      }
-    });
+  const resultData = useMemo(
+    () =>
+      data
+        .filter((item) => {
+          const searchCountry = item.name
+            .toLowerCase()
+            .includes((search || '').toLowerCase());
+          if (region && region !== 'All') {
+            return item.region === region && searchCountry;
+          }
+          return searchCountry;
+        })
+        .sort((a, b) => {
+          if (sort === 'nameCountryUp') {
+            return b.name.localeCompare(a.name);
+          } else if (sort === 'nameCountryDown') {
+            return a.name.localeCompare(b.name);
+          } else if (sort === 'populationUp') {
+            return a.population - b.population;
+          } else if (sort === 'populationDown') {
+            return b.population - a.population;
+          } else {
+            return 0;
+          }
+        }),
+    [data, region, search, sort]
+  );
 
   return (
     <>
@@ -59,6 +63,6 @@ export const CountriesList: FC<ICountriesProps> = ({ data }) => {
       )}
     </>
   );
-};
+});
 
 CountriesList.displayName = 'CountriesList';

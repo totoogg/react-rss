@@ -1,23 +1,29 @@
-import { FC, useContext } from 'react';
+import { FC, memo, useCallback, useContext, useMemo } from 'react';
 import { CountryContext, Select, Region } from '@/shared';
 import styles from './selectRegion.module.css';
 
-export const SelectRegion: FC = () => {
+export const SelectRegion: FC = memo(() => {
   const { setRegion } = useContext(CountryContext);
 
-  const region = [
-    'All',
-    'Antarctic',
-    'Americas',
-    'Europe',
-    'Africa',
-    'Asia',
-    'Oceania',
-  ];
+  const region = useMemo(
+    () => [
+      'All',
+      'Antarctic',
+      'Americas',
+      'Europe',
+      'Africa',
+      'Asia',
+      'Oceania',
+    ],
+    []
+  );
 
-  const handleSelect = (option: string) => {
-    setRegion?.(option as Region);
-  };
+  const handleSelect = useCallback(
+    (option: string) => {
+      setRegion?.(option as Region);
+    },
+    [setRegion]
+  );
 
   return (
     <div className={styles.select}>
@@ -30,6 +36,6 @@ export const SelectRegion: FC = () => {
       />
     </div>
   );
-};
+});
 
 SelectRegion.displayName = 'SelectRegion';
