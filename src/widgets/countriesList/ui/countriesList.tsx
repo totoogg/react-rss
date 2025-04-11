@@ -1,10 +1,9 @@
-import { FC, lazy, memo, Suspense, useContext, useMemo } from 'react';
+import { FC, memo, useContext, useMemo } from 'react';
 import { ICountriesProps } from '../model/countriesTypes';
 import { ChooseVisit } from '@/features';
-import { CountryContext, Loader } from '@/shared';
+import { CountryContext } from '@/shared';
 import styles from './countriesList.module.css';
-
-const Card = lazy(() => import('../../../entities/card/ui/card.tsx'));
+import { Card } from '@/entities';
 
 export const CountriesList: FC<ICountriesProps> = memo(({ data }) => {
   const { search, region, sort } = useContext(CountryContext);
@@ -49,14 +48,12 @@ export const CountriesList: FC<ICountriesProps> = memo(({ data }) => {
         <>
           {resultData.map((item) => (
             <div className={styles.content} key={item.name}>
-              <Suspense fallback={<Loader />}>
-                <Card data={item}>
-                  <span className={styles.visit}>
-                    <b>Visited:</b>{' '}
-                    <ChooseVisit name={item.name} className={styles.choose} />
-                  </span>
-                </Card>
-              </Suspense>
+              <Card data={item}>
+                <span className={styles.visit}>
+                  <b>Visited:</b>{' '}
+                  <ChooseVisit name={item.name} className={styles.choose} />
+                </span>
+              </Card>
             </div>
           ))}
         </>

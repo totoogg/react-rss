@@ -13,10 +13,10 @@
 
 ## After optimization (sort)
 
-- Component CountriesList rendering duration - 4.2ms
-- Context.Provider rendering duration - 0.9ms
+- Component CountriesList rendering duration - 3.4ms
+- Context.Provider rendering duration - 0.6ms
 - Components Card and Choose rendering from 0.1ms to 0.2ms
-- Total rendering duration - 37.1ms
+- Total rendering duration - 33.7ms
 
 ![after optimization flamegraph](./profiler/image-3.png)
 ![after optimization flamegraph CountriesList](./profiler/image-4.png)

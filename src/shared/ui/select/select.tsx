@@ -1,4 +1,4 @@
-import { FC, memo, useCallback, useEffect, useMemo, useState } from 'react';
+import { FC, memo, useEffect, useState } from 'react';
 import styles from './select.module.css';
 import { ISelectProps } from '@/shared/types';
 
@@ -22,35 +22,22 @@ export const Select: FC<ISelectProps> = memo(
       };
     }, [className]);
 
-    const handleSelect = useCallback(
-      (option: string) => {
-        setSelectedOption(option);
-        setShowOptions(false);
-        onChange(option);
-      },
-      [onChange]
-    );
+    const handleSelect = (option: string) => {
+      setSelectedOption(option);
+      setShowOptions(false);
+      onChange(option);
+    };
 
-    const handleClick = useCallback(() => {
-      setShowOptions(!showOptions);
-    }, [showOptions]);
-
-    const classNameSelect = useMemo(
-      () => [styles['custom-select'], className].join(' '),
-      [className]
-    );
-
-    const classNameSelectBox = useMemo(
-      () => [styles.options, showOptions ? styles.show : ''].join(' '),
-      [showOptions]
-    );
+    const handleClick = () => setShowOptions(!showOptions);
 
     return (
-      <div className={classNameSelect}>
+      <div className={[styles['custom-select'], className].join(' ')}>
         <div className={styles['select-box']} onClick={handleClick}>
           {selectedOption ? selectedOption : label}
         </div>
-        <div className={classNameSelectBox}>
+        <div
+          className={[styles.options, showOptions ? styles.show : ''].join(' ')}
+        >
           {' '}
           {options.map((option) => (
             <div

@@ -1,4 +1,4 @@
-import { FC, memo, useCallback, useMemo, useState } from 'react';
+import { FC, memo, useState } from 'react';
 import { ICardProps } from '../model/cardTypes';
 import styles from './card.module.css';
 
@@ -9,14 +9,9 @@ const Card: FC<ICardProps> = memo(
   }) => {
     const [imgLoader, setImgLoader] = useState<boolean>(true);
 
-    const handleImageLoaded = useCallback(() => {
+    const handleImageLoaded = () => {
       setImgLoader(false);
-    }, []);
-
-    const classNameImg = useMemo(
-      () => [styles.image, imgLoader ? styles['img-loader'] : ''].join(' '),
-      [imgLoader]
-    );
+    };
 
     return (
       <div className={styles.card}>
@@ -25,7 +20,9 @@ const Card: FC<ICardProps> = memo(
           height={200}
           src={flag}
           alt={flagAlt}
-          className={classNameImg}
+          className={[styles.image, imgLoader ? styles['img-loader'] : ''].join(
+            ' '
+          )}
           onLoad={handleImageLoaded}
         />
         <div className={styles.description}>
