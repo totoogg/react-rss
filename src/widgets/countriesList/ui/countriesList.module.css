@@ -1,0 +1,27 @@
+.content {
+  position: relative;
+}
+
+.no-underline {
+  text-decoration: none;
+}
+
+.choose {
+  margin-left: 10px;
+}
+
+.visit {
+  display: flex;
+  align-items: center;
+}
+
+.choose::before {
+  width: 20px;
+  height: 20px;
+}
+
+.notFound {
+  text-align: center;
+  font-size: 2rem;
+  padding: 40px;
+}
